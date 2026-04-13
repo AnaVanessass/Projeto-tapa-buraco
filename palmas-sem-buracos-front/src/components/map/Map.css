@@ -1,0 +1,60 @@
+.map-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.map-error,
+.map-loading,
+.map-no-key {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: #f8f9fa;
+  padding: 20px;
+  text-align: center;
+}
+
+.map-error {
+  color: #dc3545;
+}
+
+.map-no-key {
+  color: #dc3545;
+}
+
+.map-no-key code {
+  display: block;
+  padding: 10px;
+  background-color: #e9ecef;
+  margin: 10px 0;
+  font-family: monospace;
+}
+
+.map-no-key a {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+.map-no-key a:hover {
+  text-decoration: underline;
+}
+
+.info-window {
+  max-width: 200px;
+}
+
+.info-window h3 {
+  margin: 0 0 10px 0;
+  color: #2c3e50;
+}
+
+.info-window p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.info-window strong {
+  color: #34495e;
+}
