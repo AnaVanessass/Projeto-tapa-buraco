@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import net.minidev.json.annotate.JsonIgnore;
 
 import java.time.LocalDate;
 
@@ -15,13 +16,15 @@ import java.time.LocalDate;
 @Entity
 @Data
 public class Complaint extends BaseEntity{
+    @Enumerated(EnumType.STRING)
     private PotholeSize size;
+    @Enumerated(EnumType.STRING)
     private PotholeStatus status;
+    @Enumerated(EnumType.STRING)
     private PotholeSeverity severity;
-    private LocalDate date;
     private String description;
     private String imageUrl;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Address address;
     @ManyToOne
     private User user;

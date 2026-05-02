@@ -39,7 +39,7 @@ public class UserService {
     public User processOAuthPostLogin(OAuth2User oAuth2User){
         String email = oAuth2User.getAttribute("email");
 
-        Optional<User> existingUser = this.findByEmail(email);
+        Optional<User> existingUser = repository.findByEmail(email, User.class);
 
         if (existingUser.isPresent()) {
             return existingUser.get();

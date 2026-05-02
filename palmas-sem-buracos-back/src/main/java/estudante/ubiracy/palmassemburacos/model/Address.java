@@ -14,7 +14,7 @@ import java.util.Set;
 public class Address extends BaseEntity{
     private String cityBlock;
     private String name;
-    private String lat, lon;
+    private Double lat, lng;
     @OneToMany(mappedBy = "address", cascade = CascadeType.ALL)
     private Set<Complaint> complaint;
 }

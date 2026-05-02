@@ -34,7 +34,7 @@ public class AddressService {
         Address addr = this.findById(id);
         addr.setName(address.getName());
         addr.setLat(address.getLat());
-        addr.setLon(address.getLon());
+        addr.setLng(address.getLng());
         addr.setCityBlock(address.getCityBlock());
         return repository.save(addr);
     }
