@@ -23,7 +23,9 @@ const AddPotholeForm = ({ location, onAdd, onCancel }) => {
       const address = await getAddressFromCoordinates(location.lat, location.lng);
       setFormData(prev => ({
         ...prev,
-        address
+        address,
+        lat: Number(location.lat),
+        lng: Number(location.lng)
       }));
       setIsLoading(false);
     };
@@ -33,7 +35,25 @@ const AddPotholeForm = ({ location, onAdd, onCancel }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onAdd(formData);
+
+    const payload = {
+      size: formData.size,
+      severity: formData.severity,
+      description: formData.description,
+      status: "OPEN",
+
+      address: {
+        name: formData.address,
+        cityBlock: formData.cityBlock,
+        lat: formData.lat,
+        lng: formData.lng,
+      },
+
+      user: {
+        id: 1 
+      }
+    };
+    onAdd(payload);
   };
 
   const handleChange = (e) => {

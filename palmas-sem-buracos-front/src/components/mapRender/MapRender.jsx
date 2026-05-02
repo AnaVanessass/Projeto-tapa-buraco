@@ -6,6 +6,8 @@ import AddPotholeForm from '../addPothole/AddPotholeForm';
 import FilterBar from '../filterBar/FilterBar';
 import { usePotholes } from '../../hooks/usePotholes';
 import { ViewMode, DEFAULT_MAP_CENTER } from '../../types/pothole.types';
+import { usePotholesOld } from '../../hooks/usePotholesOld';
+import { useCreatePothole } from '../../hooks/useCreatePothole';
 
 const GOOGLE_MAPS_LIBRARIES = ['places'];
 
@@ -16,29 +18,35 @@ function MapRender(){
   const [mapError, setMapError] = useState(null);
   
   const {
-    potholes,
     filterBlock,
     cityBlocks,
-    addPothole,
-    deletePothole,
     updateFilter,
     clearFilter
-  } = usePotholes();
+  } = usePotholesOld();
+  
+  const { data: potholes = [], isLoading } = usePotholes();
+  const createMutation = useCreatePothole();
 
   const handleViewOnMap = useCallback((pothole) => {
     setMapCenter({ lat: pothole.lat, lng: pothole.lng });
     setView(ViewMode.MAP);
   }, []);
 
-  const handleAddPothole = useCallback((potholeData) => {
-    addPothole(potholeData);
-    setSelectedLocation(null);
-  }, [addPothole]);
+  const handleAddPothole = async (payload) => {
+    try {
+      await createMutation.mutateAsync(payload);
+      setSelectedLocation(null);
+
+    } catch (err) {
+      console.error("Error saving pothole", err);
+    }
+  };
 
   const handleLoadError = useCallback((error) => {
     console.error('Google Maps failed to load:', error);
     setMapError('Failed to load Google Maps. Please check your API key.');
   }, []);
+
   
   const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
@@ -107,7 +115,7 @@ function MapRender(){
             {view === ViewMode.MAP ? (
               <div className="map-container">
                 <Map 
-                  potholes={potholes}
+                  potholes={potholes || []}
                   setSelectedLocation={setSelectedLocation}
                   mapCenter={mapCenter}
                   setMapCenter={setMapCenter}
