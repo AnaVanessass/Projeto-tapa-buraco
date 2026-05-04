@@ -1,6 +1,6 @@
 package estudante.ubiracy.palmassemburacos.service;
 
-import estudante.ubiracy.palmassemburacos.dto.UserUpdateDTO;
+import estudante.ubiracy.palmassemburacos.model.dto.UserUpdateDTO;
 import estudante.ubiracy.palmassemburacos.model.User;
 import estudante.ubiracy.palmassemburacos.model.enums.UserRole;
 import estudante.ubiracy.palmassemburacos.repository.UserRepository;

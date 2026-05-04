@@ -1,4 +1,4 @@
-package estudante.ubiracy.palmassemburacos.dto;
+package estudante.ubiracy.palmassemburacos.model.dto;
 
 public record PotholeResponse(
         Long id,

@@ -1,7 +1,7 @@
-package estudante.ubiracy.palmassemburacos.mapper;
+package estudante.ubiracy.palmassemburacos.model.mapper;
 
-import estudante.ubiracy.palmassemburacos.dto.ComplaintDTO;
-import estudante.ubiracy.palmassemburacos.dto.PotholeResponse;
+import estudante.ubiracy.palmassemburacos.model.dto.ComplaintDTO;
+import estudante.ubiracy.palmassemburacos.model.dto.PotholeResponse;
 import estudante.ubiracy.palmassemburacos.model.Address;
 import estudante.ubiracy.palmassemburacos.model.Complaint;
 import estudante.ubiracy.palmassemburacos.model.enums.PotholeStatus;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PotholeMapper {
-    public Complaint toEntity(ComplaintDTO req) {
+    public Complaint toNewEntity(ComplaintDTO req) {
         Address address = new Address();
         address.setName(req.address().name());
         address.setCityBlock(req.address().cityBlock());
@@ -21,6 +21,25 @@ public class PotholeMapper {
         pothole.setSeverity(req.severity());
         pothole.setDescription(req.description());
         pothole.setStatus(PotholeStatus.OPEN);
+        pothole.setImagePublicId(req.imagePublicId());
+        pothole.setAddress(address);
+
+        return pothole;
+    }
+
+    public Complaint toEntity(ComplaintDTO dto) {
+        Address address = new Address();
+        address.setName(dto.address().name());
+        address.setCityBlock(dto.address().cityBlock());
+        address.setLat(dto.address().lat());
+        address.setLng(dto.address().lng());
+
+        Complaint pothole = new Complaint();
+        pothole.setSize(dto.size());
+        pothole.setSeverity(dto.severity());
+        pothole.setDescription(dto.description());
+        pothole.setStatus(dto.status());
+        pothole.setImagePublicId(dto.imagePublicId());
         pothole.setAddress(address);
 
         return pothole;
@@ -32,7 +51,7 @@ public class PotholeMapper {
                 c.getSize().name(),
                 c.getSeverity().name(),
                 c.getDescription(),
-                c.getImageUrl(),
+                c.getImagePublicId(),
                 c.getAddress().getLat(),
                 c.getAddress().getLng(),
                 c.getAddress().getCityBlock(),

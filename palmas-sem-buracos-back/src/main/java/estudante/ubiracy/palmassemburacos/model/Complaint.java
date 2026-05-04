@@ -23,7 +23,10 @@ public class Complaint extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private PotholeSeverity severity;
     private String description;
-    private String imageUrl;
+    @Column(nullable = false)
+    private boolean isDeleted = false;
+    @Column
+    private String imagePublicId;
     @ManyToOne(cascade = CascadeType.ALL)
     private Address address;
     @ManyToOne

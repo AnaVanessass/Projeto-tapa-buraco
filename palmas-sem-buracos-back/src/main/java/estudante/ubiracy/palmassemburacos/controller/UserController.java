@@ -1,6 +1,6 @@
 package estudante.ubiracy.palmassemburacos.controller;
 
-import estudante.ubiracy.palmassemburacos.dto.UserUpdateDTO;
+import estudante.ubiracy.palmassemburacos.model.dto.UserUpdateDTO;
 import estudante.ubiracy.palmassemburacos.model.User;
 import estudante.ubiracy.palmassemburacos.service.UserService;
 import org.springframework.data.domain.Page;
