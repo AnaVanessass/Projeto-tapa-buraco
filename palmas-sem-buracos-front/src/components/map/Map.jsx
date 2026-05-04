@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { GoogleMap, Marker, InfoWindow } from '@react-google-maps/api';
+import { GoogleMap, Marker, InfoWindow, MarkerClusterer } from '@react-google-maps/api';
 import { DEFAULT_MAP_CENTER } from '../../types/pothole.types';
 import { mapOptions, markerIcon} from './Map.constants';
 import './Map.css';
@@ -24,14 +24,22 @@ const Map = ({ potholes, setSelectedLocation, mapCenter, setMapCenter }) => {
       onClick={onMapClick}
       options={mapOptions.options}
     >
-      {potholes.map((pothole) => (
-        <Marker
-          key={pothole.id}
-          position={{ lat: pothole.lat, lng: pothole.lng }}
-          onClick={() => setSelectedPothole(pothole)}
-          icon={markerIcon}
-        />
-      ))}
+      <MarkerClusterer>
+        {(clusterer) => 
+          potholes.map((pothole) => (
+            <Marker
+              key={pothole.id}
+              position={{
+                lat: pothole.lat ?? pothole.address?.lat,
+                lng: pothole.lng ?? pothole.address?.lon
+              }}
+              onClick={() => setSelectedPothole(pothole)}
+              clusterer={clusterer}
+              icon={markerIcon}
+            />
+          ))
+        }
+      </MarkerClusterer>
 
       {selectedPothole && (
         <InfoWindow

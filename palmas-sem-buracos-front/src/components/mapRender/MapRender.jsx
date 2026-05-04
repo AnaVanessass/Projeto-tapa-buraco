@@ -6,6 +6,10 @@ import AddPotholeForm from '../addPothole/AddPotholeForm';
 import FilterBar from '../filterBar/FilterBar';
 import { usePotholes } from '../../hooks/usePotholes';
 import { ViewMode, DEFAULT_MAP_CENTER } from '../../types/pothole.types';
+import { usePotholesOld } from '../../hooks/usePotholesOld';
+import { useCreatePothole } from '../../hooks/useCreatePothole';
+import { useDeletePothole } from '../../hooks/useDeletePothole';
+import { Link } from 'react-router-dom';
 
 const GOOGLE_MAPS_LIBRARIES = ['places'];
 
@@ -16,29 +20,42 @@ function MapRender(){
   const [mapError, setMapError] = useState(null);
   
   const {
-    potholes,
     filterBlock,
     cityBlocks,
-    addPothole,
-    deletePothole,
     updateFilter,
     clearFilter
-  } = usePotholes();
-
+  } = usePotholesOld();
+  
+  const { data: potholes = [], isPending } = usePotholes();
+  const createMutation = useCreatePothole();
+  const deleteMutation = useDeletePothole();
+  
   const handleViewOnMap = useCallback((pothole) => {
     setMapCenter({ lat: pothole.lat, lng: pothole.lng });
     setView(ViewMode.MAP);
   }, []);
 
-  const handleAddPothole = useCallback((potholeData) => {
-    addPothole(potholeData);
-    setSelectedLocation(null);
-  }, [addPothole]);
+  const handleAddPothole = async (payload) => {
+    try {
+      await createMutation.mutateAsync(payload);
+      setSelectedLocation(null);
+
+    } catch (err) {
+      console.error("Error saving pothole", err);
+    }
+  };
+
+  const handleDelete = (potholeId) => {
+    if (window.confirm("Deletar denúnia?")) {
+      deleteMutation.mutate(potholeId);
+    }
+  };
 
   const handleLoadError = useCallback((error) => {
     console.error('Google Maps failed to load:', error);
     setMapError('Failed to load Google Maps. Please check your API key.');
   }, []);
+
   
   const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
@@ -66,6 +83,7 @@ function MapRender(){
     <div className="app">
       <header className="app-header">
         <h1>🕳️ Tapa Buraco</h1>
+        <button><Link to="/login" className='map'>Login</Link></button>
         <div className="view-toggle">
           <button 
             className={view === ViewMode.MAP ? 'active' : ''} 
@@ -107,7 +125,7 @@ function MapRender(){
             {view === ViewMode.MAP ? (
               <div className="map-container">
                 <Map 
-                  potholes={potholes}
+                  potholes={potholes || []}
                   setSelectedLocation={setSelectedLocation}
                   mapCenter={mapCenter}
                   setMapCenter={setMapCenter}
@@ -123,7 +141,7 @@ function MapRender(){
             ) : (
               <PotholeList 
                 potholes={potholes}
-                onDelete={deletePothole}
+                onDelete={handleDelete}
                 onViewOnMap={handleViewOnMap}
               />
             )}

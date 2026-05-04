@@ -9,6 +9,11 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import net.minidev.json.annotate.JsonIgnore;
+
+import java.time.LocalDate;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -21,8 +26,11 @@ public class Complaint extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private PotholeSeverity severity;
     private String description;
-    private String imageUrl;
-    @ManyToOne
+    @Column(nullable = false)
+    private boolean isDeleted = false;
+    @Column
+    private String imagePublicId;
+    @ManyToOne(cascade = CascadeType.ALL)
     private Address address;
     @ManyToOne
     private User user;

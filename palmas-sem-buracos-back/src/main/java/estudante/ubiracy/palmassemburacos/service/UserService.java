@@ -1,6 +1,6 @@
 package estudante.ubiracy.palmassemburacos.service;
 
-import estudante.ubiracy.palmassemburacos.dto.UserUpdateDTO;
+import estudante.ubiracy.palmassemburacos.model.dto.UserUpdateDTO;
 import estudante.ubiracy.palmassemburacos.model.User;
 import estudante.ubiracy.palmassemburacos.model.enums.UserRole;
 import estudante.ubiracy.palmassemburacos.repository.UserRepository;
@@ -39,7 +39,7 @@ public class UserService {
     public User processOAuthPostLogin(OAuth2User oAuth2User){
         String email = oAuth2User.getAttribute("email");
 
-        Optional<User> existingUser = this.findByEmail(email);
+        Optional<User> existingUser = repository.findByEmail(email, User.class);
 
         if (existingUser.isPresent()) {
             return existingUser.get();

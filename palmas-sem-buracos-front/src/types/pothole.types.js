@@ -1,14 +1,14 @@
 // Pothole data structure
 export const PotholeSize = {
-  SMALL: 'Pequeno',
-  MEDIUM: 'Médio',
-  LARGE: 'Grande'
+  SMALL: 'SMALL',
+  MEDIUM: 'MEDIUM',
+  LARGE: 'LARGE'
 };
 
 export const PotholeSeverity = {
-  LOW: 'Baixa',
-  MEDIUM: 'Média',
-  HIGH: 'Alta'
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH'
 };
 
 export const ViewMode = {

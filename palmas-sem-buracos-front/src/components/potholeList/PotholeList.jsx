@@ -27,7 +27,7 @@ const PotholeList = ({ potholes, onDelete, onViewOnMap }) => {
             <p><strong>Quadra:</strong> {pothole.cityBlock}</p>
             <p><strong>Tamaho:</strong> <span className="capitalize">{pothole.size}</span></p>
             <p><strong>Gravidade:</strong> <span className="capitalize">{pothole.severity}</span></p>
-            <p><strong>Denunciado em:</strong> {formatDate(pothole.date)}</p>
+            <p><strong>Denunciado em:</strong> {formatDate(pothole.createdAt)}</p>
             {pothole.description && (
               <p><strong>Descrição:</strong> {pothole.description}</p>
             )}
