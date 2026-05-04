@@ -8,6 +8,8 @@ import { usePotholes } from '../../hooks/usePotholes';
 import { ViewMode, DEFAULT_MAP_CENTER } from '../../types/pothole.types';
 import { usePotholesOld } from '../../hooks/usePotholesOld';
 import { useCreatePothole } from '../../hooks/useCreatePothole';
+import { useDeletePothole } from '../../hooks/useDeletePothole';
+import { Link } from 'react-router-dom';
 
 const GOOGLE_MAPS_LIBRARIES = ['places'];
 
@@ -24,9 +26,10 @@ function MapRender(){
     clearFilter
   } = usePotholesOld();
   
-  const { data: potholes = [], isLoading } = usePotholes();
+  const { data: potholes = [], isPending } = usePotholes();
   const createMutation = useCreatePothole();
-
+  const deleteMutation = useDeletePothole();
+  
   const handleViewOnMap = useCallback((pothole) => {
     setMapCenter({ lat: pothole.lat, lng: pothole.lng });
     setView(ViewMode.MAP);
@@ -39,6 +42,12 @@ function MapRender(){
 
     } catch (err) {
       console.error("Error saving pothole", err);
+    }
+  };
+
+  const handleDelete = (potholeId) => {
+    if (window.confirm("Deletar denúnia?")) {
+      deleteMutation.mutate(potholeId);
     }
   };
 
@@ -74,6 +83,7 @@ function MapRender(){
     <div className="app">
       <header className="app-header">
         <h1>🕳️ Tapa Buraco</h1>
+        <button><Link to="/login" className='map'>Login</Link></button>
         <div className="view-toggle">
           <button 
             className={view === ViewMode.MAP ? 'active' : ''} 
@@ -131,7 +141,7 @@ function MapRender(){
             ) : (
               <PotholeList 
                 potholes={potholes}
-                onDelete={deletePothole}
+                onDelete={handleDelete}
                 onViewOnMap={handleViewOnMap}
               />
             )}

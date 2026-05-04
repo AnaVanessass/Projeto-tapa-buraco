@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { getAddressFromCoordinates } from '../../utils/geocoding.utils';
 import { PotholeSize, PotholeSeverity } from '../../types/pothole.types';
 import './AddPothole.css';
+import { openCloudinaryWidget } from '../../service/imgUpload';
 
 const AddPotholeForm = ({ location, onAdd, onCancel }) => {
   const [formData, setFormData] = useState({
@@ -11,15 +12,16 @@ const AddPotholeForm = ({ location, onAdd, onCancel }) => {
     cityBlock: '',
     size: PotholeSize.MEDIUM,
     severity: PotholeSeverity.MEDIUM,
-    description: ''
+    description: '',
+    imagePublicId:''
   });
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isPending, setIsPending] = useState(true);
 
   
   useEffect(() => {
     const fetchAddress = async () => {
-      setIsLoading(true);
+      setIsPending(true);
       const address = await getAddressFromCoordinates(location.lat, location.lng);
       setFormData(prev => ({
         ...prev,
@@ -27,7 +29,7 @@ const AddPotholeForm = ({ location, onAdd, onCancel }) => {
         lat: Number(location.lat),
         lng: Number(location.lng)
       }));
-      setIsLoading(false);
+      setIsPending(false);
     };
 
     fetchAddress();
@@ -41,19 +43,23 @@ const AddPotholeForm = ({ location, onAdd, onCancel }) => {
       severity: formData.severity,
       description: formData.description,
       status: "OPEN",
+      imagePublicId:formData.imagePublicId,
 
       address: {
         name: formData.address,
         cityBlock: formData.cityBlock,
         lat: formData.lat,
         lng: formData.lng,
-      },
-
-      user: {
-        id: 1 
       }
     };
     onAdd(payload);
+  };
+
+  const handleImgUpload = () => {
+    openCloudinaryWidget((publicId) => {
+      console.log("Recebi o ID:", publicId);
+      setFormData(prev => ({...prev, imagePublicId: publicId}))
+    });
   };
 
   const handleChange = (e) => {
@@ -77,7 +83,7 @@ const AddPotholeForm = ({ location, onAdd, onCancel }) => {
             name="address"
             value={formData.address}
             onChange={handleChange}
-            disabled={isLoading}
+            disabled={isPending}
             required
           />
         </div>
@@ -126,7 +132,8 @@ const AddPotholeForm = ({ location, onAdd, onCancel }) => {
         </div>
 
         <div className="form-actions">
-          <button type="submit" disabled={isLoading}>{isLoading ? 'Carregando...' : 'Denunciar'}</button>
+          <button type="button" onClick={handleImgUpload}>Anexar Foto</button>
+          <button type="submit" disabled={isPending}>{isPending ? 'Carregando...' : 'Denunciar'}</button>
           <button type="button" onClick={onCancel}>Cancelar</button>
         </div>
       </form>
