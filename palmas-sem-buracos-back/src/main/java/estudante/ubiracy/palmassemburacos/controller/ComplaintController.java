@@ -1,6 +1,6 @@
 package estudante.ubiracy.palmassemburacos.controller;
 
-import estudante.ubiracy.palmassemburacos.dto.UpdateStatusDTO;
+import estudante.ubiracy.palmassemburacos.model.dto.UpdateStatusDTO;
 import estudante.ubiracy.palmassemburacos.model.dto.ComplaintDTO;
 import estudante.ubiracy.palmassemburacos.model.dto.PotholeResponse;
 import estudante.ubiracy.palmassemburacos.service.ComplaintService;

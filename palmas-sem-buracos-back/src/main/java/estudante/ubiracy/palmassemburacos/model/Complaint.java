@@ -3,10 +3,7 @@ package estudante.ubiracy.palmassemburacos.model;
 import estudante.ubiracy.palmassemburacos.model.enums.PotholeSeverity;
 import estudante.ubiracy.palmassemburacos.model.enums.PotholeSize;
 import estudante.ubiracy.palmassemburacos.model.enums.PotholeStatus;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -28,7 +25,6 @@ public class Complaint extends BaseEntity{
     private String description;
     @Column(nullable = false)
     private boolean isDeleted = false;
-    @Column
     private String imagePublicId;
     @ManyToOne(cascade = CascadeType.ALL)
     private Address address;

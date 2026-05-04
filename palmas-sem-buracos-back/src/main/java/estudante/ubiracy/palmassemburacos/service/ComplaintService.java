@@ -1,8 +1,8 @@
 package estudante.ubiracy.palmassemburacos.service;
 
-import estudante.ubiracy.palmassemburacos.dto.UpdateStatusDTO;
 import estudante.ubiracy.palmassemburacos.model.dto.ComplaintDTO;
 import estudante.ubiracy.palmassemburacos.model.dto.PotholeResponse;
+import estudante.ubiracy.palmassemburacos.model.dto.UpdateStatusDTO;
 import estudante.ubiracy.palmassemburacos.model.mapper.PotholeMapper;
 import estudante.ubiracy.palmassemburacos.model.Complaint;
 import estudante.ubiracy.palmassemburacos.model.User;
