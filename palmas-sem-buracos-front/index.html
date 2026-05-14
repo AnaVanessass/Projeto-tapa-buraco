@@ -1,14 +1,222 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://widget.cloudinary.com/v2.0/global/all.js" type="text/javascript"></script>
-    <title>tapa-buraco</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palmas sem Buracos - Início</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- ATENÇÃO: Verifique se o caminho está correto -->
+    <link rel="stylesheet" href="css/stely.css">
+    <link rel="stylesheet" href="css/carrossel.css">
+</head>
+<body>
+
+    <!-- Barra de navegação -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-road"></i>
+                <h1>Palmas <span>sem Buracos</span></h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Início</a></li>
+                <li><a href="mapaevolution.html">Mapa</a></li>
+                <li><a href="teladenuncia.html">Denunciar</a></li>
+                <li><a href="teladeuser.html">Minhas Denúncias</a></li>
+                <li><a href="indexteladelogin.html" class="btn-login-nav">
+                    <i class="fas fa-user-circle"></i> Entrar
+                </a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- CARROSSEL DE IMAGENS -->
+    <section style="padding: 40px 0 20px;">
+        <div class="container">
+            <div class="carrossel-container">
+                <div class="carrossel-slides" id="carrosselSlides">
+                    <!-- Slide 1 -->
+                    <div class="carrossel-slide">
+                        <img src="https://placehold.co/1200x500/2E7D32/FFFFFF?text=Palmas+sem+Buracos" alt="Projeto Palmas sem Buracos">
+                        <div class="carrossel-legenda">
+                            <h3>🌱 Bem-vindo ao Palmas sem Buracos</h3>
+                            <p>Uma plataforma colaborativa para mapear e monitorar as vias públicas da nossa cidade</p>
+                        </div>
+                    </div>
+                    <!-- Slide 2 -->
+                    <div class="carrossel-slide">
+                        <img src="https://placehold.co/1200x500/1976D2/FFFFFF?text=Participe+Você+Também" alt="Participação Cidadã">
+                        <div class="carrossel-legenda">
+                            <h3>🤝 Sua participação é fundamental!</h3>
+                            <p>Registre buracos, rachaduras e problemas nas vias. Ajude a construir uma Palmas mais segura.</p>
+                        </div>
+                    </div>
+                    <!-- Slide 3 -->
+                    <div class="carrossel-slide">
+                        <img src="https://placehold.co/1200x500/FF9800/FFFFFF?text=Mapa+de+Desgaste+Viário" alt="Mapa de Desgaste">
+                        <div class="carrossel-legenda">
+                            <h3>🗺️ Acompanhe em Tempo Real</h3>
+                            <p>Visualize o mapa de desgaste viário e veja as áreas mais críticas da cidade.</p>
+                        </div>
+                    </div>
+                    <!-- Slide 4 -->
+                    <div class="carrossel-slide">
+                        <img src="https://placehold.co/1200x500/4CAF50/FFFFFF?text=Relatórios+para+Prefeitura" alt="Relatórios">
+                        <div class="carrossel-legenda">
+                            <h3>📊 Dados para Gestão Pública</h3>
+                            <p>Seus relatos geram relatórios mensais enviados à Secretaria de Infraestrutura.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Botões do carrossel -->
+                <button class="carrossel-btn btn-prev" id="btnPrev">❮</button>
+                <button class="carrossel-btn btn-next" id="btnNext">❯</button>
+                
+                <!-- Indicadores -->
+                <div class="carrossel-indicadores" id="indicadores"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cards de funcionalidades -->
+    <section style="padding: 60px 0;">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 50px;">
+                <h2 style="font-size: 2rem;">Como funciona a plataforma?</h2>
+                <p style="color: #666;">Sistema colaborativo de mapeamento viário em 3 passos simples</p>
+            </div>
+            <div class="grid-3">
+                <div class="card" style="text-align: center;">
+                    <i class="fas fa-map-pin" style="font-size: 3rem; color: #2E7D32;"></i>
+                    <h3 style="margin: 15px 0;">1. Localize</h3>
+                    <p>Marque no mapa onde está o problema na via pública com precisão.</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <i class="fas fa-camera" style="font-size: 3rem; color: #2E7D32;"></i>
+                    <h3 style="margin: 15px 0;">2. Fotografe</h3>
+                    <p>Tire uma foto do buraco, rachadura ou danificado no asfalto.</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <i class="fas fa-chart-line" style="font-size: 3rem; color: #2E7D32;"></i>
+                    <h3 style="margin: 15px 0;">3. Acompanhe</h3>
+                    <p>Acompanhe o status da sua denúncia e veja os resultados.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção de Estatísticas -->
+    <section style="padding: 60px 0; background: linear-gradient(135deg, #E8F5E9, #C8E6C9);">
+        <div class="container">
+            <div class="grid-3" style="text-align: center;">
+                <div>
+                    <i class="fas fa-chart-line" style="font-size: 3rem; color: #2E7D32;"></i>
+                    <h2 style="font-size: 2.5rem; margin: 10px 0;">1.247</h2>
+                    <p>Denúncias registradas</p>
+                </div>
+                <div>
+                    <i class="fas fa-check-circle" style="font-size: 3rem; color: #4CAF50;"></i>
+                    <h2 style="font-size: 2.5rem; margin: 10px 0;">892</h2>
+                    <p>Problemas resolvidos</p>
+                </div>
+                <div>
+                    <i class="fas fa-users" style="font-size: 3rem; color: #1976D2;"></i>
+                    <h2 style="font-size: 2.5rem; margin: 10px 0;">3.456</h2>
+                    <p>Cidadãos participantes</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rodapé -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <i class="fas fa-road" style="font-size: 2rem;"></i>
+                    <h3>Palmas sem Buracos</h3>
+                    <p>Sistema Colaborativo de Mapeamento</p>
+                </div>
+                <div>
+                    <h4>Contato</h4>
+                    <p>IFTO - Campus Palmas</p>
+                    <p>palmas@ifto.edu.br</p>
+                </div>
+                <div>
+                    <h4>Links Rápidos</h4>
+                    <p><a href="mapaevolution.html" style="color: white;">Mapa de Desgaste</a></p>
+                    <p><a href="teladenuncia.html" style="color: white;">Nova Denúncia</a></p>
+                    <p><a href="indexteladelogin.html" style="color: white;">Área do Cidadão</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 - Palmas sem Buracos | Projeto de Extensão IFTO</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script do Carrossel -->
+    <script>
+        const slides = document.querySelectorAll('.carrossel-slide');
+        const btnPrev = document.getElementById('btnPrev');
+        const btnNext = document.getElementById('btnNext');
+        const indicadoresDiv = document.getElementById('indicadores');
+        
+        let slideAtual = 0;
+        const totalSlides = slides.length;
+        
+        if (slides.length > 0) {
+            // Criar indicadores
+            slides.forEach((_, index) => {
+                const indicador = document.createElement('div');
+                indicador.classList.add('indicador');
+                if (index === 0) indicador.classList.add('ativo');
+                indicador.addEventListener('click', () => irParaSlide(index));
+                indicadoresDiv.appendChild(indicador);
+            });
+            
+            const indicadores = document.querySelectorAll('.indicador');
+            
+            function atualizarCarrossel() {
+                const offset = -slideAtual * 100;
+                document.querySelector('.carrossel-slides').style.transform = `translateX(${offset}%)`;
+                
+                indicadores.forEach((ind, i) => {
+                    ind.classList.toggle('ativo', i === slideAtual);
+                });
+            }
+            
+            function proximoSlide() {
+                slideAtual = (slideAtual + 1) % totalSlides;
+                atualizarCarrossel();
+            }
+            
+            function slideAnterior() {
+                slideAtual = (slideAtual - 1 + totalSlides) % totalSlides;
+                atualizarCarrossel();
+            }
+            
+            function irParaSlide(index) {
+                slideAtual = index;
+                atualizarCarrossel();
+            }
+            
+            btnNext.addEventListener('click', proximoSlide);
+            btnPrev.addEventListener('click', slideAnterior);
+            
+            // Auto-play (troca a cada 5 segundos)
+            let autoPlay = setInterval(proximoSlide, 5000);
+            
+            // Pausar auto-play quando o mouse está sobre o carrossel
+            const carrossel = document.querySelector('.carrossel-container');
+            if (carrossel) {
+                carrossel.addEventListener('mouseenter', () => clearInterval(autoPlay));
+                carrossel.addEventListener('mouseleave', () => {
+                    autoPlay = setInterval(proximoSlide, 5000);
+                });
+            }
+        }
+    </script>
+</body>
 </html>

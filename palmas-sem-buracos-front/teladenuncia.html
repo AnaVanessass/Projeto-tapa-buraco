@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palmas sem Buracos - Nova Denúncia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="CSS/stely.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-road"></i>
+                <h1>Palmas <span>sem Buracos</span></h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Início</a></li>
+                <li><a href="mapaevolution.html">Mapa</a></li>
+                <li><a href="teladenuncia.html">Denunciar</a></li>
+                <li><a href="teladeuser.html">Minhas Denúncias</a></li>
+                <li><a href="injecteladelogin.html">Entrar</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section style="padding: 40px 0;">
+        <div class="container-pequeno">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <h1><i class="fas fa-camera" style="color: #2E7D32;"></i> Registrar nova denúncia</h1>
+                <p>Ajude a melhorar as vias da nossa cidade</p>
+            </div>
+
+            <div class="card" style="padding: 30px;">
+                <form id="formDenuncia">
+                    <div class="input-group">
+                        <label><i class="fas fa-map-pin"></i> Localização</label>
+                        <input type="text" id="localizacao" placeholder="Ex: Avenida JK, próximo ao mercado" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label><i class="fas fa-tag"></i> Tipo de problema</label>
+                        <select id="tipo">
+                            <option value="buraco">Buraco no asfalto</option>
+                            <option value="rachadura">Rachadura/pavimento danificado</option>
+                            <option value="afundamento">Afundamento da via</option>
+                            <option value="falta_sinalizacao">Falta de sinalização</option>
+                            <option value="outro">Outro problema</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label><i class="fas fa-exclamation-triangle"></i> Nível de gravidade</label>
+                        <select id="gravidade">
+                            <option value="baixa">🟢 Baixa - Pequeno buraco, sem risco imediato</option>
+                            <option value="media">🟡 Média - Buraco considerável, requer atenção</option>
+                            <option value="alta">🔴 Alta - Buraco grande ou via danificada, risco de acidente</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label><i class="fas fa-image"></i> Foto do problema</label>
+                        <input type="file" id="foto" accept="image/*">
+                        <p style="font-size: 0.7rem; color: #999; margin-top: 5px;">Anexe uma foto para ajudar na identificação</p>
+                    </div>
+
+                    <div class="input-group">
+                        <label><i class="fas fa-comment"></i> Descrição adicional</label>
+                        <textarea id="descricao" rows="4" placeholder="Descreva detalhadamente o problema..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-verde" style="width: 100%; justify-content: center;">
+                        <i class="fas fa-paper-plane"></i> Enviar denúncia
+                    </button>
+                </form>
+            </div>
+
+            <div class="alert alert-warning" style="margin-top: 20px;">
+                <i class="fas fa-info-circle"></i> Sua denúncia será analisada e encaminhada à Secretaria de Infraestrutura.
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 - Palmas sem Buracos | Sua participação é importante!</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="modalSucesso" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-check-circle" style="color: #4CAF50;"></i> Denúncia registrada!</h3>
+                <button class="modal-close" onclick="fecharModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Sua denúncia foi enviada com sucesso!</p>
+                <p>Número de protocolo: <strong id="protocolo"></strong></p>
+                <p>Acompanhe o status na sua página de denúncias.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="fecharModal()">Fechar</button>
+                <a href="teladeuser.html" class="btn btn-verde">Ver minhas denúncias</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function fecharModal() {
+            document.getElementById('modalSucesso').style.display = 'none';
+        }
+
+        document.getElementById('formDenuncia').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const protocolo = 'DEN-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
+            document.getElementById('protocolo').textContent = protocolo;
+            
+            document.getElementById('modalSucesso').style.display = 'flex';
+            
+            this.reset();
+            
+            setTimeout(() => {
+                fecharModal();
+            }, 5000);
+        });
+    </script>
+</body>
+</html>

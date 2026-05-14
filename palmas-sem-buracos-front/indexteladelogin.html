@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palmas sem Buracos - Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .tab-login {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eee;
+        }
+        .tab-btn-login {
+            flex: 1;
+            padding: 12px;
+            background: none;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 10px 10px 0 0;
+        }
+        .tab-btn-login.ativo {
+            background: #2E7D32;
+            color: white;
+        }
+        .tab-btn-login:not(.ativo):hover {
+            background: #f0f0f0;
+        }
+        .painel-login {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+        .painel-login.ativo {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .icone-tipo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .icone-tipo i {
+            font-size: 3rem;
+        }
+        .icone-cidadao { color: #1976D2; }
+        .icone-admin { color: #D32F2F; }
+    </style>
+</head>
+<body style="background: linear-gradient(135deg, #E8F5E9, #C8E6C9); min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+
+    <div style="width: 100%; max-width: 450px; padding: 20px;">
+        <!-- Card de login -->
+        <div class="card" style="padding: 40px;">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <i class="fas fa-road" style="font-size: 50px; color: #2E7D32;"></i>
+                <h1 style="font-size: 1.8rem; margin-top: 10px;">Palmas <span style="color: #2E7D32;">sem Buracos</span></h1>
+                <p style="color: #666;">Acesse sua conta</p>
+            </div>
+            
+            <!-- Abas para escolher tipo de login -->
+            <div class="tab-login">
+                <button class="tab-btn-login ativo" onclick="mudarTipoLogin('cidadao')">
+                    <i class="fas fa-user"></i> Cidadão
+                </button>
+                <button class="tab-btn-login" onclick="mudarTipoLogin('admin')">
+                    <i class="fas fa-user-shield"></i> Administrador
+                </button>
+            </div>
+            
+            <!-- Painel Login Cidadão -->
+            <div id="painelCidadao" class="painel-login ativo">
+                <div class="icone-tipo">
+                    <i class="fas fa-user-circle icone-cidadao"></i>
+                </div>
+                <form id="loginCidadao">
+                    <div class="input-group">
+                        <label><i class="fas fa-envelope"></i> E-mail ou CPF</label>
+                        <input type="text" id="emailCidadao" placeholder="Digite seu e-mail ou CPF" required>
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-lock"></i> Senha</label>
+                        <input type="password" id="senhaCidadao" placeholder="Digite sua senha" required>
+                    </div>
+                    <button type="submit" class="btn btn-verde" style="width: 100%; justify-content: center;">
+                        <i class="fas fa-arrow-right"></i> Entrar como Cidadão
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Painel Login Admin -->
+            <div id="painelAdmin" class="painel-login">
+                <div class="icone-tipo">
+                    <i class="fas fa-user-shield icone-admin"></i>
+                </div>
+                <form id="loginAdmin">
+                    <div class="input-group">
+                        <label><i class="fas fa-envelope"></i> E-mail Administrador</label>
+                        <input type="email" id="emailAdmin" placeholder="admin@palmas.com" required>
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-lock"></i> Senha</label>
+                        <input type="password" id="senhaAdmin" placeholder="Digite sua senha" required>
+                    </div>
+                    <button type="submit" class="btn btn-danger" style="width: 100%; justify-content: center;">
+                        <i class="fas fa-shield-alt"></i> Entrar como Admin
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Links úteis -->
+            <div style="margin-top: 25px; text-align: center; border-top: 1px solid #eee; padding-top: 20px;">
+                <p>
+                    <a href="cadastro.html" style="color: #1976D2;">Não tem conta? Cadastre-se</a>
+                </p>
+                <p style="margin-top: 10px;">
+                    <a href="recuperar-senha.html" style="color: #666; font-size: 0.9rem;">Esqueci minha senha</a>
+                </p>
+            </div>
+            
+            <div style="margin-top: 20px; text-align: center;">
+                <p style="font-size: 0.7rem; color: #999;">🔍 Versão demonstrativa</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function mudarTipoLogin(tipo) {
+            const btnCidadao = document.querySelector('.tab-btn-login:first-child');
+            const btnAdmin = document.querySelector('.tab-btn-login:last-child');
+            const painelCidadao = document.getElementById('painelCidadao');
+            const painelAdmin = document.getElementById('painelAdmin');
+            
+            if (tipo === 'cidadao') {
+                btnCidadao.classList.add('ativo');
+                btnAdmin.classList.remove('ativo');
+                painelCidadao.classList.add('ativo');
+                painelAdmin.classList.remove('ativo');
+            } else {
+                btnCidadao.classList.remove('ativo');
+                btnAdmin.classList.add('ativo');
+                painelCidadao.classList.remove('ativo');
+                painelAdmin.classList.add('ativo');
+            }
+        }
+        
+        // Login do Cidadão
+        document.getElementById('loginCidadao').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('emailCidadao').value;
+            // Salva dados do usuário no sessionStorage
+            sessionStorage.setItem('usuarioLogado', JSON.stringify({
+                tipo: 'cidadao',
+                email: email,
+                nome: 'Usuário'
+            }));
+            window.location.href = 'teladeuser.html';
+        });
+        
+        // Login do Admin
+        document.getElementById('loginAdmin').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('emailAdmin').value;
+            
+            if (email === 'admin@palmas.com' || email.includes('admin')) {
+                sessionStorage.setItem('usuarioLogado', JSON.stringify({
+                    tipo: 'admin',
+                    email: email,
+                    nome: 'Administrador'
+                }));
+                window.location.href = 'telaadm.html';
+            } else {
+                alert('Acesso negado! Apenas administradores podem acessar esta área.');
+            }
+        });
+    </script>
+</body>
+</html>
