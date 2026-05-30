@@ -1,10 +1,11 @@
 package estudante.ubiracy.palmassemburacos.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Set;
 
@@ -12,7 +13,8 @@ import java.util.Set;
 @Entity
 @Data
 public class Address extends BaseEntity{
-    private String cityBlock;
+    @ManyToOne
+    private CityBlock cityBlock;
     private String name;
     private Double lat, lng;
     @OneToMany(mappedBy = "address", cascade = CascadeType.ALL)

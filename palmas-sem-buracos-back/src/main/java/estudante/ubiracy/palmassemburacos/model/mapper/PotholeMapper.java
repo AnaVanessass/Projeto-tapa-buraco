@@ -1,25 +1,25 @@
 package estudante.ubiracy.palmassemburacos.model.mapper;
 
-import estudante.ubiracy.palmassemburacos.model.dto.ComplaintDTO;
-import estudante.ubiracy.palmassemburacos.model.dto.PotholeResponse;
 import estudante.ubiracy.palmassemburacos.model.Address;
 import estudante.ubiracy.palmassemburacos.model.Complaint;
+import estudante.ubiracy.palmassemburacos.model.dto.ComplaintDTO;
+import estudante.ubiracy.palmassemburacos.model.dto.PotholeResponse;
 import estudante.ubiracy.palmassemburacos.model.enums.PotholeStatus;
+import estudante.ubiracy.palmassemburacos.service.AddressService;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PotholeMapper {
+    private final AddressService addressService;
+
+    public PotholeMapper(AddressService addressService) {
+        this.addressService = addressService;
+    }
+
     public Complaint toNewEntity(ComplaintDTO req) {
-        Address address = new Address();
-        address.setName(req.address().name());
-        address.setCityBlock(req.address().cityBlock());
-        address.setLat(req.address().lat());
-        address.setLng(req.address().lng());
+        Address address = addressService.create(req.address());
 
         Complaint pothole = new Complaint();
-        pothole.setSize(req.size());
-        pothole.setSeverity(req.severity());
-        pothole.setDescription(req.description());
         pothole.setStatus(PotholeStatus.OPEN);
         pothole.setImagePublicId(req.imagePublicId());
         pothole.setAddress(address);
@@ -28,16 +28,9 @@ public class PotholeMapper {
     }
 
     public Complaint toEntity(ComplaintDTO dto) {
-        Address address = new Address();
-        address.setName(dto.address().name());
-        address.setCityBlock(dto.address().cityBlock());
-        address.setLat(dto.address().lat());
-        address.setLng(dto.address().lng());
+        Address address = addressService.create(dto.address());
 
         Complaint pothole = new Complaint();
-        pothole.setSize(dto.size());
-        pothole.setSeverity(dto.severity());
-        pothole.setDescription(dto.description());
         pothole.setStatus(dto.status());
         pothole.setImagePublicId(dto.imagePublicId());
         pothole.setAddress(address);
@@ -48,13 +41,10 @@ public class PotholeMapper {
     public PotholeResponse toResponse(Complaint c) {
         return new PotholeResponse(
                 c.getId(),
-                c.getSize().name(),
-                c.getSeverity().name(),
-                c.getDescription(),
                 c.getImagePublicId(),
                 c.getAddress().getLat(),
                 c.getAddress().getLng(),
-                c.getAddress().getCityBlock(),
+                c.getAddress().getCityBlock().getName(),
                 c.getAddress().getName(),
                 c.getCreatedAt().toString()
         );

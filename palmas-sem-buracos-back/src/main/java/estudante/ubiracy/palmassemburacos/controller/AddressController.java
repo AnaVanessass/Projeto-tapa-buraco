@@ -1,6 +1,7 @@
 package estudante.ubiracy.palmassemburacos.controller;
 
 import estudante.ubiracy.palmassemburacos.model.Address;
+import estudante.ubiracy.palmassemburacos.model.dto.AddressDTO;
 import estudante.ubiracy.palmassemburacos.service.AddressService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +42,7 @@ public class AddressController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Address> save(@RequestBody Address address) {
+    public ResponseEntity<Address> save(@RequestBody AddressDTO address) {
         Address addr = service.create(address);
         return ResponseEntity.ok(addr);
     }

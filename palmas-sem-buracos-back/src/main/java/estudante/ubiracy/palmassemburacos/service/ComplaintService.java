@@ -1,11 +1,11 @@
 package estudante.ubiracy.palmassemburacos.service;
 
+import estudante.ubiracy.palmassemburacos.model.Complaint;
+import estudante.ubiracy.palmassemburacos.model.User;
 import estudante.ubiracy.palmassemburacos.model.dto.ComplaintDTO;
 import estudante.ubiracy.palmassemburacos.model.dto.PotholeResponse;
 import estudante.ubiracy.palmassemburacos.model.dto.UpdateStatusDTO;
 import estudante.ubiracy.palmassemburacos.model.mapper.PotholeMapper;
-import estudante.ubiracy.palmassemburacos.model.Complaint;
-import estudante.ubiracy.palmassemburacos.model.User;
 import estudante.ubiracy.palmassemburacos.repository.ComplaintRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -57,4 +57,6 @@ public class ComplaintService {
         repo.save(c);
         return mapper.toResponse(c);
     }
+
+
 }
