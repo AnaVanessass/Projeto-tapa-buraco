@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+/* Container interno da página do mapa ativo */
+@utility map-content-box {
+  @apply flex-1 w-full max-w-4xl mx-auto px-4 py-8 flex flex-col;
+}
+
+/* Envelopamento da barra de filtros com o fundo branco do Figma */
+@utility filter-wrapper-card {
+  @apply mb-6 bg-white p-4 rounded-[var(--radius-lg)] border border-[var(--color-border-light)] shadow-sm;
+}
+
+/* Moldura funcional que envolve o mapa/lista */
+@utility live-map-frame {
+  @apply w-full h-[450px] rounded-[var(--radius-xl)] relative bg-[var(--color-bg-frame)] border border-[var(--color-border-dark)] overflow-hidden shadow-inner md:h-[550px];
+}
+
+/* Container do formulário flutuante interno */
+@utility pothole-floating-modal {
+  @apply absolute bottom-6 left-6 z-20 w-[90%] rounded-[var(--radius-xl)] bg-white p-5 shadow-2xl border border-[var(--color-border-light)] sm:w-[360px];
+}
+
+/* Texto de erro ou aviso centralizado */
+@utility map-api-error-box {
+  @apply flex h-full items-center justify-center text-[var(--color-txt-secondary)] p-4 text-center text-sm font-light;
+}
+
+@utility model-tittle{@apply font-semibold text-sm text-[var(--color-txt-primary)] mb-2;}
+
+@utility list-container{@apply w-full h-full overflow-y-auto bg-white p-6;}
+
+@utility map-container{@apply w-full h-full relative;}

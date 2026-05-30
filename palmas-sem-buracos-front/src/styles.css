@@ -1,173 +1,108 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@import "tailwindcss";
+
+@theme {
+  /* Paleta de Cores do Figma (Palmas sem Buracos) */
+  --color-bg-main: #FDFDFD;
+  --color-bg-frame: #E8E8E8;
+  --color-bg-footer: #FAFAFA;
+  --color-bg-hover:#F5F5F5;
+  
+  --color-brand-primary: #2E7D32;
+  --color-brand-danger: #D32F2F;
+  --color-brand-warning: #FFC107;
+  --color-brand-success: #4CAF50;
+  
+  --color-txt-primary: #333333;
+  --color-txt-secondary: #999999;
+  --color-txt-muted: #666666;
+  
+  --color-border-light: #F0F0F0;
+  --color-border-medium: #E0E0E0;
+  --color-border-dark: #DEE2E6;
+
+  --radius-sm: 0.5rem;    
+  --radius-md: 0.625rem;    
+  --radius-lg: 1rem;       
+  --radius-xl: 1.5rem;       
 }
 
-.app {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
+/* Layout Base da Página */
+@utility page-container {@apply min-h-screen bg-bg-main font-sans flex flex-col items-center w-full;}
+
+/* Navbar e Topo */
+@utility app-navbar {
+  @apply w-full max-w-4xl mx-auto px-6 py-4 flex items-center justify-between border-b border-border-light;
 }
 
-.app-header {
-  background: #2c3e50;
-  color: white;
-  padding: 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+@utility navbar-itens{ @apply flex items-center gap-3;}
+
+@utility main-content-box {@apply flex-1 w-full max-w-4xl mx-auto px-4 pt-12 pb-16 flex flex-col items-center;}
+
+@utility hero-container{@apply text-center w-full max-w-2xl mb-10;}
+
+@utility logo-icon {
+  @apply bg-brand-primary text-white w-9 h-9 rounded-sm flex items-center justify-center font-bold text-lg shadow-sm;
 }
 
-.view-toggle button {
-  padding: 0.5rem 1rem;
-  margin-left: 0.5rem;
-  border: none;
-  cursor: pointer;
-  background: #34495e;
-  color: white;
+/* Botões da Navbar superiores */
+@utility btn-secondary-sm {
+  @apply px-5 py-2 text-sm font-medium border border-border-medium text-txt-primary rounded-md hover:bg-bg-hover transition-all cursor-pointer;
 }
 
-.view-toggle button.active {
-  background: #3498db;
+/* Moldura Arredondada do Figma (Mapa e Molduras) */
+@utility figma-map-frame {
+  @apply w-full h-[300px] md:h-[420px] rounded-(--radius-xl) relative bg-bg-frame border border-border-dark flex items-center justify-center overflow-hidden shadow-sm;
 }
 
-.filter-bar {
-  background: #ecf0f1;
-  padding: 1rem;
-  display: flex;
-  gap: 1rem;
-  align-items: center;
+/* Botões de Ação Principais Inferiores */
+@utility btn-action-primary {
+  @apply w-full sm:w-64 rounded-md py-3.5 px-6 border-2 border-brand-primary text-brand-primary font-semibold bg-white hover:bg-brand-primary hover:text-white transition-all active:scale-95 flex items-center justify-center gap-2 shadow-sm cursor-pointer;
 }
 
-.filter-bar select {
-  padding: 0.5rem;
-  min-width: 200px;
+@utility btn-action-admin {
+  @apply w-full sm:w-64 rounded-md py-3.5 px-6 border border-border-medium text-txt-primary font-semibold bg-white hover:bg-bg-hover hover:border-txt-secondary transition-all active:scale-95 flex items-center justify-center gap-2 shadow-sm cursor-pointer;
 }
 
-.main-content {
-  flex: 1;
-  overflow: hidden;
+/* Cards de Passo a Passo do Rodapé */
+@utility step-card {
+  @apply bg-white rounded-2xl p-6 border border-border-light shadow-[0_2px_var(--radius-sm)_rgba(0,0,0,0.05)] text-center hover:shadow-xl transition-all;
 }
 
-.map-container {
-  height: 100%;
-  position: relative;
+/* Alternador de Abas Internas (Mapa/Lista) */
+@utility view-tab-container {  @apply flex gap-1 bg-bg-frame p-1 rounded-md;}
+
+@utility view-tab-button-active {
+  @apply px-4 py-1.5 text-xs font-medium rounded-sm transition-all cursor-pointer bg-white text-txt-primary shadow-sm;
 }
 
-.add-pothole-form {
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-  background: white;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  width: 300px;
-  max-height: 80vh;
-  overflow-y: auto;
+@utility view-tab-button-inactive {
+  @apply px-4 py-1.5 text-xs font-medium rounded-sm transition-all cursor-pointer text-txt-muted hover:text-txt-primary;
 }
 
-.form-group {
-  margin-bottom: 1rem;
-}
+/* Título Principal (Hero) */
+@utility txt-hero-title {  @apply text-3xl md:text-[40px] text-txt-primary font-semibold tracking-tight leading-tight mb-3;}
 
-.form-group label {
-  display: block;
-  margin-bottom: 0.3rem;
-  font-weight: bold;
-}
+/* Subtítulo do Hero */
+@utility txt-hero-subtitle {  @apply text-base md:text-lg text-txt-secondary font-light;}
 
-.form-group input,
-.form-group select,
-.form-group textarea {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
+/* Título Interno dos Cards (h3) */
+@utility txt-card-title {  @apply text-base font-semibold text-txt-primary mb-2;}
 
-.form-actions {
-  display: flex;
-  gap: 0.5rem;
-}
+/* Descrição Interna dos Cards (p) */
+@utility txt-card-desc {  @apply text-xs md:text-sm text-txt-secondary leading-relaxed;}
 
-.form-actions button {
-  flex: 1;
-  padding: 0.5rem;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
+/* Nome da marca na barra superior */
+@utility txt-brand-name {  @apply text-txt-primary font-medium text-base tracking-tight;}
 
-.form-actions button[type="submit"] {
-  background: #27ae60;
-  color: white;
-}
+@utility footer{  @apply w-full py-8 border-t border-border-medium text-center bg-bg-footer;}
 
-.form-actions button[type="button"] {
-  background: #e74c3c;
-  color: white;
-}
+@utility footer-p{  @apply text-xs md:text-sm text-txt-muted font-medium;}
 
-.pothole-list {
-  padding: 2rem;
-  overflow-y: auto;
-  height: 100%;
-}
+@utility step-card-icon{@apply text-4xl mb-4;}
 
-.list-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1rem;
-  margin-top: 1rem;
-}
+@utility grid-card{  @apply mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 w-full;}
 
-.pothole-card {
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 1rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
+@utility link{@apply w-full sm:w-64;}
 
-.pothole-card h3 {
-  margin-bottom: 0.5rem;
-  color: #2c3e50;
-}
+@utility link-container{@apply mt-8 flex flex-col sm:flex-row gap-4 w-full justify-center items-center;}
 
-.pothole-card p {
-  margin: 0.3rem 0;
-}
-
-.card-actions {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 1rem;
-}
-
-.card-actions button {
-  flex: 1;
-  padding: 0.5rem;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.card-actions button:first-child {
-  background: #3498db;
-  color: white;
-}
-
-.card-actions button.delete {
-  background: #e74c3c;
-  color: white;
-}
-
-.pothole-list.empty {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.2rem;
-  color: #7f8c8d;
-}

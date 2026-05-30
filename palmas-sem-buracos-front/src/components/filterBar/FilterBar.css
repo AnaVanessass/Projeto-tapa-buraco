@@ -1,45 +1,34 @@
-.filter-bar {
-  background: #ecf0f1;
-  padding: 1rem;
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  flex-wrap: wrap;
+@import "tailwindcss";
+
+/* Container da Barra de Ferramentas */
+@utility filter-toolbar-box {
+  @apply w-full flex flex-col gap-4 md:flex-row md:items-center md:justify-between;
 }
 
-.filter-bar label {
-  font-weight: bold;
-  color: #2c3e50;
+/* CORREÇÃO: Alterado de padding-[...] para p-[0.625rem_1rem] */
+@utility select-city-block {
+  @apply w-full p-[0.625rem_1rem] text-sm text-[var(--color-txt-primary)] bg-white border border-[var(--color-border-medium)] rounded-[var(--radius-md)] outline-none cursor-pointer transition-colors focus:border-[var(--color-brand-primary)] md:max-w-[18rem];
 }
 
-.filter-bar select {
-  padding: 0.5rem;
-  min-width: 200px;
-  border: 1px solid #bdc3c7;
-  border-radius: 4px;
-  font-size: 14px;
+/* Grupo de Botões Alternadores (Status Toggle) */
+@utility toggle-status-group {
+  @apply flex w-full gap-2 md:w-auto;
 }
 
-.filter-bar select:focus {
-  outline: none;
-  border-color: #3498db;
+/* CORREÇÃO: Alterado de padding-[...] para p-[0.625rem_1rem] */
+@utility btn-status-toggle {
+  @apply flex-1 flex items-center justify-center gap-2 p-[0.625rem_1rem] text-xs font-semibold rounded-[var(--radius-sm)] border border-[var(--color-border-medium)] bg-white text-[var(--color-txt-muted)] cursor-pointer transition-all active:scale-98 md:flex-none md:w-auto;
 }
 
-.filter-bar button {
-  padding: 0.5rem 1rem;
-  background: #e74c3c;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.2s;
+/* Variações Ativas */
+@utility btn-status-open-active {
+  @apply bg-[#FEF2F2] border-[var(--color-brand-danger)] text-[var(--color-brand-danger)];
 }
 
-.filter-bar button:hover {
-  background: #c0392b;
+@utility btn-status-pending-active {
+  @apply bg-[#FFFBEB] border-[var(--color-brand-warning)] text-[#B45309];
 }
 
-.filter-bar button:active {
-  transform: translateY(1px);
+@utility btn-status-fixed-active {
+  @apply bg-[#F0FDF4] border-[var(--color-brand-success)] text-[var(--color-brand-primary)];
 }

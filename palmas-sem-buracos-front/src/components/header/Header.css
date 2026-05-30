@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+/* Container Principal da Navbar Global */
+@utility app-navbar {
+  width: max(56rem); /* 896px - Alinhado perfeitamente com a largura max-w-4xl do conteúdo central */
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 0.0625rem solid var(--color-border-light);
+}
+
+/* Grupo de Itens Alinhados (Logo e Título) */
+@utility navbar-itens {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Ícone Reduzido da Logomarca "P" */
+@utility logo-icon {
+  background-color: var(--color-brand-primary);
+  color: #FFFFFF;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.125rem;
+  box-shadow: 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.05);
+}
+
+/* Título de Texto da Marca */
+@utility txt-brand-name {
+  color: var(--color-txt-primary);
+  font-weight: 500;
+  font-size: 1rem;
+  letter-spacing: -0.015em;
+}
+
+/* Botão Secundário para Ações do Topo */
+@utility btn-secondary-sm {
+  padding: 0.5rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 0.0625rem solid var(--color-border-medium);
+  color: var(--color-txt-primary);
+  border-radius: var(--radius-md);
+  transition: all 0.2s;
+  cursor: pointer;
+
+  hover:bg-[var(--color-bg-footer)];
+}
+
+/* Recipiente das Abas de Alternação do Figma */
+@utility tab-switcher-container {
+  display: flex;
+  gap: 0.25rem;
+  background-color: var(--color-bg-frame);
+  padding: 0.25rem;
+  border-radius: var(--radius-md);
+}
+
+/* Estado da Aba Selecionada Ativa */
+@utility tab-button-active {
+  padding: 0.375rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  background-color: #FFFFFF;
+  color: var(--color-txt-primary);
+  box-shadow: 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  border: none;
+}
+
+/* Estado da Aba Inativa */
+@utility tab-button-inactive {
+  padding: 0.375rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  color: var(--color-txt-muted);
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  transition: color 0.15s ease-in-out;
+
+  @apply hover:text-[var(--color-txt-primary)] bg-transparent border-none cursor-pointer transition-colors;
+}

@@ -14,6 +14,14 @@ const Map = ({ potholes, setSelectedLocation, mapCenter, setMapCenter }) => {
     });
   }, [setSelectedLocation]);
 
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString('pt-BR', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+  };
+
   const center = mapCenter || DEFAULT_MAP_CENTER;
 
   return (
@@ -30,8 +38,8 @@ const Map = ({ potholes, setSelectedLocation, mapCenter, setMapCenter }) => {
             <Marker
               key={pothole.id}
               position={{
-                lat: pothole.lat ?? pothole.address?.lat,
-                lng: pothole.lng ?? pothole.address?.lon
+                lat: Number(pothole.lat),
+                lng: Number(pothole.lng)
               }}
               onClick={() => setSelectedPothole(pothole)}
               clusterer={clusterer}
@@ -43,16 +51,14 @@ const Map = ({ potholes, setSelectedLocation, mapCenter, setMapCenter }) => {
 
       {selectedPothole && (
         <InfoWindow
-          position={{ lat: selectedPothole.lat, lng: selectedPothole.lng }}
+          position={{ lat: Number(selectedPothole.lat), lng: Number(selectedPothole.lng) }}
           onCloseClick={() => setSelectedPothole(null)}
         >
           <div className="info-window">
             <h3>Detalhes</h3>
-            <p><strong>Local:</strong> {selectedPothole.address || 'Address not available'}</p>
-            <p><strong>Quadra:</strong> {selectedPothole.cityBlock || 'Not specified'}</p>
-            <p><strong>Tamanho:</strong> {selectedPothole.size || 'Not specified'}</p>
-            <p><strong>Gravidade:</strong> {selectedPothole.severity || 'Not specified'}</p>
-            <p><strong>Data:</strong> {new Date(selectedPothole.date).toLocaleDateString()}</p>
+            <p><strong>Local:</strong> {selectedPothole.address || 'Endereço não disponível'}</p>
+            <p><strong>Quadra:</strong> {selectedPothole.blockName || 'Quadra não especificada'}</p>
+            <p><strong>Data:</strong> {formatDate(selectedPothole.createdAt)}</p>
           </div>
         </InfoWindow>
       )}

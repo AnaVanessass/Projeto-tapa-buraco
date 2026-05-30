@@ -1,5 +1,7 @@
 import { useState, useCallback } from 'react';
-import { LoadScript } from '@react-google-maps/api';
+import { useJsApiLoader } from '@react-google-maps/api';
+import Header from '../header/Header';
+import Footer from '../footer/Footer';
 import Map from '../map/Map';
 import PotholeList from '../potholeList/PotholeList';
 import AddPotholeForm from '../addPothole/AddPotholeForm';
@@ -9,27 +11,45 @@ import { ViewMode, DEFAULT_MAP_CENTER } from '../../types/pothole.types';
 import { usePotholesOld } from '../../hooks/usePotholesOld';
 import { useCreatePothole } from '../../hooks/useCreatePothole';
 import { useDeletePothole } from '../../hooks/useDeletePothole';
-import { Link } from 'react-router-dom';
+import { useCityBlocks} from '../../hooks/useCityBlocks';
+import './MapRender.css';
 
 const GOOGLE_MAPS_LIBRARIES = ['places'];
 
-function MapRender(){
+function MapRender() {
   const [view, setView] = useState(ViewMode.MAP);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [mapCenter, setMapCenter] = useState(DEFAULT_MAP_CENTER);
   const [mapError, setMapError] = useState(null);
+  const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
   
-  const {
-    filterBlock,
-    cityBlocks,
-    updateFilter,
-    clearFilter
-  } = usePotholesOld();
-  
-  const { data: potholes = [], isPending } = usePotholes();
+  const { filterBlock, cityBlocks, updateFilter, clearFilter } = usePotholesOld();
+  const { data: blocks = [], isPending: isBlocksPending } = useCityBlocks();
+  const { data: potholes = [], isPending: isPotholesPending } = usePotholes();
   const createMutation = useCreatePothole();
   const deleteMutation = useDeletePothole();
+
+  const [selectedBlock, setSelectedBlock] = useState(null);
+  const [activeStatuses, setActiveStatuses] = useState(['OPEN', 'PENDING', 'FIXED']);
   
+  const handleToggleStatus = (status) => {
+    setActiveStatuses((prev) =>
+      prev.includes(status) ? prev.filter((s) => s !== status) : [...prev, status]
+    );
+  };
+
+  const filteredPotholes = potholes.filter((pothole) => {
+    const matchesBlock = !selectedBlock || pothole.cityBlockId === selectedBlock;
+    const matchesStatus = activeStatuses.includes(pothole.status);
+    
+    return matchesBlock && matchesStatus;
+  });
+
+  const { isLoaded, loadError } = useJsApiLoader({
+    googleMapsApiKey: googleMapsApiKey || "",
+    libraries: GOOGLE_MAPS_LIBRARIES,
+  });
+
   const handleViewOnMap = useCallback((pothole) => {
     setMapCenter({ lat: pothole.lat, lng: pothole.lng });
     setView(ViewMode.MAP);
@@ -39,115 +59,94 @@ function MapRender(){
     try {
       await createMutation.mutateAsync(payload);
       setSelectedLocation(null);
-
     } catch (err) {
-      console.error("Error saving pothole", err);
+      console.error("Erro ao salvar buraco", err);
     }
   };
 
   const handleDelete = (potholeId) => {
-    if (window.confirm("Deletar denúnia?")) {
+    if (window.confirm("Deletar denúncia?")) {
       deleteMutation.mutate(potholeId);
     }
   };
 
   const handleLoadError = useCallback((error) => {
-    console.error('Google Maps failed to load:', error);
-    setMapError('Failed to load Google Maps. Please check your API key.');
+    console.error('Google Maps falhou:', error);
+    setMapError('Erro técnico ao renderizar os mapas públicos.');
   }, []);
 
-  
-  const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-
-  if (!googleMapsApiKey) {
-    return (
-      <div className="app">
-        <header className="app-header">
-          <h1>🕳️ Pothole Tracker</h1>
-        </header>
-        <main className="main-content">
-          <div className="map-no-key">
-            <div>
-              <h3>Google Maps API Key Required</h3>
-              <p>Please add your Google Maps API key to the .env file:</p>
-              <code>VITE_GOOGLE_MAPS_API_KEY=your_api_key_here</code>
-              <p>Get a free key from the <a href="https://console.cloud.google.com/" target="_blank" rel="noopener noreferrer">Google Cloud Console</a></p>
-            </div>
-          </div>
-        </main>
-      </div>
-    );
-  }
+    // console.log("=== DEBUG FILTRAGEM URBANA ===");
+    // console.log("Filtro Selecionado na Tela:", JSON.stringify(selectedBlock));
+    // potholes.forEach((p, index) => {
+    //   console.log(`Buraco #${index + 1} [ID: ${p.id}]:`, {
+    //     originalNoBanco: p.cityBlock,
+    //     aposNormalizacao: p.cityBlock,
+    //     bateComOFiltro: p.cityBlock === String(selectedBlock).toLowerCase().replace("quadra", "").trim()
+    //   });
+    // });
+    // console.log("===============================");
 
   return (
-    <div className="app">
-      <header className="app-header">
-        <h1>🕳️ Tapa Buraco</h1>
-        <button><Link to="/login" className='map'>Login</Link></button>
-        <div className="view-toggle">
-          <button 
-            className={view === ViewMode.MAP ? 'active' : ''} 
-            onClick={() => setView(ViewMode.MAP)}
-          >
-            Mapa
-          </button>
-          <button 
-            className={view === ViewMode.LIST ? 'active' : ''} 
-            onClick={() => setView(ViewMode.LIST)}
-          >
-            Lista
-          </button>
+    <div className="page-container">
+      
+      <Header view={view} setView={setView} listCount={potholes.length} />
+
+      <main className="map-content-box">
+        
+        <div className="filter-wrapper-card">
+          <FilterBar 
+            selectedBlock={selectedBlock}
+            onBlockChange={setSelectedBlock}
+            cityBlocks={blocks}
+            activeStatuses={activeStatuses}
+            onToggleStatus={handleToggleStatus}
+          />
         </div>
-      </header>
 
-      <FilterBar 
-        filterBlock={filterBlock}
-        onFilterChange={updateFilter}
-        onClearFilter={clearFilter}
-        cityBlocks={cityBlocks}
-      />
-
-      <main className="main-content">
-        {mapError ? (
-          <div className="map-error">{mapError}</div>
-        ) : (
-          <LoadScript 
-            googleMapsApiKey={googleMapsApiKey}
-            onError={handleLoadError}
-            libraries={GOOGLE_MAPS_LIBRARIES}
-            loadingElement={
-              <div className="map-loading">
-                <div className="loading-spinner"></div>
-                <p>Carregando Google Maps...</p>
-              </div>
-            }
-          >
-            {view === ViewMode.MAP ? (
-              <div className="map-container">
-                <Map 
-                  potholes={potholes || []}
-                  setSelectedLocation={setSelectedLocation}
-                  mapCenter={mapCenter}
-                  setMapCenter={setMapCenter}
-                />
-                {selectedLocation && (
-                  <AddPotholeForm 
-                    location={selectedLocation}
-                    onAdd={handleAddPothole}
-                    onCancel={() => setSelectedLocation(null)}
+        <div className="live-map-frame">
+          {loadError ? (
+            <div className="map-api-error-box">
+              Chave Mapas Ausente no arquivo .env
+            </div>
+          ) : !isLoaded ? (
+            <div className="map-api-error-box">
+              Carregando infraestrutura de mapas...
+            </div>
+          ) : (
+              view === ViewMode.MAP ? (
+                <div className="map-container">
+                  <Map 
+                    potholes={potholes || []}
+                    setSelectedLocation={setSelectedLocation}
+                    mapCenter={mapCenter}
+                    setMapCenter={setMapCenter}
                   />
-                )}
-              </div>
-            ) : (
-              <PotholeList 
-                potholes={potholes}
-                onDelete={handleDelete}
-                onViewOnMap={handleViewOnMap}
-              />
-            )}
-          </LoadScript>
-        )}
+
+                  {selectedLocation && (
+                    <div className="pothole-floating-modal">
+                      <h4 className="model-tittle">📍 Novo Ponto Identificado</h4>
+                      <AddPotholeForm 
+                        location={selectedLocation}
+                        onAdd={handleAddPothole}
+                        onCancel={() => setSelectedLocation(null)}
+                      />
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="list-container">
+                  <PotholeList 
+                    potholes={potholes}
+                    onDelete={handleDelete}
+                    onViewOnMap={handleViewOnMap}
+                  />
+                </div>
+              )
+          )}
+        </div>
       </main>
+
+      <Footer />
     </div>
   );
 }

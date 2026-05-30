@@ -1,32 +1,60 @@
 import './FilterBar.css';
 
-const FilterBar = ({ filterBlock, onFilterChange, onClearFilter, cityBlocks }) => {
-  const handleFilterChange = (e) => {
-    onFilterChange(e.target.value);
-  };
-
+function FilterBar({ 
+  selectedBlock, 
+  onBlockChange, 
+  cityBlocks = [], 
+  activeStatuses = [], 
+  onToggleStatus 
+}) {
   return (
-    <div className="filter-bar">
-      <label htmlFor="block-filter">Filtrar Por Quadra:</label>
-      <select
-        id="block-filter"
-        value={filterBlock}
-        onChange={handleFilterChange}
-        aria-label="Select city block to filter"
+    <div className="filter-toolbar-box">
+      
+      {/* 1. SELEÇÃO DE QUADRAS / BLOCOS */}
+      <select 
+        key="blocks"
+        value={selectedBlock || ''} 
+        onChange={(e) => onBlockChange(e.target.value || null)}
+        className="select-city-block"
       >
-        <option value="">Todas as Quadras</option>
-        {cityBlocks.map(block => (
-          <option key={block} value={block}>{block}</option>
+        <option value="">Todas as quadras</option>
+        {cityBlocks.map((block) => (
+          <option key={block.id} value={block.id}>
+            {block.name}
+          </option>
         ))}
       </select>
-      
-      {filterBlock && (
-        <button onClick={onClearFilter} aria-label="Clear filter">
-          Limpar Filtro
+
+      {/* 2. ALTERNADORES DE STATUS (MULTISELEÇÃO) */}
+      <div className="toggle-status-group">
+        
+        <button 
+          type="button"
+          onClick={() => onToggleStatus('OPEN')}
+          className={`btn-status-toggle ${activeStatuses.includes('OPEN') ? 'btn-status-open-active' : ''}`}
+        >
+          🔴 Abertos
         </button>
-      )}
+
+        <button 
+          type="button"
+          onClick={() => onToggleStatus('PENDING')}
+          className={`btn-status-toggle ${activeStatuses.includes('PENDING') ? 'btn-status-pending-active' : ''}`}
+        >
+          🟡 Em Análise
+        </button>
+
+        <button 
+          type="button"
+          onClick={() => onToggleStatus('FIXED')}
+          className={`btn-status-toggle ${activeStatuses.includes('FIXED') ? 'btn-status-fixed-active' : ''}`}
+        >
+          🟢 Resolvidos
+        </button>
+
+      </div>
     </div>
   );
-};
+}
 
 export default FilterBar;

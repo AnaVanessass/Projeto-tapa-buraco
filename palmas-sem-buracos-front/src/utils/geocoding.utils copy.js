@@ -5,14 +5,13 @@ export const getAddressFromCoordinates = async (lat, lng) => {
       `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}`
     );
     const data = await response.json();
-
-    if (data.status === "OK" && data.results.length > 0) {
+    
+    if (data.results && data.results[0]) {
       return data.results[0].formatted_address;
     }
-    
-    return "Endereço não encontrado";
+    return 'Endereço não encontrado';
   } catch (error) {
-    console.error("Erro ao buscar endereço:", error);
-    return "Erro ao carregar endereço";
+    console.error('Error getting address:', error);
+    return 'Endereço indisponível';
   }
 };

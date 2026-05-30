@@ -9,10 +9,6 @@ const AddPotholeForm = ({ location, onAdd, onCancel }) => {
     lat: location.lat,
     lng: location.lng,
     address: '',
-    cityBlock: '',
-    size: PotholeSize.MEDIUM,
-    severity: PotholeSeverity.MEDIUM,
-    description: '',
     imagePublicId:''
   });
 
@@ -25,7 +21,7 @@ const AddPotholeForm = ({ location, onAdd, onCancel }) => {
       const address = await getAddressFromCoordinates(location.lat, location.lng);
       setFormData(prev => ({
         ...prev,
-        address,
+        address: address,
         lat: Number(location.lat),
         lng: Number(location.lng)
       }));
@@ -39,15 +35,11 @@ const AddPotholeForm = ({ location, onAdd, onCancel }) => {
     e.preventDefault();
 
     const payload = {
-      size: formData.size,
-      severity: formData.severity,
-      description: formData.description,
       status: "OPEN",
       imagePublicId:formData.imagePublicId,
 
       address: {
         name: formData.address,
-        cityBlock: formData.cityBlock,
         lat: formData.lat,
         lng: formData.lng,
       }
@@ -77,7 +69,7 @@ const AddPotholeForm = ({ location, onAdd, onCancel }) => {
         <div className="form-group">
           <label htmlFor="address">Endereço:</label>
           <input
-            placeholder='Avenida NS 5'
+            placeholder='Buscando Endereço...'
             type="text"
             id="address"
             name="address"
@@ -88,53 +80,16 @@ const AddPotholeForm = ({ location, onAdd, onCancel }) => {
           />
         </div>
 
-        <div className="form-group">
-          <label htmlFor="cityBlock">Quadra:</label>
-          <input
-            type="text"
-            id="cityBlock"
-            name="cityBlock"
-            value={formData.cityBlock}
-            onChange={handleChange}
-            placeholder="ex: 1005 Sul"
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="size">Tamanho:</label>
-          <select id="size" name="size" value={formData.size} onChange={handleChange}>
-            <option value={PotholeSize.SMALL}>Pequeno (Até 10CM)</option>
-            <option value={PotholeSize.MEDIUM}>Médio (Até 30CM)</option>
-            <option value={PotholeSize.LARGE}>Grande (Acima de 30CM)</option>
-          </select>
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="severity">Gravidade:</label>
-          <select id="severity" name="severity" value={formData.severity} onChange={handleChange}>
-            <option value={PotholeSeverity.LOW}>Baixa</option>
-            <option value={PotholeSeverity.MEDIUM}>Média</option>
-            <option value={PotholeSeverity.HIGH}>Alta</option>
-          </select>
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="description">Descrição:</label>
-          <textarea
-            id="description"
-            placeholder='ex: Buraco na rotátoria'
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            rows="3"
-          />
-        </div>
-
         <div className="form-actions">
-          <button type="button" onClick={handleImgUpload}>Anexar Foto</button>
-          <button type="submit" disabled={isPending}>{isPending ? 'Carregando...' : 'Denunciar'}</button>
-          <button type="button" onClick={onCancel}>Cancelar</button>
+          <button type="button" onClick={handleImgUpload} className="btn-secondary-sm">
+            {formData.imagePublicId ? '✅ Foto Anexada' : '📷 Anexar Foto'}
+          </button>
+          <button type="submit" disabled={isPending} className="btn-action-primary">
+            {isPending ? 'Carregando...' : 'Enviar Denúncia'}
+          </button>
+          <button type="button" onClick={onCancel} className="modal-btn-cancel">
+            Cancelar
+          </button>
         </div>
       </form>
     </div>

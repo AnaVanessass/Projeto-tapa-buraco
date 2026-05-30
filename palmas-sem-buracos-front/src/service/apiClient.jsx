@@ -20,4 +20,9 @@ export const deletePothole = async (id) => {
   return data;
 };
 
+export const fetchBlocks = async () => {
+  const {data} = await api.get("/blocks/");
+  return data || [];
+}
+
 export default api;
