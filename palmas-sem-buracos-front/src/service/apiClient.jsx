@@ -25,8 +25,8 @@ export const deletePothole = async (id) => {
   return data;
 };
 
-export const changePotholeStatus = async (id, payload) => {
-  const {data} = await api.post(`/complaints/${id}`, payload);
+export const changePotholeStatus = async ({id, status}) => {
+  const {data} = await api.post(`/complaints/${id}`, {status});
   return data;
 };
 
@@ -35,9 +35,17 @@ export const fetchBlocks = async () => {
   return data || [];
 }
 
-export const searchComplaint = async () => {
-  const {data} = await api.get("/complaints/search");
-  return data || [];
+export const searchComplaint = async (filters) => {
+  const {data} = await api.get("/complaints/search", {
+        params: {
+          address: filters?.address || undefined,
+          status: filters?.status || undefined,
+          page: filters?.page || 0,
+          size: filters?.size || 10,
+          sort: 'id,desc'
+        }
+      });
+  return data;
 }
 
 export const addressById = async () => {

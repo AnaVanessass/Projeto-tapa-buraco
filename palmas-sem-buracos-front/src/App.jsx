@@ -5,7 +5,7 @@ import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AuthCallback } from './components/auth/AuthCallback';
 import CompletarPerfil from './components/profile/CompleteProfile';
-import AdminPanel from './components/adminPage/Admin';
+import AdminPanel from './components/adminPage/AdminPanel';
 
 function App() {
   return(

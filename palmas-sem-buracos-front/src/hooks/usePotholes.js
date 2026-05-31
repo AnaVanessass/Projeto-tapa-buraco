@@ -1,7 +1,6 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient, keepPreviousData } from "@tanstack/react-query";
 import { changePotholeStatus, fetchPotholes, createPothole, deletePothole, searchComplaint } from "../service/apiClient";
 import { normalizePothole } from "../utils/normalizePothole";
-
 
 export const usePotholes = () => {
   return useQuery({
@@ -12,10 +11,12 @@ export const usePotholes = () => {
 };
 
 export const useChangePotholeStatus = () => {
-  return useQuery({
-    queryKey: ["potholes"],
-    queryFn: changePotholeStatus,
-    select: (data) => data.map(normalizePothole),
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: changePotholeStatus,
+    onSuccess: () => {queryClient.invalidateQueries(["potholes"]);},
+    onError: (error) => {alert("Erro ao atualizar o status. Tente novamente.");},
   });
 };
 
@@ -24,10 +25,7 @@ export const useCreatePothole = () => {
 
   return useMutation({
     mutationFn: createPothole,
-
-    onSuccess: () => {
-      queryClient.invalidateQueries(["potholes"]);
-    },
+    onSuccess: () => {queryClient.invalidateQueries(["potholes"]);},
   });
 };
 
@@ -36,16 +34,18 @@ export const useDeletePothole = () => {
 
   return useMutation({
     mutationFn: deletePothole,
-
     onSuccess: () => {
       queryClient.invalidateQueries(["potholes"]);
+      alert("Chamado deletado com sucesso!");
     },
+    onError: (error) => {alert("Erro ao deletar denúncia. Tente novamente.");}
   });
 };
 
-export const useSearchAddress = () => {
+export const useSearchAddress = (filters) => {
   return useQuery({
-    queryKey: ["potholes"],
-    queryFn: searchComplaint
+    queryKey: ["potholes", filters],
+    queryFn: () => searchComplaint(filters),
+    placeholderData: (keepPreviousData) => keepPreviousData,
   });
 };
