@@ -3,7 +3,6 @@ package estudante.ubiracy.palmassemburacos.service;
 import estudante.ubiracy.palmassemburacos.model.Address;
 import estudante.ubiracy.palmassemburacos.model.dto.AddressDTO;
 import estudante.ubiracy.palmassemburacos.repository.AddressRepository;
-import estudante.ubiracy.palmassemburacos.util.AddressParser;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -57,7 +56,4 @@ public class AddressService {
         repository.deleteById(id);
     }
 
-    public List<String> findBlocks() {
-        return repository.findAllCityBlocks();
-    }
 }

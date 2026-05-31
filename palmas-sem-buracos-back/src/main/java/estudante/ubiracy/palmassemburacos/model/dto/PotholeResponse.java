@@ -7,5 +7,7 @@ public record PotholeResponse(
         Double lng,
         String blockName,
         String address,
-        String createdAt
+        String createdAt,
+        String blockIdPlace,
+        String status
 ){};

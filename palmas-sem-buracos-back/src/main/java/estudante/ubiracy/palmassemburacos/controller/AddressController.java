@@ -47,13 +47,13 @@ public class AddressController {
         return ResponseEntity.ok(addr);
     }
 
-    @PutMapping("/{id}/update")
+    @PutMapping("/{id}")
     public ResponseEntity<Address> update(@PathVariable Long id, @RequestBody Address address) {
         Address addr = service.update(id, address);
         return ResponseEntity.ok(addr);
     }
 
-    @DeleteMapping("/{id}/delete")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Address> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();

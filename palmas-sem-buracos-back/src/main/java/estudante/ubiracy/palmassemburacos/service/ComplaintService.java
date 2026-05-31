@@ -2,12 +2,14 @@ package estudante.ubiracy.palmassemburacos.service;
 
 import estudante.ubiracy.palmassemburacos.model.Complaint;
 import estudante.ubiracy.palmassemburacos.model.User;
-import estudante.ubiracy.palmassemburacos.model.dto.ComplaintDTO;
-import estudante.ubiracy.palmassemburacos.model.dto.PotholeResponse;
-import estudante.ubiracy.palmassemburacos.model.dto.UpdateStatusDTO;
+import estudante.ubiracy.palmassemburacos.model.dto.*;
+import estudante.ubiracy.palmassemburacos.model.enums.PotholeStatus;
+import estudante.ubiracy.palmassemburacos.model.enums.UserRole;
 import estudante.ubiracy.palmassemburacos.model.mapper.PotholeMapper;
 import estudante.ubiracy.palmassemburacos.repository.ComplaintRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,15 +27,15 @@ public class ComplaintService {
     }
 
     public List<PotholeResponse> allComplaints(){
-        return repo.findAll()
+        return repo.findAllByIsDeletedFalse()
                 .stream()
-                .filter(r -> !r.isDeleted())
                 .map(mapper::toResponse)
                 .toList();
     }
 
-    public Complaint findById(Long id){
-        return repo.findById(id).orElseThrow(() -> new RuntimeException("Denúncia não encontrada"));
+    public PotholeResponse findById(Long id){
+        var complaint = repo.findById(id).orElseThrow(() -> new RuntimeException("Denúncia não encontrada"));
+        return mapper.toResponse(complaint);
     }
 
     public PotholeResponse save(String email, ComplaintDTO complaint){
@@ -46,17 +48,60 @@ public class ComplaintService {
 
     @Transactional
     public void delete(Long id){
-        Complaint c = this.findById(id);
+        Complaint c = repo.findById(id).orElseThrow(() -> new RuntimeException("Denúncia não encontrada"));
         c.setDeleted(true);
         repo.save(c);
     }
 
     public PotholeResponse updateStatus(UpdateStatusDTO dto) {
-        Complaint c = this.findById(dto.id());
+        Complaint c = repo.findById(dto.id()).orElseThrow(() -> new RuntimeException("Denúncia não encontrada"));
         c.setStatus(dto.status());
         repo.save(c);
         return mapper.toResponse(c);
     }
 
 
+    public List<PotholeResponse> allByStatus(PotholeStatus status) {
+        return repo.findByStatus(status)
+                .stream()
+                .map(mapper::toResponse)
+                .toList();
+    }
+
+    public List<PotholeResponse> findByAddressNameContaining(String addressName) {
+        return repo.findByAddressNameContainingAndIsDeletedFalse(addressName)
+                .stream()
+                .map(mapper::toResponse)
+                .toList();
+    }
+
+    public Page<PotholeResponse> findPagesByAddressName(String addressName, Pageable pageable) {
+        return repo.findByAddressNameContainingAndIsDeletedFalse(addressName, pageable)
+                .map(mapper::toResponse);
+    }
+
+    public Page<PotholeResponse> searchPotholes(
+            PotholeSearchFilter dto,
+            String currentUserEmail,
+            Pageable pageable
+    ) {
+        var user = userService.findByEmail(currentUserEmail).orElseThrow();
+        Long userId = user.getId();
+        UserRole userRole = user.getRole();
+        String addrFilter = (dto.address() != null && !dto.address().isBlank()) ? dto.address() : null;
+        String blockFilter = (dto.blockName() != null && !dto.blockName().isBlank()) ? dto.blockName() : null;
+
+        Page<Complaint> complaints = repo.findByOptionalFilters(
+                userId, userRole, addrFilter, dto.status(), blockFilter,
+                dto.startDate(), dto.endDate(), pageable
+        );
+
+        return complaints.map(mapper::toResponse);
+    }
+
+    public List<PotholeMapMarker> getMapMarkers(String email) {
+        var user = userService.findByEmail(email).orElseThrow();
+        return repo.findActiveMapMarkers(user.getId(), user.getRole());
+
+    }
 }

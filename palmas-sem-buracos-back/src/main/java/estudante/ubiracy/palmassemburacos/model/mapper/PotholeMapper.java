@@ -20,7 +20,7 @@ public class PotholeMapper {
         Address address = addressService.create(req.address());
 
         Complaint pothole = new Complaint();
-        pothole.setStatus(PotholeStatus.OPEN);
+        pothole.setStatus(PotholeStatus.PENDING);
         pothole.setImagePublicId(req.imagePublicId());
         pothole.setAddress(address);
 
@@ -46,7 +46,9 @@ public class PotholeMapper {
                 c.getAddress().getLng(),
                 c.getAddress().getCityBlock().getName(),
                 c.getAddress().getName(),
-                c.getCreatedAt().toString()
+                c.getCreatedAt().toString(),
+                c.getAddress().getCityBlock().getIdPlace(),
+                c.getStatus().toString()
         );
     }
 }
