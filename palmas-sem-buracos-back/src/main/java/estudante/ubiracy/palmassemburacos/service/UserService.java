@@ -1,5 +1,6 @@
 package estudante.ubiracy.palmassemburacos.service;
 
+import estudante.ubiracy.palmassemburacos.model.dto.UserResponseDTO;
 import estudante.ubiracy.palmassemburacos.model.dto.UserUpdateDTO;
 import estudante.ubiracy.palmassemburacos.model.User;
 import estudante.ubiracy.palmassemburacos.model.enums.UserRole;
@@ -80,8 +81,8 @@ public class UserService {
         return repository.findById(id).orElseThrow();
     }
 
-    public Page<User> findAll(Pageable pageable) {
-        return repository.findAll(pageable);
+    public Page<UserResponseDTO> findAll(String search, Pageable pageable) {
+        return repository.findAll(search, pageable);
     }
 
 }

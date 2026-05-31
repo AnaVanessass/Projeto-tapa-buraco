@@ -6,11 +6,13 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Transient;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.locationtech.jts.geom.Polygon;
 
 import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true, exclude = "address")
+@ToString(exclude = "address")
 @Entity
 @Data
 public class CityBlock extends BaseEntity {

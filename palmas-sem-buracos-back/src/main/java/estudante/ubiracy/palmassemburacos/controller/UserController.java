@@ -1,5 +1,6 @@
 package estudante.ubiracy.palmassemburacos.controller;
 
+import estudante.ubiracy.palmassemburacos.model.dto.UserResponseDTO;
 import estudante.ubiracy.palmassemburacos.model.dto.UserUpdateDTO;
 import estudante.ubiracy.palmassemburacos.model.User;
 import estudante.ubiracy.palmassemburacos.service.UserService;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/users")
 public class UserController {
     private final UserService userService;
 
@@ -27,9 +28,9 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<Page<User>> getAllUsers(@PageableDefault Pageable pageable) {
-        Page<User> list = userService.findAll(pageable);
+    @GetMapping("/")
+    public ResponseEntity<Page<UserResponseDTO>> getAllUsers(String search, @PageableDefault Pageable pageable) {
+        Page<UserResponseDTO> list = userService.findAll(search, pageable);
         return ResponseEntity.ok(list);
     }
 

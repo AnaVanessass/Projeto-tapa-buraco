@@ -6,10 +6,12 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true, exclude = "complaint")
+@ToString(exclude = "complaint")
 @Entity
 @Data
 public class Address extends BaseEntity{

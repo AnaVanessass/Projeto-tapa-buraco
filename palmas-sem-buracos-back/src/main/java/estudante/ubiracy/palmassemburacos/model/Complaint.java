@@ -4,8 +4,10 @@ import estudante.ubiracy.palmassemburacos.model.enums.PotholeStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true, exclude = {"address", "user"})
+@ToString(exclude = {"address", "user"})
 @Entity
 @Data
 public class Complaint extends BaseEntity{
