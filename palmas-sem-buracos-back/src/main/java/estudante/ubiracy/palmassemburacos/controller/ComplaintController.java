@@ -87,8 +87,9 @@ public class ComplaintController {
 
     @PostMapping("/{id}")
     public ResponseEntity<PotholeResponse> updateStatus(@AuthenticationPrincipal String email,
+                                                        @PathVariable Long id,
                                                         @RequestBody UpdateStatusDTO dto){
-        PotholeResponse updated = service.updateStatus(dto);
+        PotholeResponse updated = service.updateStatus(id, dto);
         return new ResponseEntity<>(updated, HttpStatus.ACCEPTED);
     }
 }

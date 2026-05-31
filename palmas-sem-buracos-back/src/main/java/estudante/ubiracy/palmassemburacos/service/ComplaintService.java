@@ -53,8 +53,9 @@ public class ComplaintService {
         repo.save(c);
     }
 
-    public PotholeResponse updateStatus(UpdateStatusDTO dto) {
-        Complaint c = repo.findById(dto.id()).orElseThrow(() -> new RuntimeException("Denúncia não encontrada"));
+    public PotholeResponse updateStatus(Long id, UpdateStatusDTO dto) {
+        Complaint c = repo.findById(id).orElseThrow(() -> new RuntimeException("Denúncia não encontrada"));
+        if (dto.status() == null) {throw new RuntimeException("Status inválido");}
         c.setStatus(dto.status());
         repo.save(c);
         return mapper.toResponse(c);

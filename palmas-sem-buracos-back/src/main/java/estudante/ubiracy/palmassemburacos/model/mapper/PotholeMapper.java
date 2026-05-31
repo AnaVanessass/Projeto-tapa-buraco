@@ -48,7 +48,7 @@ public class PotholeMapper {
                 c.getAddress().getName(),
                 c.getCreatedAt().toString(),
                 c.getAddress().getCityBlock().getIdPlace(),
-                c.getStatus().toString()
+                c.getStatus().name()
         );
     }
 }
