@@ -8,7 +8,6 @@ import AddPotholeForm from '../addPothole/AddPotholeForm';
 import FilterBar from '../filterBar/FilterBar';
 import { usePotholes, useCreatePothole, useDeletePothole } from '../../hooks/usePotholes';
 import { ViewMode, DEFAULT_MAP_CENTER } from '../../types/pothole.types';
-import { usePotholesOld } from '../../hooks/usePotholesOld';
 import { useCityBlocks} from '../../hooks/useCityBlocks';
 import './MapRender.css';
 
@@ -21,7 +20,6 @@ function MapRender() {
   const [mapError, setMapError] = useState(null);
   const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
   
-  const { filterBlock, cityBlocks, updateFilter, clearFilter } = usePotholesOld();
   const { data: blocks = [], isPending: isBlocksPending } = useCityBlocks();
   const { data: potholes = [], isPending: isPotholesPending } = usePotholes();
   const createMutation = useCreatePothole();

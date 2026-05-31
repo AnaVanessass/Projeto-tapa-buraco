@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient, keepPreviousData } from "@tanstack/react-query";
-import { changePotholeStatus, fetchPotholes, createPothole, deletePothole, searchComplaint } from "../service/apiClient";
+import { changePotholeStatus, fetchPotholes, createPothole, deletePothole, searchComplaint } from "../service/potholeService";
 import { normalizePothole } from "../utils/normalizePothole";
 
 export const usePotholes = () => {

@@ -1,9 +1,4 @@
-import axios from 'axios';
-
-const api = axios.create({
-  baseURL: 'http://localhost:8080/api',
-  withCredentials: true,
-});
+import api from './apiClient'
 
 export const fetchPotholes = async () => {
   const { data } = await api.get("/complaints/");
@@ -47,25 +42,3 @@ export const searchComplaint = async (filters) => {
       });
   return data;
 }
-
-export const addressById = async () => {
-  const {data} = await api.get(`/address/${id}`);
-  return data || [];
-}
-
-export const updateAddressById = async () => {
-  const {data} = await api.put(`/address/${id}`);
-  return data || [];
-}
-
-export const deleteAddressById = async () => {
-  const {data} = await api.delete(`/address/${id}`);
-  return data || [];
-}
-
-export const fetchUsers = async () => {
-  const { data } = await api.get("/users/");
-  return data;
-};
-
-export default api;

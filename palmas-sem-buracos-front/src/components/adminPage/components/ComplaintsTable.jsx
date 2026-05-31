@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useSearchAddress, useChangePotholeStatus, useDeletePothole } from '../../../hooks/usePotholes';
 import { normalizePothole } from '../../../utils/normalizePothole';
 import { useDebounce } from '../../../hooks/useDebounce';
+import { AdminPagination } from './AdminPagination';
 
 export function ComplaintsTable() {
   const [statusFilter, setStatusFilter] = useState('todos');
@@ -79,7 +80,11 @@ export function ComplaintsTable() {
             </thead>
             <tbody>
               {potholesList.length === 0 ? (
-                <tr><td>Nenhum chamado encontrado.</td></tr>
+                <tr>
+                  <td colSpan="7" style={{ textAlign: 'center', padding: '2rem' }}>
+                    Nenhum chamado encontrado.
+                  </td>
+                </tr>
               ) : (
                 potholesList.map((chamado) => (
                   <tr key={chamado.id}>
@@ -109,7 +114,7 @@ export function ComplaintsTable() {
                         type="button" 
                         onClick={() => window.confirm(`Excluir chamado #${chamado.id}?`) && deletePothole(chamado.id)}
                         disabled={isDeleting}
-                        className="btn-table-edit"
+                        className="btn-table-delete"
                       >
                         🗑️ Excluir
                       </button>
@@ -122,13 +127,11 @@ export function ComplaintsTable() {
         )}
       </div>
 
-      <footer className="admin-pagination-box">
-        <button className="btn-page-arrow" onClick={() => setCurrentPage(p => Math.max(0, p - 1))} disabled={currentPage === 0}>&larr;</button>
-        {[...Array(totalPages).keys()].map((pageNumber) => (
-          <button key={pageNumber} onClick={() => setCurrentPage(pageNumber)} className={`btn-page-number ${currentPage === pageNumber ? 'btn-page-number-active' : ''}`}>{pageNumber + 1}</button>
-        ))}
-        <button className="btn-page-arrow" onClick={() => setCurrentPage(p => Math.min(totalPages - 1, p + 1))} disabled={currentPage === totalPages - 1}>&rarr;</button>
-      </footer>
+      <AdminPagination 
+        currentPage={currentPage} 
+        totalPages={totalPages} 
+        onPageChange={setCurrentPage} 
+      />
     </>
   );
 }
