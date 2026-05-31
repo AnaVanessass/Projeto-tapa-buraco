@@ -9,7 +9,7 @@ export function AuthCallback() {
     const profileComplete = searchParams.get('profileComplete') === 'true';
 
     if (profileComplete) {
-      navigate('/dashboard');
+      navigate('/mapa');
     } else {
       navigate('/completar-perfil');
     }

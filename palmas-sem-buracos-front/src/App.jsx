@@ -5,6 +5,7 @@ import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AuthCallback } from './components/auth/AuthCallback';
 import CompletarPerfil from './components/profile/CompleteProfile';
+import AdminPanel from './components/adminPage/Admin';
 
 function App() {
   return(
@@ -16,6 +17,7 @@ function App() {
       <Route path="/auth-callback" element={<AuthCallback />} />
       <Route path="/completar-perfil" element={<CompletarPerfil />} />
       <Route path="/dashboard" element={<MapRender />} />
+      <Route path="/admin" element={<AdminPanel />} />
     </Routes>
   </BrowserRouter>
   )

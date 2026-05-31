@@ -1,0 +1,139 @@
+@import "tailwindcss";
+
+/* Container estrutural centralizado na tela */
+@utility admin-page-container {
+  @apply w-full max-w-5xl mx-auto px-6 py-8 font-sans bg-[var(--color-bg-main)] min-h-screen flex flex-col;
+}
+
+/* Alinhamento horizontal da barra de título superior */
+@utility admin-header {
+  @apply w-full flex items-center justify-between pb-6 border-b border-[var(--color-border-light)];
+}
+
+@utility admin-title {
+  @apply text-2xl font-semibold text-[var(--color-txt-primary)] tracking-tight;
+}
+
+/* Badge do Usuário Logado (Canto Superior Direito) */
+@utility admin-user-badge {
+  @apply flex items-center gap-3 bg-[var(--color-bg-footer)] p-[0.375rem_1rem] rounded-[var(--radius-md)] border border-[var(--color-border-light)];
+}
+
+@utility admin-avatar {
+  @apply w-8 h-8 rounded-full bg-[var(--color-brand-primary)] text-white font-bold text-sm flex items-center justify-center shadow-sm;
+}
+
+@utility admin-username {
+  @apply text-sm font-medium text-[var(--color-txt-muted)];
+}
+
+/* Menu de Abas (Tabs) do Figma */
+@utility admin-nav-tabs {
+  @apply flex gap-8 w-full mt-6 border-b border-[var(--color-border-light)];
+}
+
+@utility admin-tab-btn {
+  @apply pb-3 text-base font-medium text-[var(--color-txt-secondary)] transition-all bg-transparent border-b-2 border-transparent cursor-pointer hover:text-[var(--color-txt-primary)];
+}
+
+@utility admin-tab-btn-active {
+  @apply text-[var(--color-brand-primary)] border-[var(--color-brand-primary)] font-semibold hover:text-[var(--color-brand-primary)];
+}
+
+/* Barra de Pesquisa e Filtro de Status */
+@utility admin-filter-bar {
+  @apply w-full flex flex-col sm:flex-row gap-4 mt-8;
+}
+
+@utility admin-select-filter {
+  @apply w-full sm:w-80 p-[0.75rem_1rem] text-sm text-[var(--color-txt-primary)] bg-white border border-[var(--color-border-medium)] rounded-[var(--radius-md)] outline-none cursor-pointer transition-colors focus:border-[var(--color-brand-primary)];
+}
+
+@utility admin-search-input {
+  @apply flex-1 p-[0.75rem_1rem] text-sm text-[var(--color-txt-primary)] bg-white border border-[var(--color-border-medium)] rounded-[var(--radius-md)] outline-none transition-colors focus:border-[var(--color-brand-primary)];
+}
+
+/* Linha de Ação Secundária (CSV e Contador) */
+@utility admin-action-row {
+  @apply w-full flex items-center justify-between mt-6;
+}
+
+@utility btn-csv-report {
+  @apply p-[0.5rem_1.25rem] text-sm font-medium text-[var(--color-txt-muted)] bg-white border border-[var(--color-border-medium)] rounded-[var(--radius-md)] transition-all cursor-pointer hover:bg-[var(--color-bg-footer)] hover:text-[var(--color-txt-primary)] active:scale-98 shadow-sm;
+}
+
+@utility admin-counter-text {
+  @apply text-sm font-medium text-[var(--color-txt-secondary)];
+}
+
+/* Tabela Semântica do Figma */
+@utility admin-table-wrapper {
+  @apply w-full overflow-x-auto mt-6 border border-[var(--color-border-light)] rounded-[var(--radius-lg)] bg-white shadow-sm;
+}
+
+@utility admin-data-table {
+  @apply w-full text-left border-collapse text-sm;
+}
+
+.admin-data-table th {
+  background-color: var(--color-bg-footer);
+  border-bottom: 0.0625rem solid var(--color-border-light);
+  padding: 1rem 1.5rem;
+  font-weight: 500;
+  color: var(--color-txt-secondary);
+}
+
+.admin-data-table td {
+  border-bottom: 0.0625rem solid var(--color-border-light);
+  padding: 1.25rem 1.5rem;
+  color: var(--color-txt-muted);
+  vertical-align: middle;
+}
+
+/* Efeito Hover nas linhas tratado com CSS puro e variáveis */
+.admin-data-table tr:hover td {
+  background-color: rgba(241, 245, 249, 0.5); /* Equivalente ao slate-50/50 */
+}
+
+/* Botão de Ação Interno da Tabela */
+@utility btn-table-edit {
+  @apply flex items-center gap-1 text-[var(--color-brand-primary)] font-medium bg-transparent border-none cursor-pointer hover:underline transition-all;
+}
+
+/* Tags de Status Arredondadas (Badges) */
+@utility badge-status-base {
+  @apply p-[0.375rem_0.875rem] text-xs font-semibold rounded-full text-white tracking-wide shadow-sm inline-block text-center;
+}
+
+@utility badge-status-waiting {
+  @apply bg-[var(--color-brand-danger)];
+}
+
+@utility badge-status-progress {
+  @apply bg-[var(--color-brand-warning)] text-[var(--color-txt-primary)] shadow-none;
+}
+
+@utility badge-status-done {
+  @apply bg-[var(--color-brand-success)];
+}
+
+/* Caixa de Paginação Inferior */
+@utility admin-pagination-box {
+  @apply w-full flex items-center justify-center gap-2 mt-10 pb-12;
+}
+
+@utility btn-page-number {
+  @apply w-9 h-9 flex items-center justify-center rounded-[var(--radius-sm)] border border-[var(--color-border-medium)] text-sm font-medium text-[var(--color-txt-muted)] bg-white transition-all cursor-pointer hover:border-[var(--color-brand-primary)] hover:text-[var(--color-brand-primary)];
+}
+
+@utility btn-page-number-active {
+  @apply bg-[var(--color-brand-primary)] text-white border-[var(--color-brand-primary)] hover:text-white;
+}
+
+@utility btn-page-arrow {
+  @apply w-9 h-9 flex items-center justify-center rounded-[var(--radius-sm)] border border-[var(--color-border-medium)] text-sm bg-white text-[var(--color-txt-muted)] cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed;
+}
+
+@utility id {
+  @apply font-semibold text-[var(--color-txt-primary)];
+}

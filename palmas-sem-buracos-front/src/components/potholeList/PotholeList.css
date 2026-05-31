@@ -69,9 +69,9 @@
 }
 
 .image-hover-preview {
-  position: fixed; /* Fixado em relação à janela do navegador */
-  z-index: 9999; /* Garante que fica por cima de qualquer elemento/mapa */
-  pointer-events: none; /* Impede que o preview interfira nos movimentos do mouse */
+  position: fixed; 
+  z-index: 9999; 
+  pointer-events: none; 
   background-color: #ffffff;
   padding: 6px;
   border-radius: 12px;
@@ -86,7 +86,7 @@
   display: block;
   width: 300px;
   height: 200px;
-  object-fit: cover; /* Recorta a imagem proporcionalmente sem distorcer */
+  object-fit: contain; /* Recorta a imagem proporcionalmente sem distorcer */
   border-radius: 8px;
 }
 

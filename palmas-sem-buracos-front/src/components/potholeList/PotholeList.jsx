@@ -1,6 +1,6 @@
 import './PotholeList.css';
 import { useState } from 'react';
-import MyImage from '../../utils/cloudinaryImg';
+import MyImage from '../../utils/cloudinaryImg.jsx';
 
 const PotholeList = ({ potholes, onDelete, onViewOnMap }) => {
   const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_NAME;

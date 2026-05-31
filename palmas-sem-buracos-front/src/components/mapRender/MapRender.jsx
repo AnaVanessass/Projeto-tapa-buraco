@@ -6,11 +6,9 @@ import Map from '../map/Map';
 import PotholeList from '../potholeList/PotholeList';
 import AddPotholeForm from '../addPothole/AddPotholeForm';
 import FilterBar from '../filterBar/FilterBar';
-import { usePotholes } from '../../hooks/usePotholes';
+import { usePotholes, useCreatePothole, useDeletePothole } from '../../hooks/usePotholes';
 import { ViewMode, DEFAULT_MAP_CENTER } from '../../types/pothole.types';
 import { usePotholesOld } from '../../hooks/usePotholesOld';
-import { useCreatePothole } from '../../hooks/useCreatePothole';
-import { useDeletePothole } from '../../hooks/useDeletePothole';
 import { useCityBlocks} from '../../hooks/useCityBlocks';
 import './MapRender.css';
 
@@ -39,7 +37,8 @@ function MapRender() {
   };
 
   const filteredPotholes = potholes.filter((pothole) => {
-    const matchesBlock = !selectedBlock || pothole.cityBlockId === selectedBlock;
+    console.log(pothole);
+    const matchesBlock = !selectedBlock || pothole.blockName === selectedBlock;
     const matchesStatus = activeStatuses.includes(pothole.status);
     
     return matchesBlock && matchesStatus;
@@ -75,16 +74,6 @@ function MapRender() {
     setMapError('Erro técnico ao renderizar os mapas públicos.');
   }, []);
 
-    // console.log("=== DEBUG FILTRAGEM URBANA ===");
-    // console.log("Filtro Selecionado na Tela:", JSON.stringify(selectedBlock));
-    // potholes.forEach((p, index) => {
-    //   console.log(`Buraco #${index + 1} [ID: ${p.id}]:`, {
-    //     originalNoBanco: p.cityBlock,
-    //     aposNormalizacao: p.cityBlock,
-    //     bateComOFiltro: p.cityBlock === String(selectedBlock).toLowerCase().replace("quadra", "").trim()
-    //   });
-    // });
-    // console.log("===============================");
 
   return (
     <div className="page-container">
