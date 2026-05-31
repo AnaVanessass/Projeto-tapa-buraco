@@ -87,7 +87,7 @@ public class ComplaintService {
     ) {
         var user = userService.findByEmail(currentUserEmail).orElseThrow();
         Long userId = user.getId();
-        UserRole userRole = user.getRole();
+        String userRole = user.getRole().name();
         String addrFilter = (dto.address() != null && !dto.address().isBlank()) ? dto.address() : null;
         String blockFilter = (dto.blockName() != null && !dto.blockName().isBlank()) ? dto.blockName() : null;
 
@@ -101,7 +101,7 @@ public class ComplaintService {
 
     public List<PotholeMapMarker> getMapMarkers(String email) {
         var user = userService.findByEmail(email).orElseThrow();
-        return repo.findActiveMapMarkers(user.getId(), user.getRole());
+        return repo.findActiveMapMarkers(user.getId(), user.getRole().name());
 
     }
 }

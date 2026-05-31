@@ -36,7 +36,7 @@ public interface ComplaintRepository extends JpaRepository<Complaint, Long> {
 
     Page<Complaint> findByOptionalFilters(
             @Param("currentUserId") Long currentUserId,
-            @Param("isAdmin") UserRole isAdmin,
+            @Param("isAdmin") String isAdmin,
             @Param("address") String address,
             @Param("status") PotholeStatus status,
             @Param("blockName") String blockName,
@@ -53,7 +53,7 @@ public interface ComplaintRepository extends JpaRepository<Complaint, Long> {
             "AND (:isAdmin = 'ADMIN' OR c.user.Id = :currentUserId OR c.status != 'PENDING')")
     List<PotholeMapMarker> findActiveMapMarkers(
             @Param("currentUserId") Long currentUserId,
-            @Param("isAdmin")UserRole role
+            @Param("isAdmin")String role
             );
 
 }
