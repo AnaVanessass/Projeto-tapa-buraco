@@ -1,5 +1,6 @@
 package estudante.ubiracy.palmassemburacos.controller;
 
+import estudante.ubiracy.palmassemburacos.model.dto.UserAuthDTO;
 import estudante.ubiracy.palmassemburacos.model.dto.UserResponseDTO;
 import estudante.ubiracy.palmassemburacos.model.dto.UserUpdateDTO;
 import estudante.ubiracy.palmassemburacos.model.User;
@@ -54,10 +55,8 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<User> me(@AuthenticationPrincipal String email) {
-        User user = userService.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
+    public ResponseEntity<UserAuthDTO> me(@AuthenticationPrincipal String email) {
+        var user = userService.findByEmailForAuth(email);
         return ResponseEntity.ok(user);
     }
 }

@@ -1,6 +1,7 @@
 package estudante.ubiracy.palmassemburacos.repository;
 
 import estudante.ubiracy.palmassemburacos.model.User;
+import estudante.ubiracy.palmassemburacos.model.dto.UserAuthDTO;
 import estudante.ubiracy.palmassemburacos.model.dto.UserResponseDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

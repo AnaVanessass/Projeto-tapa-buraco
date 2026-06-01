@@ -1,5 +1,6 @@
 package estudante.ubiracy.palmassemburacos.service;
 
+import estudante.ubiracy.palmassemburacos.model.dto.UserAuthDTO;
 import estudante.ubiracy.palmassemburacos.model.dto.UserResponseDTO;
 import estudante.ubiracy.palmassemburacos.model.dto.UserUpdateDTO;
 import estudante.ubiracy.palmassemburacos.model.User;
@@ -61,6 +62,17 @@ public class UserService {
 
     public Optional<User> findByEmail(String email){
         return repository.findByEmail(email, User.class);
+    }
+
+    public UserAuthDTO findByEmailForAuth(String email){
+        return repository.findByEmail(email, User.class)
+                .map(u -> new UserAuthDTO(
+                        u.getId(),
+                        u.getName(),
+                        u.getUsername(),
+                        u.getEmail(),
+                        u.getRole().name()))
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
     public void delete(Long id) {
