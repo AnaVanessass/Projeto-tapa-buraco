@@ -7,29 +7,10 @@ function Login() {
   };
 
   return (
-    <div className="page-container">
-      
-      {/* NAVBAR DE RETORNO */}
-      <header className="app-navbar">
-        <div className="navbar-itens">
-          <Link to="/" className="logo-icon">P</Link>
-          <span className="txt-brand-name">Palmas sem Buracos</span>
-        </div>
-        <div className="navbar-itens">
-          <Link to="/">
-            <button className="btn-secondary-sm">Voltar ao início</button>
-          </Link>
-        </div>
-      </header>
-
-      {/* ÁREA CENTRALIZADA DO CARD */}
       <main className="login-content-box">
         <div className="login-card">
-          
-          {/* LOGOTIPO DO CARD */}
           <div className="logo-icon-lg">P</div>
-          
-          {/* TEXTOS INFORMATIVOS */}
+    
           <div className="login-header-group">
             <h1 className="txt-card-title">Entrar no Sistema</h1>
             <p className="txt-card-desc">
@@ -50,13 +31,6 @@ function Login() {
 
         </div>
       </main>
-
-      {/* RODAPÉ DO SISTEMA */}
-      <footer className="footer">
-        <p className="footer-p">IFTO - Projeto de Extensão 2026</p>
-      </footer>
-      
-    </div>
   );
 }
 

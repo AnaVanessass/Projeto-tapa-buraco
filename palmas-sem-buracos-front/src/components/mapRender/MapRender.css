@@ -1,32 +1,98 @@
-@import "tailwindcss";
+/* ==========================================================================
+   PAINEL GERAL DO MAPA INTERATIVO PÚBLICO
+   ========================================================================== */
 
 /* Container interno da página do mapa ativo */
-@utility map-content-box {
-  @apply flex-1 w-full max-w-4xl mx-auto px-4 py-8 flex flex-col;
+.map-content-box {
+  flex: 1 0 auto;
+  width: min(100%, var(--size-content-width));
+  margin-left: auto;
+  margin-right: auto;
+  padding: var(--space-xl) var(--space-md); /* 32px 16px */
+  display: flex;
+  flex-direction: column;
 }
 
 /* Envelopamento da barra de filtros com o fundo branco do Figma */
-@utility filter-wrapper-card {
-  @apply mb-6 bg-white p-4 rounded-[var(--radius-lg)] border border-[var(--color-border-light)] shadow-sm;
+.filter-wrapper-card {
+  margin-bottom: var(--space-lg); /* 24px */
+  background-color: #ffffff;
+  padding: var(--space-md); /* 16px */
+  border-radius: var(--radius-lg);
+  border: 0.0625rem solid var(--color-border-light);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-/* Moldura funcional que envolve o mapa/lista */
-@utility live-map-frame {
-  @apply w-full h-[450px] rounded-[var(--radius-xl)] relative bg-[var(--color-bg-frame)] border border-[var(--color-border-dark)] overflow-hidden shadow-inner md:h-[550px];
+/* Moldura funcional que envolve o mapa/lista (Bordas Largas do Figma) */
+.live-map-frame {
+  width: 100%;
+  height: 28.125rem; /* 450px */
+  border-radius: var(--radius-xl); /* 24px */
+  position: relative;
+  background-color: var(--color-bg-frame);
+  border: 0.0625rem solid var(--color-border-dark);
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
-/* Container do formulário flutuante interno */
-@utility pothole-floating-modal {
-  @apply absolute bottom-6 left-6 z-20 w-[90%] rounded-[var(--radius-xl)] bg-white p-5 shadow-2xl border border-[var(--color-border-light)] sm:w-[360px];
+@media (min-width: 768px) {
+  .live-map-frame {
+    height: 34.375rem; /* 550px (md:h-[550px]) */
+  }
 }
 
-/* Texto de erro ou aviso centralizado */
-@utility map-api-error-box {
-  @apply flex h-full items-center justify-center text-[var(--color-txt-secondary)] p-4 text-center text-sm font-light;
+/* Container do formulário flutuante interno (Modal de Cadastro) */
+.pothole-floating-modal {
+  position: absolute;
+  bottom: var(--space-md);
+  left: var(--space-md);
+  border-radius: var(--radius-xl);
+  background-color: #ffffff;
+  padding: var(--space-lg);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border: 0.0625rem solid var(--color-border-light);
 }
 
-@utility model-tittle{@apply font-semibold text-sm text-[var(--color-txt-primary)] mb-2;}
+@media (min-width: 640px) {
+  .pothole-floating-modal {
+    width: 22.5rem; /* 360px (sm:w-[360px]) */
+  }
+}
 
-@utility list-container{@apply w-full h-full overflow-y-auto bg-white p-6;}
+/* Texto de erro ou aviso centralizado da API do Google */
+.map-api-error-box {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-txt-secondary);
+  padding: var(--space-md);
+  text-align: center;
+  font-size: var(--font-size-sm);
+  font-weight: 300;
+}
 
-@utility map-container{@apply w-full h-full relative;}
+/* Título interno das modais de mapa */
+.model-tittle {
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  color: var(--color-txt-primary);
+  margin-bottom: var(--space-xs);
+}
+
+/* Container específico da aba de Listagem Urbana */
+.list-container {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  background-color: #ffffff;
+  padding: var(--space-lg);
+}
+
+/* Container específico da aba do Google Maps */
+.map-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}

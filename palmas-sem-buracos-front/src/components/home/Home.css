@@ -1,0 +1,130 @@
+/* ==========================================================================
+   INTERFACES DA PÁGINA INICIAL (LANDING PAGE)
+   ========================================================================== */
+
+/* Moldura Arredondada do Figma (Mapa Demonstrativo Estático) */
+.figma-map-frame {
+  width: 100%;
+  height: 18.75rem; /* 300px */
+  border-radius: var(--radius-xl);
+  position: relative;
+  background-color: var(--color-bg-frame);
+  border: 0.0625rem solid var(--color-border-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+@media (min-width: 768px) {
+  .figma-map-frame {
+    height: 26.25rem; /* 420px (md:h-[420px]) */
+  }
+}
+
+/* ==========================================================================
+   BOTÕES DE AÇÃO REATIVOS COM EFEITO SCALE DO FIGMA
+   ========================================================================== */
+
+/* Botão Verde Principal (Ver mapa público) */
+.btn-action-primary {
+  width: 100%;
+  border-radius: var(--radius-md);
+  padding: 0.875rem var(--space-lg);
+  border: 0.125rem solid var(--color-brand-primary);
+  color: var(--color-brand-primary);
+  font-weight: 600;
+  background-color: #ffffff;
+  transition: all 0.15s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  cursor: pointer;
+}
+
+.btn-action-primary:hover {
+  background-color: var(--color-brand-primary);
+  color: #ffffff;
+}
+
+.btn-action-primary:active {
+  transform: scale(0.95);
+}
+
+/* Botão Cinza Secundário (Painel Admin) */
+.btn-action-admin {
+  width: 100%;
+  border-radius: var(--radius-md);
+  padding: 0.875rem var(--space-lg);
+  border: 0.0625rem solid var(--color-border-medium);
+  color: var(--color-txt-primary);
+  font-weight: 600;
+  background-color: #ffffff;
+  transition: all 0.15s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  cursor: pointer;
+}
+
+.btn-action-admin:hover {
+  background-color: var(--color-bg-hover);
+  border-color: var(--color-txt-secondary);
+}
+
+.btn-action-admin:active {
+  transform: scale(0.95);
+}
+
+/* ==========================================================================
+   GRADE DE CARDS INFERIORES (PASSO A PASSO)
+   ========================================================================== */
+
+/* Grid responsivo: 1 coluna no mobile, 3 colunas no desktop */
+.grid-card {
+  margin-top: 4rem;
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: var(--space-lg);
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .grid-card {
+    grid-template-columns: repeat(3, minmax(0, 1fr)); /* md:grid-cols-3 */
+  }
+}
+
+/* Item de Passo Individual */
+.step-card {
+  background-color: #ffffff;
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  border: 0.0625rem solid var(--color-border-light);
+  box-shadow: 0 2px var(--radius-sm) rgba(0, 0, 0, 0.03);
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.step-card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
+}
+
+.step-card-icon {
+  font-size: var(--font-size-title-lg); /* 44px (text-4xl) */
+  margin-bottom: var(--space-md);
+}
+
+/* Pinos Decorativos Pulsantes Animados (Simulação KML do Figma) */
+.figma-map-frame .absolute {
+  animation: bouncePin 2s infinite ease-in-out;
+}
+
+@keyframes bouncePin {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}

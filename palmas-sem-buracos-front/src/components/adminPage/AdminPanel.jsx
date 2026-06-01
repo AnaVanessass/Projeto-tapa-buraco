@@ -24,12 +24,10 @@ function AdminPanel() {
 
   return (
     <div className="admin-page-container">
-      <AdminHeader />
       <AdminNavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
       <main className="admin-main-content">
         {renderTabContent()}
       </main>
-
     </div>
   );
 }

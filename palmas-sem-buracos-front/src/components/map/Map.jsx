@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import { GoogleMap, Marker, InfoWindow, MarkerClusterer } from '@react-google-maps/api';
 import { DEFAULT_MAP_CENTER } from '../../types/pothole.types';
 import { mapOptions, markerIcon} from './Map.constants';
-import './Map.css';
+// import './Map.css';
 
 const Map = ({ potholes, setSelectedLocation, mapCenter, setMapCenter }) => {
   const [selectedPothole, setSelectedPothole] = useState(null);

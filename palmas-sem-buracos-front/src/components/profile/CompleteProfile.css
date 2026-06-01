@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@reference "tailwindcss";
 
 /* Caixa de conteúdo centralizada vertical e horizontalmente */
 @utility profile-complete-box {

@@ -24,37 +24,29 @@ function CompletarPerfil() {
   }
 
   return (
-    <div className="page-container">
-      
-      <Header/> 
-
-      <main className="profile-complete-box">
-        <div className="profile-card">
-          
-          <div className="profile-header-group">
-            <h1 className="txt-card-title text-xl mb-2">Escolha seu nome de usuário</h1>
-            <p className="txt-card-desc">
-              Este nome não será exibido publicamente junto às suas denúncias no mapa urbano, ele é utilizado somente para controle interno.
-            </p>
-          </div>
-
-          <form onSubmit={handleCompletion} className="profile-form">
-            <input 
-              type="text" 
-              value={username} 
-              onChange={handleChange} 
-              placeholder="Ex: Jacinto"
-              required
-            />
-            <button type="submit">Registrar</button>
-          </form>
-
+    <main className="profile-complete-box">
+      <div className="profile-card">
+        
+        <div className="profile-header-group">
+          <h1 className="txt-card-title text-xl mb-2">Escolha seu nome de usuário</h1>
+          <p className="txt-card-desc">
+            Este nome não será exibido publicamente junto às suas denúncias no mapa urbano, ele é utilizado somente para controle interno.
+          </p>
         </div>
-      </main>
 
-      <Footer />
-      
-    </div>
+        <form onSubmit={handleCompletion} className="profile-form">
+          <input 
+            type="text" 
+            value={username} 
+            onChange={handleChange} 
+            placeholder="Ex: Jacinto"
+            required
+          />
+          <button type="submit">Registrar</button>
+        </form>
+
+      </div>
+    </main>
   );
 }
 

@@ -1,7 +1,5 @@
 import { useState, useCallback } from 'react';
 import { useJsApiLoader } from '@react-google-maps/api';
-import Header from '../header/Header';
-import Footer from '../footer/Footer';
 import Map from '../map/Map';
 import PotholeList from '../potholeList/PotholeList';
 import AddPotholeForm from '../addPothole/AddPotholeForm';
@@ -10,15 +8,17 @@ import { usePotholes, useCreatePothole, useDeletePothole } from '../../hooks/use
 import { ViewMode, DEFAULT_MAP_CENTER } from '../../types/pothole.types';
 import { useCityBlocks} from '../../hooks/useCityBlocks';
 import './MapRender.css';
+import { useSearchParams } from 'react-router-dom';
 
 const GOOGLE_MAPS_LIBRARIES = ['places'];
 
 function MapRender() {
-  const [view, setView] = useState(ViewMode.MAP);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [mapCenter, setMapCenter] = useState(DEFAULT_MAP_CENTER);
   const [mapError, setMapError] = useState(null);
   const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+  const [searchParams] = useSearchParams();
+  const viewMode = searchParams.get('view') || 'map';
   
   const { data: blocks = [], isPending: isBlocksPending } = useCityBlocks();
   const { data: potholes = [], isPending: isPotholesPending } = usePotholes();
@@ -35,7 +35,6 @@ function MapRender() {
   };
 
   const filteredPotholes = potholes.filter((pothole) => {
-    console.log(pothole);
     const matchesBlock = !selectedBlock || pothole.blockName === selectedBlock;
     const matchesStatus = activeStatuses.includes(pothole.status);
     
@@ -49,7 +48,6 @@ function MapRender() {
 
   const handleViewOnMap = useCallback((pothole) => {
     setMapCenter({ lat: pothole.lat, lng: pothole.lng });
-    setView(ViewMode.MAP);
   }, []);
 
   const handleAddPothole = async (payload) => {
@@ -74,10 +72,6 @@ function MapRender() {
 
 
   return (
-    <div className="page-container">
-      
-      <Header view={view} setView={setView} listCount={potholes.length} />
-
       <main className="map-content-box">
         
         <div className="filter-wrapper-card">
@@ -100,7 +94,7 @@ function MapRender() {
               Carregando infraestrutura de mapas...
             </div>
           ) : (
-              view === ViewMode.MAP ? (
+              viewMode === 'map' ? (
                 <div className="map-container">
                   <Map 
                     potholes={potholes || []}
@@ -132,9 +126,6 @@ function MapRender() {
           )}
         </div>
       </main>
-
-      <Footer />
-    </div>
   );
 }
 

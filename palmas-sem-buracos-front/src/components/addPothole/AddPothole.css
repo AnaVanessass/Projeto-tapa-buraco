@@ -1,104 +1,150 @@
+/* ==========================================================================
+   FORMULÁRIO DE CADASTRO (CARD FLUTUANTE SOBRE O MAPA)
+   ========================================================================== */
+
 .add-pothole-form {
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-  background: white;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-  width: 320px;
-  max-height: 80vh;
-  overflow-y: auto;
-  z-index: 10;
+  padding: var(--space-lg); /* 24px */
 }
 
 .add-pothole-form h3 {
-  margin-bottom: 1.5rem;
-  color: #2c3e50;
-  font-size: 1.3rem;
-  border-bottom: 2px solid #ecf0f1;
-  padding-bottom: 0.5rem;
+  margin-bottom: var(--space-lg);
+  color: var(--color-txt-primary);
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  border-bottom: 0.0625rem solid var(--color-border-light);
+  padding-bottom: var(--space-xs);
 }
 
+/* ==========================================================================
+   ESTRUTURA DOS CAMPOS DE ENTRADA (INPUTS)
+   ========================================================================== */
+
 .form-group {
-  margin-bottom: 1.2rem;
+  margin-bottom: var(--space-lg);
+  width: 100%;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--space-xs);
   font-weight: 600;
-  color: #34495e;
-  font-size: 14px;
+  color: var(--color-txt-muted);
+  font-size: var(--font-size-sm);
+  text-align: left;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
   width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
-  transition: border-color 0.2s;
+  padding: 0.625rem var(--space-md); /* Padronizado em rem */
+  border: 0.0625rem solid var(--color-border-medium);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  color: var(--color-txt-primary);
+  background-color: #ffffff;
+  outline: none;
+  transition: border-color 0.15s ease-in-out, background-color 0.15s;
 }
 
+/* Foco ativo com a cor verde de marca do projeto */
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
-  outline: none;
-  border-color: #3498db;
+  border-color: var(--color-brand-primary);
+}
+
+/* Estado desabilitado enquanto o geocoding assíncrono trabalha */
+.form-group input:disabled,
+.form-group select:disabled {
+  background-color: var(--color-bg-frame);
+  color: var(--color-txt-secondary);
+  cursor: not-allowed;
 }
 
 .form-group textarea {
   resize: vertical;
-  min-height: 80px;
+  min-height: 5rem; /* 80px */
 }
+
+/* ==========================================================================
+   BOTÕES E AÇÕES DO FORMULÁRIO
+   ========================================================================== */
 
 .form-actions {
   display: flex;
-  gap: 0.75rem;
-  margin-top: 1.5rem;
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
+  width: 100%;
 }
 
 .form-actions button {
-  flex: 1;
-  padding: 0.75rem;
+  flex: 1 1 0%;
+  padding: 0.75rem var(--space-sm);
   border: none;
-  border-radius: 4px;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
   cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  transition: background-color 0.2s;
+  transition: all 0.15s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
 }
 
+/* Botão Secundário (Anexar Foto) - Reaproveita as definições do seu padrão anterior */
+.form-actions button:first-child {
+  background-color: #ffffff;
+  border: 0.0625rem solid var(--color-border-medium);
+  color: var(--color-txt-primary);
+}
+
+.form-actions button:first-child:hover {
+  background-color: var(--color-bg-footer);
+}
+
+/* Botão de Envio (Denunciar) - Verde Sucesso do Figma */
 .form-actions button[type="submit"] {
-  background: #27ae60;
-  color: white;
+  background-color: var(--color-brand-primary);
+  color: #ffffff;
 }
 
 .form-actions button[type="submit"]:hover {
-  background: #219a52;
+  opacity: 0.9;
 }
 
-.form-actions button[type="button"] {
-  background: #e74c3c;
-  color: white;
+.form-actions button[type="submit"]:disabled {
+  background-color: var(--color-txt-secondary);
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
-.form-actions button[type="button"]:hover {
-  background: #c0392b;
+/* Botão de Cancelamento (Texto Muted com Transição de Erro) */
+.form-actions button[type="button"]:last-child {
+  background-color: transparent;
+  color: var(--color-txt-muted);
+  font-weight: 500;
+}
+
+.form-actions button[type="button"]:last-child:hover {
+  color: var(--color-brand-danger);
+  background-color: var(--color-bg-footer);
 }
 
 .form-actions button:active {
-  transform: translateY(1px);
+  transform: scale(0.98);
 }
 
+/* ==========================================================================
+   COMPORTAMENTO RESPONSIVO MÓVEL (CELULARES)
+   ========================================================================== */
 @media (max-width: 768px) {
   .add-pothole-form {
-    left: 10px;
-    right: 10px;
+    left: var(--space-xs);
+    right: var(--space-xs);
     width: auto;
-    bottom: 10px;
+    bottom: var(--space-xs);
+    max-height: 50vh; /* Ocupa menos espaço vertical no celular para não cobrir o mapa inteiro */
   }
 }

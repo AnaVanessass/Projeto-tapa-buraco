@@ -1,11 +1,12 @@
-@import "tailwindcss";
-
-@theme {
-  /* Paleta de Cores do Figma (Palmas sem Buracos) */
+/* ==========================================================================
+   1. DESIGN TOKENS (VARIÁVEIS TOTAIS DE DESIGN DO FIGMA)
+   ========================================================================== */
+:root {
+  /* Paleta de Cores */
   --color-bg-main: #FDFDFD;
   --color-bg-frame: #E8E8E8;
   --color-bg-footer: #FAFAFA;
-  --color-bg-hover:#F5F5F5;
+  --color-bg-hover: #F5F5F5;
   
   --color-brand-primary: #2E7D32;
   --color-brand-danger: #D32F2F;
@@ -20,89 +21,184 @@
   --color-border-medium: #E0E0E0;
   --color-border-dark: #DEE2E6;
 
-  --radius-sm: 0.5rem;    
-  --radius-md: 0.625rem;    
-  --radius-lg: 1rem;       
-  --radius-xl: 1.5rem;       
+  /* Arredondamentos Universais */
+  --radius-sm: 0.5rem;    /* 8px */
+  --radius-md: 0.625rem;  /* 10px */
+  --radius-lg: 1rem;      /* 16px */
+  --radius-xl: 1.5rem;    /* 24px */
+
+  /* Tamanhos de Fontes (Typography Scale) */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.5rem;
+  --font-size-title-sm: 1.875rem;
+  --font-size-title-lg: 2.5rem;
+
+  /* Variáveis de Sizing (Substitutos de max-width/larguras) */
+  --size-navbar-width: 64rem;      /* 896px */
+  --size-content-width: 64rem;     /* 896px */
+  --size-hero-width: 42rem;        /* 672px */
+  --size-button-width: 16rem;      /* 256px */
+
+  /* Variáveis de Espaçamento Base (Paddings/Margins) */
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-container-pt: 3rem;
+  --space-container-pb: 4rem;
 }
 
-/* Layout Base da Página */
-@utility page-container {@apply min-h-screen bg-bg-main font-sans flex flex-col items-center w-full;}
-
-/* Navbar e Topo */
-@utility app-navbar {
-  @apply w-full max-w-4xl mx-auto px-6 py-4 flex items-center justify-between border-b border-border-light;
+/* ==========================================================================
+   2. RESET DE COMPORTAMENTO NATIVO
+   ========================================================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-@utility navbar-itens{ @apply flex items-center gap-3;}
-
-@utility main-content-box {@apply flex-1 w-full max-w-4xl mx-auto px-4 pt-12 pb-16 flex flex-col items-center;}
-
-@utility hero-container{@apply text-center w-full max-w-2xl mb-10;}
-
-@utility logo-icon {
-  @apply bg-brand-primary text-white w-9 h-9 rounded-sm flex items-center justify-center font-bold text-lg shadow-sm;
+a {
+  text-decoration: none;
 }
 
-/* Botões da Navbar superiores */
-@utility btn-secondary-sm {
-  @apply px-5 py-2 text-sm font-medium border border-border-medium text-txt-primary rounded-md hover:bg-bg-hover transition-all cursor-pointer;
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--color-bg-main);
+  color: var(--color-txt-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Moldura Arredondada do Figma (Mapa e Molduras) */
-@utility figma-map-frame {
-  @apply w-full h-[300px] md:h-[420px] rounded-(--radius-xl) relative bg-bg-frame border border-border-dark flex items-center justify-center overflow-hidden shadow-sm;
+/* ==========================================================================
+   3. CLASSES ESTRUTURAIS DE FLUXO GLOBAL (LAYOUTS)
+   ========================================================================== */
+
+/* Envelopamento geral de tela cheia */
+.page-container {
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
-/* Botões de Ação Principais Inferiores */
-@utility btn-action-primary {
-  @apply w-full sm:w-64 rounded-md py-3.5 px-6 border-2 border-brand-primary text-brand-primary font-semibold bg-white hover:bg-brand-primary hover:text-white transition-all active:scale-95 flex items-center justify-center gap-2 shadow-sm cursor-pointer;
+/* Caixa centralizada usando min() para controle responsivo sem max-width */
+.main-content-box {
+  flex: 1 0 auto;
+  width: min(100%, var(--size-content-width));
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: var(--space-container-pt);
+  padding-bottom: var(--space-container-pb);
+  padding-left: var(--space-md);
+  padding-right: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-@utility btn-action-admin {
-  @apply w-full sm:w-64 rounded-md py-3.5 px-6 border border-border-medium text-txt-primary font-semibold bg-white hover:bg-bg-hover hover:border-txt-secondary transition-all active:scale-95 flex items-center justify-center gap-2 shadow-sm cursor-pointer;
+/* Bloco herói de títulos centrais */
+.hero-container {
+  text-align: center;
+  margin-bottom: var(--space-xl);
 }
 
-/* Cards de Passo a Passo do Rodapé */
-@utility step-card {
-  @apply bg-white rounded-2xl p-6 border border-border-light shadow-[0_2px_var(--radius-sm)_rgba(0,0,0,0.05)] text-center hover:shadow-xl transition-all;
+/* Envelopador para links e botões em linha */
+.link-container {
+  margin-top: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  width: 100%;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Alternador de Abas Internas (Mapa/Lista) */
-@utility view-tab-container {  @apply flex gap-1 bg-bg-frame p-1 rounded-md;}
-
-@utility view-tab-button-active {
-  @apply px-4 py-1.5 text-xs font-medium rounded-sm transition-all cursor-pointer bg-white text-txt-primary shadow-sm;
+@media (min-width: 640px) {
+  .link-container {
+    flex-direction: row;
+  }
 }
 
-@utility view-tab-button-inactive {
-  @apply px-4 py-1.5 text-xs font-medium rounded-sm transition-all cursor-pointer text-txt-muted hover:text-txt-primary;
+/* Links internos do react-router-dom com largura parametrizada */
+.link {
+  width: 100%;
 }
 
-/* Título Principal (Hero) */
-@utility txt-hero-title {  @apply text-3xl md:text-[40px] text-txt-primary font-semibold tracking-tight leading-tight mb-3;}
+@media (min-width: 640px) {
+  .link {
+    width: var(--size-button-width);
+  }
+}
 
-/* Subtítulo do Hero */
-@utility txt-hero-subtitle {  @apply text-base md:text-lg text-txt-secondary font-light;}
+/* ==========================================================================
+   4. TIPOGRAFIA BASE (TOKENS DE TEXTO DO FIGMA)
+   ========================================================================== */
+.txt-hero-title {
+  font-size: var(--font-size-title-sm);
+  color: var(--color-txt-primary);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+  margin-bottom: var(--space-sm);
+}
 
-/* Título Interno dos Cards (h3) */
-@utility txt-card-title {  @apply text-base font-semibold text-txt-primary mb-2;}
+@media (min-width: 768px) {
+  .txt-hero-title {
+    font-size: var(--font-size-title-lg);
+  }
+}
 
-/* Descrição Interna dos Cards (p) */
-@utility txt-card-desc {  @apply text-xs md:text-sm text-txt-secondary leading-relaxed;}
+.txt-hero-subtitle {
+  font-size: var(--font-size-base);
+  color: var(--color-txt-secondary);
+  font-weight: 300;
+}
 
-/* Nome da marca na barra superior */
-@utility txt-brand-name {  @apply text-txt-primary font-medium text-base tracking-tight;}
+@media (min-width: 768px) {
+  .txt-hero-subtitle {
+    font-size: var(--font-size-lg);
+  }
+}
 
-@utility footer{  @apply w-full py-8 border-t border-border-medium text-center bg-bg-footer;}
+.txt-card-title {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--color-txt-primary);
+  margin-bottom: var(--space-xs);
+}
 
-@utility footer-p{  @apply text-xs md:text-sm text-txt-muted font-medium;}
+.txt-card-desc {
+  font-size: var(--font-size-sm);
+  color: var(--color-txt-secondary);
+  line-height: 1.6;
+}
 
-@utility step-card-icon{@apply text-4xl mb-4;}
+.txt-brand-name {
+  color: var(--color-txt-primary);
+  font-weight: 500;
+  font-size: var(--font-size-base);
+  letter-spacing: -0.015em;
+}
 
-@utility grid-card{  @apply mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 w-full;}
+/* ==========================================================================
+   5. COMPONENTE: FOOTER (RODAPÉ GLOBAL)
+   ========================================================================== */
+.footer {
+  width: 100%;
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-xl);
+  border-top: 0.0625rem solid var(--color-border-medium);
+  text-align: center;
+  background-color: var(--color-bg-footer);
+}
 
-@utility link{@apply w-full sm:w-64;}
-
-@utility link-container{@apply mt-8 flex flex-col sm:flex-row gap-4 w-full justify-center items-center;}
-
+.footer-p {
+  font-size: var(--font-size-sm);
+  color: var(--color-txt-muted);
+  font-weight: 500;
+}

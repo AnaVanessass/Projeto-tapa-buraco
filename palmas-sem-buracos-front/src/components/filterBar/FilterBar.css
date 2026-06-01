@@ -1,34 +1,114 @@
-@import "tailwindcss";
+/* ==========================================================================
+   BARRA DE FERRAMENTAS E FILTRAGEM URBANA
+   ========================================================================== */
 
-/* Container da Barra de Ferramentas */
-@utility filter-toolbar-box {
-  @apply w-full flex flex-col gap-4 md:flex-row md:items-center md:justify-between;
+/* Container Principal dos Filtros */
+.filter-toolbar-box {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md); /* 16px */
 }
 
-/* CORREÇÃO: Alterado de padding-[...] para p-[0.625rem_1rem] */
-@utility select-city-block {
-  @apply w-full p-[0.625rem_1rem] text-sm text-[var(--color-txt-primary)] bg-white border border-[var(--color-border-medium)] rounded-[var(--radius-md)] outline-none cursor-pointer transition-colors focus:border-[var(--color-brand-primary)] md:max-w-[18rem];
+@media (min-width: 768px) {
+  .filter-toolbar-box {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
 }
 
-/* Grupo de Botões Alternadores (Status Toggle) */
-@utility toggle-status-group {
-  @apply flex w-full gap-2 md:w-auto;
+/* O Campo Select Customizado do Figma (Seleção de Quadras) */
+.select-city-block {
+  width: 100%;
+  padding: 0.625rem var(--space-md); /* 10px 16px */
+  font-size: var(--font-size-sm);
+  color: var(--color-txt-primary);
+  background-color: #ffffff;
+  border: 0.0625rem solid var(--color-border-medium);
+  border-radius: var(--radius-md);
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.15s ease-in-out;
 }
 
-/* CORREÇÃO: Alterado de padding-[...] para p-[0.625rem_1rem] */
-@utility btn-status-toggle {
-  @apply flex-1 flex items-center justify-center gap-2 p-[0.625rem_1rem] text-xs font-semibold rounded-[var(--radius-sm)] border border-[var(--color-border-medium)] bg-white text-[var(--color-txt-muted)] cursor-pointer transition-all active:scale-98 md:flex-none md:w-auto;
+.select-city-block:focus {
+  border-color: var(--color-brand-primary);
 }
 
-/* Variações Ativas */
-@utility btn-status-open-active {
-  @apply bg-[#FEF2F2] border-[var(--color-brand-danger)] text-[var(--color-brand-danger)];
+@media (min-width: 768px) {
+  .select-city-block {
+    width: min(100%, 18rem); /* 288px (md:max-w-[18rem]) */
+  }
 }
 
-@utility btn-status-pending-active {
-  @apply bg-[#FFFBEB] border-[var(--color-brand-warning)] text-[#B45309];
+/* ==========================================================================
+   BOTÕES ALTERNADORES DE STATUS (STATUS TOGGLE)
+   ========================================================================== */
+
+/* Grupo de Botões Alternadores */
+.toggle-status-group {
+  display: flex;
+  width: 100%;
+  gap: var(--space-xs); /* 8px */
 }
 
-@utility btn-status-fixed-active {
-  @apply bg-[#F0FDF4] border-[var(--color-brand-success)] text-[var(--color-brand-primary)];
+@media (min-width: 768px) {
+  .toggle-status-group {
+    width: auto;
+  }
+}
+
+/* Base do Botão de Status (Inativo) */
+.btn-status-toggle {
+  flex: 1 1 0%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  padding: 0.625rem var(--space-md);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  border: 0.0625rem solid var(--color-border-medium);
+  background-color: #ffffff;
+  color: var(--color-txt-muted);
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+}
+
+.btn-status-toggle:active {
+  transform: scale(0.98);
+}
+
+@media (min-width: 768px) {
+  .btn-status-toggle {
+    flex: none;
+    width: auto;
+  }
+}
+
+/* ==========================================================================
+   VARIAÇÕES DE ESTADOS ATIVOS (CORES SEMÂNTICAS DO FIGMA)
+   ========================================================================== */
+
+/* Status: Aberto (Vermelho Perigo) */
+.btn-status-open-active {
+  background-color: #FEF2F2;
+  border-color: var(--color-brand-danger);
+  color: var(--color-brand-danger);
+}
+
+/* Status: Em Análise / Pendente (Amarelo Alerta) */
+.btn-status-pending-active {
+  background-color: #FFFBEB;
+  border-color: var(--color-brand-warning);
+  color: #B45309; /* Tom escuro para contraste de acessibilidade */
+}
+
+/* Status: Resolvido / Concluído (Verde Sucesso) */
+.btn-status-fixed-active {
+  background-color: #F0FDF4;
+  border-color: var(--color-brand-success);
+  color: var(--color-brand-primary);
 }
