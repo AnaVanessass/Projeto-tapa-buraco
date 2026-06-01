@@ -45,6 +45,13 @@ public class SecurityConfig {
                 // 3. Configuração essencial de CSRF para SPAs (Axios/Fetch precisam ler o token)
                 .csrf(AbstractHttpConfigurer::disable
                 )
+                .logout(logout -> logout
+                        .logoutUrl("/logout") // Endpoint interceptado pelo Spring
+                        .logoutSuccessUrl("http://localhost:5173/") // Redireciona de volta para a Home do React
+                        .invalidateHttpSession(true) // Destrói a sessão no servidor
+                        .clearAuthentication(true) // Limpa o contexto de autenticação
+                        .deleteCookies("JSESSIONID", "jwt_token") // Força o navegador a deletar os cookies
+                )
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()));
 
 
