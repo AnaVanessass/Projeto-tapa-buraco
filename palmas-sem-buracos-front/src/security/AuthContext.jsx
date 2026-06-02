@@ -23,13 +23,9 @@ export function AuthProvider({ children }) {
     fetchUserSession();
   }, []);
 
-  const logout = async () => {
-    try {
-      await api.post('/logout');
-    } finally {
-      setUser(null);
-      window.location.href = '/';
-    }
+  const logout = () => {
+    setUser(null);
+    window.location.href = 'http://localhost:8080/logout';
   };
 
   return (

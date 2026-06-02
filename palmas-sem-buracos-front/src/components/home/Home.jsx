@@ -14,9 +14,11 @@ function Home() {
           <p className="txt-hero-subtitle">Participe da melhoria da nossa cidade</p>
         </div>
 
-        <div className="figma-map-frame">
-          <img src="src/assets/map-placeholder-1000x420.webp" alt="Mapa demonstrativo" />
-        </div>
+        <Link to="/mapa">
+          <div className="figma-map-frame">
+            {/* <img src="src/assets/map-placeholder-1000x420.webp" alt="Mapa demonstrativo" /> */}
+          </div>
+        </Link>
 
         { admin ? 
           <div className="link-container">

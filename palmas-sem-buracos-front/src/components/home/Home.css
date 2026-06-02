@@ -4,22 +4,25 @@
 
 /* Moldura Arredondada do Figma (Mapa Demonstrativo Estático) */
 .figma-map-frame {
-  width: 100%;
-  height: 18.75rem; /* 300px */
+  width: 22rem;
+  height: 27rem; /* 300px */
   border-radius: var(--radius-xl);
   position: relative;
   background-color: var(--color-bg-frame);
+  background-image: url(/src/assets/map-placeholder-1000x420.webp);
   border: 0.0625rem solid var(--color-border-dark);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+  background-position: top;
 }
 
 @media (min-width: 768px) {
   .figma-map-frame {
     height: 26.25rem; /* 420px (md:h-[420px]) */
+    width: 95vw;
   }
 }
 
