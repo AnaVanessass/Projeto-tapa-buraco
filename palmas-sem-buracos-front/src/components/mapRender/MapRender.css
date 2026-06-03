@@ -96,3 +96,63 @@
   height: 100%;
   position: relative;
 }
+
+/* Banner flutuante de sucesso no topo do mapa */
+.alert-success-toast {
+  position: absolute;
+  top: var(--space-md);
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--color-brand-success);
+  color: #ffffff;
+  padding: 0.75rem var(--space-lg);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  animation: slideDownToast 0.2s ease-out;
+}
+
+@keyframes slideDownToast {
+  from { top: -3rem; opacity: 0; }
+  to { top: var(--space-md); opacity: 1; }
+}
+
+/* Overlay semitransparente que bloqueia o formulário durante o salvamento */
+.modal-loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: var(--radius-xl);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+}
+
+/* Banner flutuante de erro no topo do mapa */
+.alert-error-toast {
+  position: absolute;
+  top: var(--space-md);
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--color-brand-danger);
+  color: #ffffff;
+  padding: 0.75rem var(--space-lg);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  animation: slideDownToast 0.2s ease-out;
+}

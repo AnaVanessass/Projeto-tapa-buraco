@@ -9,7 +9,7 @@
   border-radius: var(--radius-xl);
   position: relative;
   background-color: var(--color-bg-frame);
-  background-image: url(/src/assets/map-placeholder-1000x420.webp);
+  /* background-image: url(/src/assets/map-placeholder-1000x420.webp); */
   border: 0.0625rem solid var(--color-border-dark);
   display: flex;
   align-items: center;
@@ -22,7 +22,7 @@
 @media (min-width: 768px) {
   .figma-map-frame {
     height: 26.25rem; /* 420px (md:h-[420px]) */
-    width: 95vw;
+    width: 52vw;
   }
 }
 

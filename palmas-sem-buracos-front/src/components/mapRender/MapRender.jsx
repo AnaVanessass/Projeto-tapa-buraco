@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useJsApiLoader } from '@react-google-maps/api';
 import Map from '../map/Map';
 import PotholeList from '../potholeList/PotholeList';
@@ -24,6 +24,8 @@ function MapRender() {
   const { data: potholes = [], isPending: isPotholesPending } = usePotholes();
   const createMutation = useCreatePothole();
   const deleteMutation = useDeletePothole();
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const [errorAlertMessage, setErrorAlertMessage] = useState(null);
 
   const [selectedBlock, setSelectedBlock] = useState(null);
   const [activeStatuses, setActiveStatuses] = useState(['OPEN', 'PENDING', 'FIXED']);
@@ -52,10 +54,17 @@ function MapRender() {
 
   const handleAddPothole = async (payload) => {
     try {
+      setErrorAlertMessage(null);
       await createMutation.mutateAsync(payload);
       setSelectedLocation(null);
+      setShowSuccessAlert(true);
     } catch (err) {
       console.error("Erro ao salvar buraco", err);
+      if (err.response?.status === 401) {
+        setErrorAlertMessage("Acesso negado. Você precisa estar logado para denunciar.");
+      } else {
+        setErrorAlertMessage("Ops! Algo deu errado ao salvar. Tente novamente.");
+      }
     }
   };
 
@@ -70,6 +79,19 @@ function MapRender() {
     setMapError('Erro técnico ao renderizar os mapas públicos.');
   }, []);
 
+  useEffect(() => {
+    if (errorAlertMessage) {
+      const timer = setTimeout(() => setErrorAlertMessage(null), 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [errorAlertMessage]);
+
+  useEffect(() => {
+    if (showSuccessAlert) {
+      const timer = setTimeout(() => setShowSuccessAlert(false), 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [showSuccessAlert])
 
   return (
       <main className="map-content-box">
@@ -85,6 +107,17 @@ function MapRender() {
         </div>
 
         <div className="live-map-frame">
+          {showSuccessAlert && (
+            <div className="alert-success-toast">
+              ✅ Denúncia registrada com sucesso em Palmas!
+            </div>
+          )}
+          {errorAlertMessage && (
+            <div className="alert-error-toast">
+              {errorAlertMessage}
+            </div>
+          )}
+
           {loadError ? (
             <div className="map-api-error-box">
               Chave Mapas Ausente no arquivo .env
@@ -105,11 +138,17 @@ function MapRender() {
 
                   {selectedLocation && (
                     <div className="pothole-floating-modal">
+                      {createMutation.isPending && (
+                        <div className="modal-loading-overlay">
+                          <div className="loading-spinner !w-8 !h-8 !border-2"></div>
+                        </div>
+                      )}
                       <h4 className="model-tittle">📍 Novo Ponto Identificado</h4>
                       <AddPotholeForm 
                         location={selectedLocation}
                         onAdd={handleAddPothole}
                         onCancel={() => setSelectedLocation(null)}
+                        isPending={createMutation.isPending}
                       />
                     </div>
                   )}
