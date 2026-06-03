@@ -105,6 +105,7 @@
 
 .info-window-img-box img {
   height: 100%;
+  width: 100%;
   object-fit: cover;
   display: block;
 }

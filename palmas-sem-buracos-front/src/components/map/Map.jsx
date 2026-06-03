@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { GoogleMap, Marker, InfoWindow, MarkerClusterer } from '@react-google-maps/api';
 import { DEFAULT_MAP_CENTER } from '../../types/pothole.types';
-import { mapOptions, markerIcon} from './Map.constants';
+import { mapOptions, markerIcon, getMarkerIcon} from './Map.constants';
 
 const Map = ({ potholes, setSelectedLocation, mapCenter, setMapCenter }) => {
   const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_NAME;
@@ -49,7 +49,7 @@ const Map = ({ potholes, setSelectedLocation, mapCenter, setMapCenter }) => {
                 }}
                 onClick={() => setSelectedPothole(pothole)}
                 clusterer={clusterer}
-                icon={markerIcon}
+                icon={getMarkerIcon(pothole.status)}
               />
             )
           })
@@ -75,7 +75,7 @@ const Map = ({ potholes, setSelectedLocation, mapCenter, setMapCenter }) => {
                 </div>
               )}
             </div>
-            <p><strong>Local:</strong> {selectedPothole.address || 'Endereço não disponível'}</p>
+            <h3> {selectedPothole.address || 'Endereço não disponível'}</h3>
             <p><strong>Quadra:</strong> {selectedPothole.blockName || 'Quadra não especificada'}</p>
             <p><strong>Data:</strong> {formatDate(selectedPothole.createdAt)}</p>
           </div>
