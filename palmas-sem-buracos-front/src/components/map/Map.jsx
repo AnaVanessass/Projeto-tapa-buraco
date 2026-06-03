@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import { GoogleMap, Marker, InfoWindow, MarkerClusterer } from '@react-google-maps/api';
 import { DEFAULT_MAP_CENTER } from '../../types/pothole.types';
 import { mapOptions, markerIcon, getMarkerIcon} from './Map.constants';
+import { getCloudinaryUrl } from '../../utils/cloudinaryImg';
 
 const Map = ({ potholes, setSelectedLocation, mapCenter, setMapCenter }) => {
   const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_NAME;
@@ -24,10 +25,10 @@ const Map = ({ potholes, setSelectedLocation, mapCenter, setMapCenter }) => {
 
   const center = mapCenter || DEFAULT_MAP_CENTER;
 
-  const getCloudinaryUrl = (publicId) => {
-    if (!publicId) return null;
-    return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/${publicId}`;
-  };
+  // const getCloudinaryUrl = (publicId) => {
+  //   if (!publicId) return null;
+  //   return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/${publicId}`;
+  // };
 
   return (
     <GoogleMap

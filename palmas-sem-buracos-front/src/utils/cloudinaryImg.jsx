@@ -1,21 +1,11 @@
-import { Cloudinary } from "@cloudinary/url-gen";
-import { AdvancedImage } from '@cloudinary/react';
-import { fill } from "@cloudinary/url-gen/actions/resize";
-import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
-import api from "../service/apiClient";
+const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_NAME;
 
-const cld = new Cloudinary({
-  cloud: { cloudName: import.meta.env.VITE_CLOUDINARY_NAME }
-});
+export const getCloudinaryUrl = (publicId, width, height) => {
+  if (!publicId) return "";
 
-const MyImage = ({ publicId }) => {
-  if (!publicId) return null
-  const myImage = cld.image(publicId);
-  myImage.resize(fill().width(400).height(400));
+  const transformations = width && height ? `w_${width},h_${height},c_limit,f_auto,q_auto` : "w_240,h_240,c_limit,f_auto,q_auto";
 
-  return <AdvancedImage cldImg={myImage} />;
-};
+  return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/${transformations}/${publicId}`;
+}
 
-export default MyImage;
-
-
+export default getCloudinaryUrl;
