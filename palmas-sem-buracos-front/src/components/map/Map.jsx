@@ -2,9 +2,9 @@ import { useState, useCallback } from 'react';
 import { GoogleMap, Marker, InfoWindow, MarkerClusterer } from '@react-google-maps/api';
 import { DEFAULT_MAP_CENTER } from '../../types/pothole.types';
 import { mapOptions, markerIcon} from './Map.constants';
-// import './Map.css';
 
 const Map = ({ potholes, setSelectedLocation, mapCenter, setMapCenter }) => {
+  const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_NAME;
   const [selectedPothole, setSelectedPothole] = useState(null);
 
   const onMapClick = useCallback((event) => {
@@ -24,6 +24,11 @@ const Map = ({ potholes, setSelectedLocation, mapCenter, setMapCenter }) => {
 
   const center = mapCenter || DEFAULT_MAP_CENTER;
 
+  const getCloudinaryUrl = (publicId) => {
+    if (!publicId) return null;
+    return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/${publicId}`;
+  };
+
   return (
     <GoogleMap
       mapContainerStyle={mapOptions.mapContainerStyle}
@@ -34,18 +39,20 @@ const Map = ({ potholes, setSelectedLocation, mapCenter, setMapCenter }) => {
     >
       <MarkerClusterer>
         {(clusterer) => 
-          potholes.map((pothole) => (
-            <Marker
-              key={pothole.id}
-              position={{
-                lat: Number(pothole.lat),
-                lng: Number(pothole.lng)
-              }}
-              onClick={() => setSelectedPothole(pothole)}
-              clusterer={clusterer}
-              icon={markerIcon}
-            />
-          ))
+          potholes.map((pothole) => {
+            return(
+              <Marker
+                key={pothole.id}
+                position={{
+                  lat: Number(pothole.lat),
+                  lng: Number(pothole.lng)
+                }}
+                onClick={() => setSelectedPothole(pothole)}
+                clusterer={clusterer}
+                icon={markerIcon}
+              />
+            )
+          })
         }
       </MarkerClusterer>
 
@@ -55,7 +62,19 @@ const Map = ({ potholes, setSelectedLocation, mapCenter, setMapCenter }) => {
           onCloseClick={() => setSelectedPothole(null)}
         >
           <div className="info-window">
-            <h3>Detalhes</h3>
+            <div className="info-window-img-box">
+              {selectedPothole.imagePublicId ? (
+                <img 
+                  src={getCloudinaryUrl(selectedPothole.imagePublicId)} 
+                  alt="Evidência do Buraco" 
+                />
+              ) : (
+                <div className="info-window-placeholder">
+                  <span>📷</span>
+                  Sem foto anexada
+                </div>
+              )}
+            </div>
             <p><strong>Local:</strong> {selectedPothole.address || 'Endereço não disponível'}</p>
             <p><strong>Quadra:</strong> {selectedPothole.blockName || 'Quadra não especificada'}</p>
             <p><strong>Data:</strong> {formatDate(selectedPothole.createdAt)}</p>
