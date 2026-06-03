@@ -10,7 +10,6 @@
   border-bottom: 0.0625rem solid var(--color-border-light);
 }
 
-
 .navbar-itens {
   display: flex;
   align-items: center;
@@ -171,4 +170,63 @@
 /* Transição de realce de fundo do botão de logout */
 .btn-logout-overlay:hover {
   background-color: var(--color-bg-main);
+}
+
+
+@media (max-width: 768px) {
+  .app-navbar {
+    flex-wrap: wrap;
+    align-items: center;
+    row-gap: 0.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  /* left group: logo + brand name — keep compact */
+  .navbar-itens:first-of-type {
+    gap: 0.5rem;
+    flex: 1 1 auto;
+    min-width: 0;
+    align-items: center;
+  }
+  .logo-icon { width: 2rem; height: 2rem; font-size: 0.9rem; }
+
+  .txt-brand-name {
+    display: inline-block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 10ch; /* keeps name short on mobile */
+    font-size: 0.95rem;
+  }
+
+  /* center the tab switcher on one line and allow horizontal scroll if necessary */
+  .tab-switcher-container {
+    order: 3;
+    width: 100%;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    padding: 0.25rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* user controls move to the right and compress */
+  .navbar-itens:last-of-type {
+    gap: 0.5rem;
+    flex: 0 0 auto;
+    align-items: center;
+  }
+
+  .btn-secondary-sm { padding-inline: 0.75rem; padding-block: 0.35rem; font-size: 0.85rem; }
+  .admin-username { display: none; } /* show only avatar on small screens */
+  .admin-avatar { width: 2rem; height: 2rem; font-size: 0.85rem; }
+
+  /* keep logout accessible via click/tap — show as absolute dropdown */
+  .admin-user-badge { padding-inline: 0.5rem; }
+  .btn-logout-overlay { position: absolute; right: 0; top: calc(100% + 0.25rem); display: none; }
+}
+
+/* Medium+ screens: normal layout but ensure flexible spacing */
+@media (min-width: 769px) {
+  .navbar-itens:first-of-type { flex: 0 0 auto; }
 }

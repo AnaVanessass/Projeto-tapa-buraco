@@ -15,7 +15,7 @@ function Home() {
         </div>
 
         <Link to="/mapa">
-          <div className="figma-map-frame">
+          <div className="map-frame">
             <img src="src/assets/map-placeholder-1000x420.webp" alt="Mapa demonstrativo" />
           </div>
         </Link>

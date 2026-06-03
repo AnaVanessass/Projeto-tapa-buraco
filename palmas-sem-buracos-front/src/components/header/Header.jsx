@@ -3,11 +3,13 @@ import { useAuth } from '../../security/AuthContext';
 import { ViewMode } from '../../types/pothole.types';
 import './Header.css';
 import { usePotholes } from '../../hooks/usePotholes';
+import { useState } from 'react';
 
 function Header({ view, setView, listCount = 0 }) {
   const location = useLocation();
   const { user, logout } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
+  const [showLogout, setShowLogout] = useState(false);
   
   const isMapPage = location.pathname === '/mapa';
   const currentView = searchParams.get('view') || 'map';
@@ -44,13 +46,23 @@ function Header({ view, setView, listCount = 0 }) {
 
       <div className="navbar-itens">
         {user ? (
-          <div className="admin-user-badge">
+          <div 
+            className="admin-user-badge"
+            onClick={() => setShowLogout(s => !s)}
+            onBlur={() => setShowLogout(false)}
+            tabIndex={0}
+          >
             <div className="admin-avatar">{avatarLetter}</div>
             <span className="admin-username">
               {user.username}
             </span>
             
-            <button type="button" onClick={logout} className="btn-logout-overlay">
+            <button 
+              type="button" 
+              onClick={logout} 
+              className="btn-logout-overlay"
+              style={{ display: showLogout ? 'block' : undefined }}
+            >
               Sair da Conta
             </button>
           </div>
