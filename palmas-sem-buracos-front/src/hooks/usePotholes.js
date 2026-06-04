@@ -1,11 +1,11 @@
 import { useQuery, useMutation, useQueryClient, keepPreviousData } from "@tanstack/react-query";
-import { changePotholeStatus, fetchPotholes, createPothole, deletePothole, searchComplaint } from "../service/potholeService";
+import { changePotholeStatus, createPothole, deletePothole, searchComplaint, fetchPotholeMarkers } from "../service/potholeService";
 import { normalizePothole } from "../utils/normalizePothole";
 
 export const usePotholes = () => {
   return useQuery({
     queryKey: ["potholes"],
-    queryFn: fetchPotholes,
+    queryFn: searchComplaint,
     select: (data) => data.map(normalizePothole),
   });
 };
@@ -46,6 +46,14 @@ export const useSearchAddress = (filters) => {
   return useQuery({
     queryKey: ["potholes", filters],
     queryFn: () => searchComplaint(filters),
+    placeholderData: (keepPreviousData) => keepPreviousData,
+  });
+};
+
+export const usePotholeMarkers = (filters) => {
+  return useQuery({
+    queryKey: ["potholes", filters],
+    queryFn: () => fetchPotholeMarkers(filters),
     placeholderData: (keepPreviousData) => keepPreviousData,
   });
 };

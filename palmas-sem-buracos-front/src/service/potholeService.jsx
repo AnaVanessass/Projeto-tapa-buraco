@@ -1,7 +1,12 @@
 import api from './apiClient'
 
-export const fetchPotholes = async () => {
-  const { data } = await api.get("/complaints/");
+export const fetchPotholeMarkers = async (filters) => {
+  const { data } = await api.get("/complaints/map-points", {
+        params: {
+          address: filters?.address || undefined,
+          status: filters?.status || undefined,
+        }
+      });
   return data;
 };
 

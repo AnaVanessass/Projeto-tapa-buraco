@@ -4,7 +4,7 @@ import Map from '../map/Map';
 import PotholeList from '../potholeList/PotholeList';
 import AddPotholeForm from '../addPothole/AddPotholeForm';
 import FilterBar from '../filterBar/FilterBar';
-import { usePotholes, useCreatePothole, useDeletePothole } from '../../hooks/usePotholes';
+import { useCreatePothole, useDeletePothole, usePotholeMarkers } from '../../hooks/usePotholes';
 import { ViewMode, DEFAULT_MAP_CENTER } from '../../types/pothole.types';
 import { useCityBlocks} from '../../hooks/useCityBlocks';
 import './MapRender.css';
@@ -21,7 +21,7 @@ function MapRender() {
   const viewMode = searchParams.get('view') || 'map';
   
   const { data: blocks = [], isPending: isBlocksPending } = useCityBlocks();
-  const { data: potholes = [], isPending: isPotholesPending } = usePotholes();
+  const { data: potholeMarkers = [], isPending: isPotholeMarkersPending } = usePotholeMarkers();
   const createMutation = useCreatePothole();
   const deleteMutation = useDeletePothole();
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
@@ -36,12 +36,12 @@ function MapRender() {
     );
   };
 
-  const filteredPotholes = potholes.filter((pothole) => {
-    const matchesBlock = !selectedBlock || pothole.blockName === selectedBlock;
-    const matchesStatus = activeStatuses.includes(pothole.status);
+  // const filteredPotholes = potholes.filter((pothole) => {
+  //   const matchesBlock = !selectedBlock || pothole.blockName === selectedBlock;
+  //   const matchesStatus = activeStatuses.includes(pothole.status);
     
-    return matchesBlock && matchesStatus;
-  });
+  //   return matchesBlock && matchesStatus;
+  // });
 
   const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: googleMapsApiKey || "",
@@ -127,42 +127,33 @@ function MapRender() {
               Carregando infraestrutura de mapas...
             </div>
           ) : (
-              viewMode === 'map' ? (
-                <div className="map-container">
-                  <Map 
-                    potholes={potholes || []}
-                    setSelectedLocation={setSelectedLocation}
-                    mapCenter={mapCenter}
-                    setMapCenter={setMapCenter}
-                  />
+              <div className="map-container">
+                <Map 
+                  potholes={potholeMarkers || []}
+                  setSelectedLocation={setSelectedLocation}
+                  mapCenter={mapCenter}
+                  setMapCenter={setMapCenter}
+                />
 
-                  {selectedLocation && (
-                    <div className="pothole-floating-modal">
-                      {createMutation.isPending && (
-                        <div className="modal-loading-overlay">
-                          <div className="loading-spinner !w-8 !h-8 !border-2"></div>
-                        </div>
-                      )}
-                      <h4 className="model-tittle">📍 Novo Ponto Identificado</h4>
-                      <AddPotholeForm 
-                        location={selectedLocation}
-                        onAdd={handleAddPothole}
-                        onCancel={() => setSelectedLocation(null)}
-                        isPending={createMutation.isPending}
-                      />
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <div className="list-container">
-                  <PotholeList 
-                    potholes={potholes}
-                    onDelete={handleDelete}
-                    onViewOnMap={handleViewOnMap}
-                  />
-                </div>
-              )
-          )}
+                {selectedLocation && (
+                  <div className="pothole-floating-modal">
+                    {createMutation.isPending && (
+                      <div className="modal-loading-overlay">
+                        <div className="loading-spinner !w-8 !h-8 !border-2"></div>
+                      </div>
+                    )}
+                    <h4 className="model-tittle">📍 Novo Ponto Identificado</h4>
+                    <AddPotholeForm 
+                      location={selectedLocation}
+                      onAdd={handleAddPothole}
+                      onCancel={() => setSelectedLocation(null)}
+                      isPending={createMutation.isPending}
+                    />
+                  </div>
+                )}
+              </div>
+             )
+          }
         </div>
       </main>
   );

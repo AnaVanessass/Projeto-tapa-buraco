@@ -1,8 +1,7 @@
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../security/AuthContext';
-import { ViewMode } from '../../types/pothole.types';
 import './Header.css';
-import { usePotholes } from '../../hooks/usePotholes';
+import { usePotholeMarkers } from '../../hooks/usePotholes';
 import { useState } from 'react';
 
 function Header({ view, setView, listCount = 0 }) {
@@ -15,7 +14,7 @@ function Header({ view, setView, listCount = 0 }) {
   const currentView = searchParams.get('view') || 'map';
   const avatarLetter = user?.username ? String(user.username).charAt(0).toUpperCase() : 'A';
 
-  const { data: potholes = [] } = usePotholes();
+  const { data: listing = [] } = usePotholeMarkers();
 
   return (
     <header className="app-navbar">
@@ -27,20 +26,18 @@ function Header({ view, setView, listCount = 0 }) {
 
       {isMapPage && (
         <div className="tab-switcher-container">
-          <button 
-            type="button"
-            onClick={() => setSearchParams({ view: 'map' })}
+          <Link
+            to="/mapa"
             className={currentView === 'map' ? 'tab-button-active' : 'tab-button-inactive'}
           >
             Análise em Mapa
-          </button>
-          <button 
-            type="button"
-            onClick={() => setSearchParams({ view: 'list' })}
+          </Link>
+          <Link 
+            to="/listagem"
             className={currentView === 'list' ? 'tab-button-active' : 'tab-button-inactive'}
           >
-            Lista Urbana ({potholes.length}) 
-          </button>
+            Lista Urbana ({listing.length}) 
+          </Link>
         </div>
       )}
 

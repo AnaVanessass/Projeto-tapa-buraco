@@ -92,6 +92,7 @@
    ========================================================================== */
 .info-window {
   padding: var(--space-xs);
+  max-width: 300px;
 }
 
 .info-window-img-box {

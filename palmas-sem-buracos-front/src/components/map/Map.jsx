@@ -25,11 +25,6 @@ const Map = ({ potholes, setSelectedLocation, mapCenter, setMapCenter }) => {
 
   const center = mapCenter || DEFAULT_MAP_CENTER;
 
-  // const getCloudinaryUrl = (publicId) => {
-  //   if (!publicId) return null;
-  //   return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/${publicId}`;
-  // };
-
   return (
     <GoogleMap
       mapContainerStyle={mapOptions.mapContainerStyle}
