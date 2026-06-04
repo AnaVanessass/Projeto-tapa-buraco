@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { getAddressFromCoordinates } from '../../utils/geocoding.utils';
-import { PotholeSize, PotholeSeverity } from '../../types/pothole.types';
+import { getAddressFromCoordinates } from '../../../utils/geocoding.utils';
+import { PotholeSize, PotholeSeverity } from '../../../types/pothole.types';
 import './AddPothole.css';
-import { openCloudinaryWidget } from '../../service/imgUpload';
+import { openCloudinaryWidget } from '../../../service/imgUpload';
 
 const AddPotholeForm = ({ location, onAdd, onCancel }) => {
   const [formData, setFormData] = useState({

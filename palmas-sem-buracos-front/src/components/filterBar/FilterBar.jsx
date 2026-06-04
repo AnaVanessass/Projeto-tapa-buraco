@@ -10,7 +10,6 @@ function FilterBar({
   return (
     <div className="filter-toolbar-box">
       
-      {/* 1. SELEÇÃO DE QUADRAS / BLOCOS */}
       <select 
         key="blocks"
         value={selectedBlock || ''} 
@@ -19,13 +18,12 @@ function FilterBar({
       >
         <option value="">Todas as quadras</option>
         {cityBlocks.map((block) => (
-          <option key={block.id} value={block.id}>
+          <option key={block.idPlace} value={block.idPlace}>
             {block.name}
           </option>
         ))}
       </select>
 
-      {/* 2. ALTERNADORES DE STATUS (MULTISELEÇÃO) */}
       <div className="toggle-status-group">
         
         <button 

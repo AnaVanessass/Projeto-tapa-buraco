@@ -1,8 +1,8 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useJsApiLoader } from '@react-google-maps/api';
-import Map from '../map/Map';
+import Map from './map/Map';
 import PotholeList from '../potholeList/PotholeList';
-import AddPotholeForm from '../addPothole/AddPotholeForm';
+import AddPotholeForm from './addPothole/AddPotholeForm';
 import FilterBar from '../filterBar/FilterBar';
 import { useCreatePothole, useDeletePothole, usePotholeMarkers } from '../../hooks/usePotholes';
 import { ViewMode, DEFAULT_MAP_CENTER } from '../../types/pothole.types';
@@ -36,12 +36,12 @@ function MapRender() {
     );
   };
 
-  // const filteredPotholes = potholes.filter((pothole) => {
-  //   const matchesBlock = !selectedBlock || pothole.blockName === selectedBlock;
-  //   const matchesStatus = activeStatuses.includes(pothole.status);
+  const filteredPotholes = potholeMarkers.filter((pothole) => {
+    const matchesBlock = !selectedBlock || pothole.blockIdPlace === selectedBlock;
+    const matchesStatus = activeStatuses.includes(pothole.status);
     
-  //   return matchesBlock && matchesStatus;
-  // });
+    return matchesBlock && matchesStatus;
+  });
 
   const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: googleMapsApiKey || "",
@@ -129,7 +129,7 @@ function MapRender() {
           ) : (
               <div className="map-container">
                 <Map 
-                  potholes={potholeMarkers || []}
+                  potholes={filteredPotholes || []}
                   setSelectedLocation={setSelectedLocation}
                   mapCenter={mapCenter}
                   setMapCenter={setMapCenter}
