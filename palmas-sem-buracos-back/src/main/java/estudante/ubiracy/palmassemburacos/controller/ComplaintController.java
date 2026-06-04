@@ -47,8 +47,8 @@ public class ComplaintController {
     }
 
     @GetMapping("/map-points")
-    public ResponseEntity<List<PotholeMapMarker>> getMapPoints(@AuthenticationPrincipal String email) {
-        List<PotholeMapMarker> markers = service.getMapMarkers(email);
+    public ResponseEntity<List<PotholeResponse>> getMapPoints(@AuthenticationPrincipal String email) {
+        List<PotholeResponse> markers = service.getMapMarkers(email);
         return ResponseEntity.ok(markers);
     }
 

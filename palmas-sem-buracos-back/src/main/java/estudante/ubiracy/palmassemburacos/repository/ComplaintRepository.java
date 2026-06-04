@@ -2,6 +2,7 @@ package estudante.ubiracy.palmassemburacos.repository;
 
 import estudante.ubiracy.palmassemburacos.model.Complaint;
 import estudante.ubiracy.palmassemburacos.model.dto.PotholeMapMarker;
+import estudante.ubiracy.palmassemburacos.model.dto.PotholeResponse;
 import estudante.ubiracy.palmassemburacos.model.enums.PotholeStatus;
 import estudante.ubiracy.palmassemburacos.model.enums.UserRole;
 import org.springframework.data.domain.Page;
@@ -45,13 +46,14 @@ public interface ComplaintRepository extends JpaRepository<Complaint, Long> {
             Pageable pageable
     );
 
-    @Query("SELECT new estudante.ubiracy.palmassemburacos.model.dto.PotholeMapMarker(" +
-            "c.Id, c.address.lat, c.address.lng, CAST(c.status as string), " +
-            "CASE WHEN c.user.Id = :currentUserId THEN true ELSE false END) " +
-            "FROM Complaint c " +
-            "WHERE c.isDeleted = false " +
+    @EntityGraph(attributePaths = {"address", "address.cityBlock"})
+    @Query("SELECT new estudante.ubiracy.palmassemburacos.model.dto.PotholeResponse(" +
+            "c.Id, c.imagePublicId, a.lat, a.lng, cb.name," +
+            " a.name,CAST(c.createdAt as string), cb.idPlace, CAST(c.status as string)) " +
+            "FROM Complaint c LEFT JOIN c.address a LEFT JOIN a.cityBlock cb" +
+            " WHERE c.isDeleted = false " +
             "AND (:isAdmin = 'ADMIN' OR c.user.Id = :currentUserId OR c.status != 'PENDING')")
-    List<PotholeMapMarker> findActiveMapMarkers(
+    List<PotholeResponse> findActiveMapMarkers(
             @Param("currentUserId") Long currentUserId,
             @Param("isAdmin")String role
             );

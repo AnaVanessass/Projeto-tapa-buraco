@@ -100,9 +100,17 @@ public class ComplaintService {
         return complaints.map(mapper::toResponse);
     }
 
-    public List<PotholeMapMarker> getMapMarkers(String email) {
-        var user = userService.findByEmail(email).orElseThrow();
-        return repo.findActiveMapMarkers(user.getId(), user.getRole().name());
+    public List<PotholeResponse> getMapMarkers(String email) {
+        var user = userService.findByEmail(email).orElse(null);
+        Long userId = null;
+        String userRole = null;
+
+        if (user != null) {
+            userId = user.getId();
+            userRole = user.getRole().name();
+        }
+
+        return repo.findActiveMapMarkers(userId, userRole);
 
     }
 }
