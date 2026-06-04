@@ -7,12 +7,12 @@ import FilterBar from '../filterBar/FilterBar';
 import { useCreatePothole, useDeletePothole, usePotholeMarkers } from '../../hooks/usePotholes';
 import { ViewMode, DEFAULT_MAP_CENTER } from '../../types/pothole.types';
 import { useCityBlocks} from '../../hooks/useCityBlocks';
-import './MapRender.css';
+import './MapPage.css';
 import { useSearchParams } from 'react-router-dom';
 
 const GOOGLE_MAPS_LIBRARIES = ['places'];
 
-function MapRender() {
+function MapPage() {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [mapCenter, setMapCenter] = useState(DEFAULT_MAP_CENTER);
   const [mapError, setMapError] = useState(null);
@@ -159,4 +159,4 @@ function MapRender() {
   );
 }
 
-export default MapRender;
+export default MapPage;

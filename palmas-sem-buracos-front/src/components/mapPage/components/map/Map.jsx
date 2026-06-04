@@ -1,8 +1,8 @@
 import { useState, useCallback } from 'react';
 import { GoogleMap, Marker, InfoWindow, MarkerClusterer } from '@react-google-maps/api';
-import { DEFAULT_MAP_CENTER } from '../../../types/pothole.types';
+import { DEFAULT_MAP_CENTER } from '../../../../types/pothole.types';
 import { mapOptions, markerIcon, getMarkerIcon} from './Map.constants';
-import { getCloudinaryUrl } from '../../../utils/cloudinaryImg';
+import { getCloudinaryUrl } from '../../../../utils/cloudinaryImg';
 
 const Map = ({ potholes, setSelectedLocation, mapCenter, setMapCenter }) => {
   const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_NAME;

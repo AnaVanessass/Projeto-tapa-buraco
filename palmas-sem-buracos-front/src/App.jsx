@@ -1,4 +1,4 @@
-import MapRender from './components/mapRender/MapRender';
+import MapPage from './components/mapPage/MapPage';
 import Login from './components/login/login';
 import Home from './components/home/Home';
 import './App.css';
@@ -15,7 +15,8 @@ function App() {
     <Routes>
       <Route element={<RootLayout/>}>
         <Route path="/" element={<Home />} />
-        <Route path="/mapa" element={<MapRender />} />
+        <Route path="/mapa" element={<MapPage />} />
+        {/* <Route path="/listagem" element={<ListPage />} /> */}
         <Route path="/login" element={<Login />} />
         <Route path="/auth-callback" element={<AuthCallback />} />
         <Route path="/completar-perfil" element={<CompletarPerfil />} />
