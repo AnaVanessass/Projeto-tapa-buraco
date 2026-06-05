@@ -1,12 +1,11 @@
-import { useQuery, useMutation, useQueryClient, keepPreviousData } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient, keepPreviousData, useInfiniteQuery } from "@tanstack/react-query";
 import { changePotholeStatus, createPothole, deletePothole, searchComplaint, fetchPotholeMarkers } from "../service/potholeService";
 import { normalizePothole } from "../utils/normalizePothole";
 
 export const usePotholes = () => {
   return useQuery({
     queryKey: ["potholes"],
-    queryFn: searchComplaint,
-    select: (data) => data.map(normalizePothole),
+    queryFn: searchComplaint
   });
 };
 
@@ -44,7 +43,7 @@ export const useDeletePothole = () => {
 
 export const useSearchAddress = (filters) => {
   return useQuery({
-    queryKey: ["potholes", filters],
+    queryKey: ["potholeDetails", filters],
     queryFn: () => searchComplaint(filters),
     placeholderData: (keepPreviousData) => keepPreviousData,
   });
@@ -55,5 +54,25 @@ export const usePotholeMarkers = (filters) => {
     queryKey: ["potholes", filters],
     queryFn: () => fetchPotholeMarkers(filters),
     placeholderData: (keepPreviousData) => keepPreviousData,
+  });
+};
+
+export const useInfinitePotholes = (filters) => {
+  return useInfiniteQuery({
+    queryKey: ["infinitePotholes", filters],
+
+    queryFn: ({ pageParam = 0 }) =>
+      searchComplaint({
+        ...filters,
+        page: pageParam,
+      }),
+
+    getNextPageParam: (lastPage) => {
+      if (lastPage.last) return undefined;
+
+      return lastPage.number + 1;
+    },
+
+    initialPageParam: 0,
   });
 };

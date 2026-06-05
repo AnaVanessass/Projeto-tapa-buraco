@@ -1,14 +1,12 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useJsApiLoader } from '@react-google-maps/api';
-import Map from './map/Map';
-import PotholeList from '../potholeList/PotholeList';
-import AddPotholeForm from './addPothole/AddPotholeForm';
+import Map from './components/map/Map';
+import PotholeForm from './components/potholeForm/PotholeForm';
 import FilterBar from '../filterBar/FilterBar';
 import { useCreatePothole, useDeletePothole, usePotholeMarkers } from '../../hooks/usePotholes';
-import { ViewMode, DEFAULT_MAP_CENTER } from '../../types/pothole.types';
+import { DEFAULT_MAP_CENTER } from '../../types/pothole.types';
 import { useCityBlocks} from '../../hooks/useCityBlocks';
 import './MapPage.css';
-import { useSearchParams } from 'react-router-dom';
 
 const GOOGLE_MAPS_LIBRARIES = ['places'];
 
@@ -17,9 +15,6 @@ function MapPage() {
   const [mapCenter, setMapCenter] = useState(DEFAULT_MAP_CENTER);
   const [mapError, setMapError] = useState(null);
   const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-  const [searchParams] = useSearchParams();
-  const viewMode = searchParams.get('view') || 'map';
-  
   const { data: blocks = [], isPending: isBlocksPending } = useCityBlocks();
   const { data: potholeMarkers = [], isPending: isPotholeMarkersPending } = usePotholeMarkers();
   const createMutation = useCreatePothole();
@@ -127,33 +122,32 @@ function MapPage() {
               Carregando infraestrutura de mapas...
             </div>
           ) : (
-              <div className="map-container">
-                <Map 
-                  potholes={filteredPotholes || []}
-                  setSelectedLocation={setSelectedLocation}
-                  mapCenter={mapCenter}
-                  setMapCenter={setMapCenter}
-                />
+            <div className="map-container">
+              <Map 
+                potholes={filteredPotholes || []}
+                setSelectedLocation={setSelectedLocation}
+                mapCenter={mapCenter}
+                setMapCenter={setMapCenter}
+              />
 
-                {selectedLocation && (
-                  <div className="pothole-floating-modal">
-                    {createMutation.isPending && (
-                      <div className="modal-loading-overlay">
-                        <div className="loading-spinner !w-8 !h-8 !border-2"></div>
-                      </div>
-                    )}
-                    <h4 className="model-tittle">📍 Novo Ponto Identificado</h4>
-                    <AddPotholeForm 
-                      location={selectedLocation}
-                      onAdd={handleAddPothole}
-                      onCancel={() => setSelectedLocation(null)}
-                      isPending={createMutation.isPending}
-                    />
-                  </div>
-                )}
-              </div>
-             )
-          }
+              {selectedLocation && (
+                <div className="pothole-floating-modal">
+                  {createMutation.isPending && (
+                    <div className="modal-loading-overlay">
+                      <div className="loading-spinner !w-8 !h-8 !border-2"></div>
+                    </div>
+                  )}
+                  <h4 className="model-tittle">📍 Novo Ponto Identificado</h4>
+                  <PotholeForm 
+                    location={selectedLocation}
+                    onAdd={handleAddPothole}
+                    onCancel={() => setSelectedLocation(null)}
+                    isPending={createMutation.isPending}
+                  />
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </main>
   );

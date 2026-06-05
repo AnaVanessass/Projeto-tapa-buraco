@@ -1,7 +1,4 @@
 .pothole-list-container {
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
   padding: 16px;
   background-color: #fcfcfc;
 }
@@ -99,5 +96,38 @@
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@media (max-width: 768px) {
+  .pothole-row-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+    border: 1px solid #ececec;
+  }
+
+  .card-status-wrapper {
+    width: 100%;
+  }
+
+  .status-badge {
+    width: fit-content;
+  }
+
+  .card-info {
+    width: 100%;
+  }
+
+  .card-info h3 {
+    font-size: 15px;
+    line-height: 1.4;
+  }
+
+  @media (hover: none) {
+    .image-hover-preview {
+      display: none;
+    }
   }
 }
