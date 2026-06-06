@@ -20,7 +20,7 @@ const PotholeList = ({potholes, onSelected}) => {
 
   const getStatusLabel = (status) => {
     const labels = {
-      'PENDING': 'Aguardando',
+      'PENDING': 'Em Analise',
       'OPEN': 'Aberto',
       'FIXED': 'Resolvido'
     };

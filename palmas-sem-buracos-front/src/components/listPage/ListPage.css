@@ -37,25 +37,31 @@
 .status-badge {
   display: inline-block;
   padding: 8px 20px;
-  border-radius: 20px; /* Formato de pílula */
+  border-radius: var(--radius-sm);
+  border: 0.0625rem solid var(--color-border-medium);
   font-size: 13px;
   font-weight: bold;
   font-family: sans-serif;
   text-align: center;
-  color: #ffffff;
 }
 
 /* Cores variantes com base no status do banco */
 .status-badge.pending {
-  background-color: #d32f2f; /* Vermelho idêntico ao da imagem */
+  background-color: #FFFBEB;
+  border-color: var(--color-brand-warning);
+  color: #B45309;
 }
 
 .status-badge.open {
-  background-color: #f57c00; /* Laranja opcional para Aberto */
+  background-color: #FEF2F2;
+  border-color: var(--color-brand-danger);
+  color: var(--color-brand-danger);/* Laranja opcional para Aberto */
 }
 
 .status-badge.fixed {
-  background-color: #388e3c; /* Verde opcional para Resolvido */
+  background-color: #F0FDF4;
+  border-color: var(--color-brand-success);
+  color: var(--color-brand-primary); /* Verde opcional para Resolvido */
 }
 
 /* Estilo para lista vazia */

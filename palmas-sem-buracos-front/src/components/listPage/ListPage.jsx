@@ -38,7 +38,7 @@ function ListPage() {
   const filteredPotholes = list2.filter((pothole) => {
     const matchesBlock = !selectedBlock || pothole.blockIdPlace === selectedBlock;
     const matchesStatus = activeStatuses.includes(pothole.status);
-    
+
     return matchesBlock && matchesStatus;
   });
 

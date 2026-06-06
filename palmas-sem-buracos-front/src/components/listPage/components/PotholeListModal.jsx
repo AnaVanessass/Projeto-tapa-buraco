@@ -3,7 +3,7 @@ import getCloudinaryUrl from "../../../utils/cloudinaryImg";
 export default function PotholeDetailsModal({selectedPothole, setSelectedPothole}) {
     const getStatusLabel = (status) => {
         const labels = {
-        'PENDING': 'Aguardando',
+        'PENDING': 'Em Analise',
         'OPEN': 'Aberto',
         'FIXED': 'Resolvido'
         };
