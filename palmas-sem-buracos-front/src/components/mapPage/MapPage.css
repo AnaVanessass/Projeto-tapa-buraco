@@ -26,17 +26,17 @@
 /* Moldura funcional que envolve o mapa/lista (Bordas Largas do Figma) */
 .live-map-frame {
   width: 100%;
-  height: 28.125rem; /* 450px */
+  min-height: 28.125rem; /* 450px */
   border-radius: var(--radius-xl); /* 24px */
   position: relative;
-  background-color: var(--color-bg-frame);
+  /* background-color: var(--color-bg-frame); */
   border: 0.0625rem solid var(--color-border-dark);
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
 @media (min-width: 768px) {
   .live-map-frame {
-    height: 34.375rem; /* 550px (md:h-[550px]) */
+    min-height: 34.375rem; /* 550px (md:h-[550px]) */
   }
 }
 

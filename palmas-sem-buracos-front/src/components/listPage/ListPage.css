@@ -1,6 +1,5 @@
 .pothole-list-container {
   padding: 16px;
-  background-color: #fcfcfc;
 }
 
 .list-rows {
@@ -55,13 +54,13 @@
 .status-badge.open {
   background-color: #FEF2F2;
   border-color: var(--color-brand-danger);
-  color: var(--color-brand-danger);/* Laranja opcional para Aberto */
+  color: var(--color-brand-danger);
 }
 
 .status-badge.fixed {
   background-color: #F0FDF4;
   border-color: var(--color-brand-success);
-  color: var(--color-brand-primary); /* Verde opcional para Resolvido */
+  color: var(--color-brand-primary); 
 }
 
 /* Estilo para lista vazia */
