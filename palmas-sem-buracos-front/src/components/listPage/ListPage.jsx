@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import List from './components/list/PotholeList';
 import FilterBar from '../filterBar/FilterBar';
-import { useSearchAddress, useInfinitePotholes } from '../../hooks/usePotholes';
+import { useSearchAddress, useInfinitePotholes, useDeletePothole } from '../../hooks/usePotholes';
 import { useCityBlocks} from '../../hooks/useCityBlocks';
 import './ListPage.css';
 import { normalizePothole } from '../../utils/normalizePothole';
 import getCloudinaryUrl from '../../utils/cloudinaryImg';
-import PotholeDetailsModal from './components/PotholeListModal';
+import PotholeDetailsModal from './components/PotholeDetailsModal/PotholeListModal';
 
 function ListPage() {
   const { data: blocks = [], isPending: isBlocksPending } = useCityBlocks();
@@ -15,6 +15,7 @@ function ListPage() {
   const [selectedBlock, setSelectedBlock] = useState(null);
   const [activeStatuses, setActiveStatuses] = useState(['OPEN', 'PENDING', 'FIXED']);
   const [selectedPothole, setSelectedPothole] = useState(null);
+  const { mutate: deletePothole, isPending: isDeleting } = useDeletePothole(); 
 
   const {
     data,
@@ -120,6 +121,7 @@ function ListPage() {
             <PotholeDetailsModal
             selectedPothole={selectedPothole}
             setSelectedPothole={setSelectedPothole}
+            deletePothole={deletePothole}
             />
           )}
           <div ref={loadMoreRef} />

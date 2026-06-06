@@ -1,14 +1,12 @@
 import '../../ListPage.css';
 import { useState, useCallback } from 'react';
 import getCloudinaryUrl from '../../../../utils/cloudinaryImg.jsx';
-import { useDeletePothole } from '../../../../hooks/usePotholes.js';
 
 const PotholeList = ({potholes, onSelected}) => {
   
   const [hoveredImage, setHoveredImage] = useState(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isImageLoading, setIsImageLoading] = useState(true);
-  const { mutate: deletePothole, isPending: isDeleting } = useDeletePothole(); 
 
   if (potholes.length === 0) {
     return (
