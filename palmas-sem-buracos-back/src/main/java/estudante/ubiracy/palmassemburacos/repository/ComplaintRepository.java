@@ -3,6 +3,7 @@ package estudante.ubiracy.palmassemburacos.repository;
 import estudante.ubiracy.palmassemburacos.model.Complaint;
 import estudante.ubiracy.palmassemburacos.model.dto.PotholeMapMarker;
 import estudante.ubiracy.palmassemburacos.model.dto.PotholeResponse;
+import estudante.ubiracy.palmassemburacos.model.dto.TotaisHeader;
 import estudante.ubiracy.palmassemburacos.model.enums.PotholeStatus;
 import estudante.ubiracy.palmassemburacos.model.enums.UserRole;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 public interface ComplaintRepository extends JpaRepository<Complaint, Long> {
     @EntityGraph(attributePaths = {"address", "address.cityBlock"})
@@ -58,4 +60,12 @@ public interface ComplaintRepository extends JpaRepository<Complaint, Long> {
             @Param("isAdmin")String role
             );
 
+    @Query("SELECT new estudante.ubiracy.palmassemburacos.model.dto.TotaisHeader(" +
+            "COUNT(c.isDeleted) AS total, " +
+            "SUM(CASE WHEN c.user.Id = :currentUserId THEN 1 ELSE 0 END) AS totalUsuario," +
+            "SUM(CASE WHEN c.status = 'OPEN' THEN 1 ELSE 0 END) AS aberto, " +
+            "SUM(CASE WHEN c.status = 'PENDING' THEN 1 ELSE 0 END) AS emAndamento," +
+            "SUM(CASE WHEN c.status = 'FIXED' THEN 1 ELSE 0 END) AS resolvido) " +
+            "FROM Complaint c WHERE c.isDeleted = false")
+    TotaisHeader totalComplaintsAndComplaintByUserId(Long currentUserId);
 }

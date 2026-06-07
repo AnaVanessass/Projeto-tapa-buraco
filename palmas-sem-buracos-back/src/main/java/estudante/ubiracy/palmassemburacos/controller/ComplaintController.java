@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/complaints")
@@ -52,6 +53,11 @@ public class ComplaintController {
         return ResponseEntity.ok(markers);
     }
 
+    @GetMapping("/total")
+    public ResponseEntity<TotaisHeader> totalComplaintsAndTotalByUser(@AuthenticationPrincipal String email) {
+        var results = service.totalComplaintsAndTotalByUser(email);
+        return new ResponseEntity<>(results, HttpStatus.OK);
+    }
 
     @GetMapping("/address")
     public ResponseEntity<List<PotholeResponse>> allByAddressContaining(@RequestParam String addressName){
@@ -80,7 +86,7 @@ public class ComplaintController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id){
+    public ResponseEntity<String> delete(@AuthenticationPrincipal String email, @PathVariable Long id){
         service.delete(id);
         return ResponseEntity.noContent().build();
     }

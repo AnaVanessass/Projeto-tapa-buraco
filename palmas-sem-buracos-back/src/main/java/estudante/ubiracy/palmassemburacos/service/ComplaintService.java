@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ComplaintService {
@@ -111,6 +112,12 @@ public class ComplaintService {
         }
 
         return repo.findActiveMapMarkers(userId, userRole);
+    }
 
+    public TotaisHeader totalComplaintsAndTotalByUser(String email) {
+        var user = userService.findByEmail(email).orElse(null);
+        Long userId = null;
+        if (user != null) {userId = user.getId();}
+        return repo.totalComplaintsAndComplaintByUserId(userId);
     }
 }

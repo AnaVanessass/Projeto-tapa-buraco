@@ -1,4 +1,4 @@
 package estudante.ubiracy.palmassemburacos.model.dto;
 
-public class TotaisHeader {
+public record TotaisHeader(Long total, Long totalUsuario, Long aberto, Long emAndamento, Long resolvido) {
 }

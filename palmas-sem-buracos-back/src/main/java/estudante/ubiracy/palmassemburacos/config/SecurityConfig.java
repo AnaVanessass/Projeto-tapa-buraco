@@ -31,7 +31,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login/**", "/oauth2/**", "/error").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/complaints/","/api/complaints/map-points", "/api/blocks/").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/complaints/","/api/complaints/map-points","/api/complaints/total", "/api/blocks/").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
