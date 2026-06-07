@@ -46,7 +46,7 @@ export function UsersManagement() {
     return 'Cidadão';
   };
 
-  return (
+ return (
     <>
       <section className="admin-filter-bar">
         <input 
@@ -68,40 +68,92 @@ export function UsersManagement() {
         </span>
       </section>
 
-      <div className="admin-table-wrapper">
-        {isUsersPending ? (
-          <div className="loading-box">Carregando usuários...</div>
-        ) : (
-          <table className="admin-data-table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>E-mail</th>
-                <th>Nível Atual</th>
-                <th>Alterar Permissão</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              {usersList.length === 0 ? (
+      {isUsersPending ? (
+        <div className="loading-box">Carregando usuários...</div>
+      ) : (
+        <>
+          {/* TABELA DESKTOP: Oculta no mobile, visível em telas grandes */}
+          <div className="admin-table-wrapper desktop-only">
+            <table className="admin-data-table">
+              <thead>
                 <tr>
-                  <td colSpan="6" style={{ textAlign: 'center', padding: '2rem' }}>
-                    Nenhum usuário encontrado.
-                  </td>
+                  <th>ID</th>
+                  <th>Nome</th>
+                  <th>E-mail</th>
+                  <th>Nível Atual</th>
+                  <th>Alterar Permissão</th>
+                  <th>Ações</th>
                 </tr>
-              ) : (
-                usersList.map((usuario) => (
-                  <tr key={usuario.id}>
-                    <td className="id">{usuario.id}</td>
-                    <td>{usuario.name}</td>
-                    <td>{usuario.email}</td>
-                    <td>
-                      <span className={`badge-status-base ${getRoleClassName(usuario.role)}`}>
-                        {getRoleLabel(usuario.role)}
-                      </span>
+              </thead>
+              <tbody>
+                {usersList.length === 0 ? (
+                  <tr>
+                    <td colSpan="6" style={{ textAlign: 'center', padding: '2rem' }}>
+                      Nenhum usuário encontrado.
                     </td>
-                    <td>
+                  </tr>
+                ) : (
+                  usersList.map((usuario) => (
+                    <tr key={usuario.id}>
+                      <td className="id">#{usuario.id}</td>
+                      <td>{usuario.name}</td>
+                      <td>{usuario.email}</td>
+                      <td>
+                        <span className={`badge-status-base ${getRoleClassName(usuario.role)}`}>
+                          {getRoleLabel(usuario.role)}
+                        </span>
+                      </td>
+                      <td>
+                        <select
+                          value={usuario.role}
+                          onChange={(e) => handleRoleChange({ id: usuario.id, role: e.target.value })}
+                          className="admin-table-select"
+                          disabled={isUpdatingRole}
+                        >
+                          <option value="CLIENT">Cidadão</option>
+                          <option value="SERVER">Servidor</option>
+                          <option value="ADMIN">Administrador</option>
+                        </select>
+                      </td>
+                      <td>
+                        <button 
+                          type="button" 
+                          onClick={() => window.confirm(`Remover usuário ${usuario.name}?`) && deleteUser(usuario.id)}
+                          disabled={isDeletingUser}
+                          className="btn-table-delete"
+                        >
+                          🗑️ Remover
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+
+          {/* LISTA DE CARDS MOBILE: Visível apenas em smartphones */}
+          <div className="admin-mobile-cards mobile-only">
+            {usersList.length === 0 ? (
+              <div className="no-data-card">Nenhum usuário encontrado.</div>
+            ) : (
+              usersList.map((usuario) => (
+                <div key={usuario.id} className="admin-card">
+                  <div className="card-header">
+                    <span className="card-id">#{usuario.id}</span>
+                    <span className={`badge-status-base ${getRoleClassName(usuario.role)}`}>
+                      {getRoleLabel(usuario.role)}
+                    </span>
+                  </div>
+                  
+                  <div className="card-body">
+                    <p><strong>Nome:</strong> {usuario.name}</p>
+                    <p><strong>E-mail:</strong> {usuario.email}</p>
+                  </div>
+                  
+                  <div className="card-actions">
+                    <div className="action-select-wrapper">
+                      <label>Permissão:</label>
                       <select
                         value={usuario.role}
                         onChange={(e) => handleRoleChange({ id: usuario.id, role: e.target.value })}
@@ -112,24 +164,23 @@ export function UsersManagement() {
                         <option value="SERVER">Servidor</option>
                         <option value="ADMIN">Administrador</option>
                       </select>
-                    </td>
-                    <td>
-                      <button 
-                        type="button" 
-                        onClick={() => window.confirm(`Remover usuário ${usuario.name}?`) && deleteUser(usuario.id)}
-                        disabled={isDeletingUser}
-                        className="btn-table-delete"
-                      >
-                        🗑️ Remover
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        )}
-      </div>
+                    </div>
+                    
+                    <button 
+                      type="button" 
+                      onClick={() => window.confirm(`Remover usuário ${usuario.name}?`) && deleteUser(usuario.id)}
+                      disabled={isDeletingUser}
+                      className="btn-card-delete"
+                    >
+                      🗑️ Remover
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </>
+      )}
 
       <AdminPagination 
         currentPage={currentPage} 

@@ -4,10 +4,12 @@ import api from '../../service/apiClient';
 import './CompleteProfile.css';
 import Footer from '../footer/Footer';
 import Header from '../header/Header';
+import { useAlert } from '../../alerts/AlertContext'
 
 function CompletarPerfil() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
+  const {triggerSuccess, triggerError} = useAlert();
 
   const handleCompletion = async (e) => {
     e.preventDefault();
@@ -15,7 +17,7 @@ function CompletarPerfil() {
       await api.post('/users/complete-profile', { username });
       navigate('/mapa');
     } catch (error) {
-      console.log('Algo deu errado: ' + error);
+      triggerError(error.response.data.detail);
     }
   };
 

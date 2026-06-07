@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import List from './components/list/PotholeList';
 import FilterBar from '../filterBar/FilterBar';
-import { useSearchAddress, useInfinitePotholes, useDeletePothole } from '../../hooks/usePotholes';
+import { useInfinitePotholes, useDeletePothole } from '../../hooks/usePotholes';
 import { useCityBlocks} from '../../hooks/useCityBlocks';
 import './ListPage.css';
 import { normalizePothole } from '../../utils/normalizePothole';
@@ -10,8 +10,6 @@ import PotholeDetailsModal from './components/PotholeDetailsModal/PotholeListMod
 
 function ListPage() {
   const { data: blocks = [], isPending: isBlocksPending } = useCityBlocks();
-  const [showSuccessAlert, setShowSuccessAlert] = useState(null);
-  const [errorAlertMessage, setErrorAlertMessage] = useState(null);
   const [selectedBlock, setSelectedBlock] = useState(null);
   const [activeStatuses, setActiveStatuses] = useState(['OPEN', 'PENDING', 'FIXED']);
   const [selectedPothole, setSelectedPothole] = useState(null);
@@ -42,20 +40,6 @@ function ListPage() {
 
     return matchesBlock && matchesStatus;
   });
-
-  useEffect(() => {
-    if (errorAlertMessage) {
-      const timer = setTimeout(() => setErrorAlertMessage(null), 4000);
-      return () => clearTimeout(timer);
-    }
-  }, [errorAlertMessage]);
-
-  useEffect(() => {
-    if (showSuccessAlert) {
-      const timer = setTimeout(() => setShowSuccessAlert(null), 4000);
-      return () => clearTimeout(timer);
-    }
-  }, [showSuccessAlert])
 
   const loadMoreRef = useRef(null);
 
@@ -101,16 +85,6 @@ function ListPage() {
         </div>
 
         <div className="live-map-frame">
-          {showSuccessAlert && (
-            <div className="alert-success-toast">
-              {showSuccessAlert}
-            </div>
-          )}
-          {errorAlertMessage && (
-            <div className="alert-error-toast">
-              {errorAlertMessage}
-            </div>
-          )}
           <div className="list-container">
             <List 
             potholes={filteredPotholes || []}
@@ -122,8 +96,6 @@ function ListPage() {
             selectedPothole={selectedPothole}
             setSelectedPothole={setSelectedPothole}
             deletePothole={deletePothole}
-            setShowSuccessAlert={setShowSuccessAlert}   
-            setErrorAlertMessage={setErrorAlertMessage}
             isDeleting={isDeleting} 
             />
           )}

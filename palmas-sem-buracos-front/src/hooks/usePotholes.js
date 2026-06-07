@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient, keepPreviousData, useInfiniteQuery } from "@tanstack/react-query";
 import { changePotholeStatus, createPothole, deletePothole, searchComplaint, fetchPotholeMarkers, totalsHeader } from "../service/potholeService";
 import { normalizePothole } from "../utils/normalizePothole";
+import { useAlert } from "../alerts/AlertContext";
 
 export const usePotholes = () => {
   return useQuery({
@@ -30,13 +31,18 @@ export const useCreatePothole = () => {
 
 export const useDeletePothole = () => {
   const queryClient = useQueryClient();
-
+  const {triggerSuccess, triggerError} = useAlert();
+  
   return useMutation({
     mutationFn: deletePothole,
     onSuccess: () => {
       queryClient.invalidateQueries(["potholes"]);
+      triggerSuccess("Denúncia deletada com sucesso!");
     },
-    onError: (error) => {console.error("Erro na mutação:", error);}
+    onError: (error) => {
+      console.error("Erro na mutação:", error);
+      triggerError("Não foi possível deletar no momento.")
+    }
   });
 };
 

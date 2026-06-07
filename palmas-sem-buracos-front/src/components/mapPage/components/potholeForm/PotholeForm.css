@@ -122,14 +122,14 @@
 
 /* Botão de Cancelamento (Texto Muted com Transição de Erro) */
 .form-actions button[type="button"]:last-child {
-  background-color: transparent;
+  background-color: #ff000026;
   color: var(--color-txt-muted);
   font-weight: 500;
 }
 
 .form-actions button[type="button"]:last-child:hover {
-  color: var(--color-brand-danger);
-  background-color: var(--color-bg-footer);
+  color: var(--color-bg-footer);
+  background-color: var(--color-brand-danger);
 }
 
 .form-actions button:active {

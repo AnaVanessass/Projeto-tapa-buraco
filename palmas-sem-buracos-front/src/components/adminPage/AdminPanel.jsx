@@ -3,7 +3,6 @@ import './AdminPanel.css';
 import { ComplaintsTable } from './components/ComplaintsTable';
 import { ReportsDashboard } from './components/ReportsDashboard';
 import { UsersManagement } from './components/UsersManagement';
-import { AdminHeader } from './components/AdminHeader';
 import { AdminNavTabs } from './components/AdminNavTabs';
 
 function AdminPanel() {

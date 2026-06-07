@@ -7,6 +7,7 @@ import { useCreatePothole, useDeletePothole, usePotholeMarkers } from '../../hoo
 import { DEFAULT_MAP_CENTER } from '../../types/pothole.types';
 import { useCityBlocks} from '../../hooks/useCityBlocks';
 import './MapPage.css';
+import { useAlert } from '../../alerts/AlertContext';
 
 const GOOGLE_MAPS_LIBRARIES = ['places'];
 
@@ -19,8 +20,7 @@ function MapPage() {
   const { data: potholeMarkers = [], isPending: isPotholeMarkersPending } = usePotholeMarkers();
   const createMutation = useCreatePothole();
   const deleteMutation = useDeletePothole();
-  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
-  const [errorAlertMessage, setErrorAlertMessage] = useState(null);
+  const {triggerSuccess, triggerError} = useAlert();
 
   const [selectedBlock, setSelectedBlock] = useState(null);
   const [activeStatuses, setActiveStatuses] = useState(['OPEN', 'PENDING', 'FIXED']);
@@ -49,16 +49,15 @@ function MapPage() {
 
   const handleAddPothole = async (payload) => {
     try {
-      setErrorAlertMessage(null);
       await createMutation.mutateAsync(payload);
       setSelectedLocation(null);
-      setShowSuccessAlert(true);
+      triggerSuccess("Denúncia criada com sucesso!");
     } catch (err) {
       console.error("Erro ao salvar buraco", err);
       if (err.response?.status === 401) {
-        setErrorAlertMessage("Acesso negado. Você precisa estar logado para denunciar.");
+        triggerError("Acesso negado. Você precisa estar logado para denunciar.");
       } else {
-        setErrorAlertMessage("Ops! Algo deu errado ao salvar. Tente novamente.");
+        triggerError("Ops! Algo deu errado ao salvar. Tente novamente.");
       }
     }
   };
@@ -74,20 +73,6 @@ function MapPage() {
     setMapError('Erro técnico ao renderizar os mapas públicos.');
   }, []);
 
-  useEffect(() => {
-    if (errorAlertMessage) {
-      const timer = setTimeout(() => setErrorAlertMessage(null), 4000);
-      return () => clearTimeout(timer);
-    }
-  }, [errorAlertMessage]);
-
-  useEffect(() => {
-    if (showSuccessAlert) {
-      const timer = setTimeout(() => setShowSuccessAlert(false), 4000);
-      return () => clearTimeout(timer);
-    }
-  }, [showSuccessAlert])
-
   return (
       <main className="map-content-box">
         
@@ -102,17 +87,6 @@ function MapPage() {
         </div>
 
         <div className="live-map-frame">
-          {showSuccessAlert && (
-            <div className="alert-success-toast">
-              Denúncia registrada com sucesso em Palmas!
-            </div>
-          )}
-          {errorAlertMessage && (
-            <div className="alert-error-toast">
-              {errorAlertMessage}
-            </div>
-          )}
-
           {loadError ? (
             <div className="map-api-error-box">
               Chave Mapas Ausente no arquivo .env

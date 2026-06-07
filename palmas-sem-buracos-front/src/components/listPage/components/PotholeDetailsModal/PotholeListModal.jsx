@@ -4,7 +4,7 @@ import { createPortal } from "react-dom";
 import { useState } from "react";
 
 export default function PotholeDetailsModal(
-    {selectedPothole, setSelectedPothole, deletePothole, setErrorAlertMessage, setShowSuccessAlert, isDeleting}
+    {selectedPothole, setSelectedPothole, deletePothole, isDeleting}
 ) {
     const [isConfirming, setIsConfirming] = useState(false);
 
@@ -40,15 +40,6 @@ export default function PotholeDetailsModal(
         if (diffInDays < 30) return rtf.format(-diffInDays, "day");
         
         return rtf.format(-diffInMonths, "month");
-    };
-
-    const messages = {
-        onSuccess: () => {
-            setShowSuccessAlert("Denúncia removida com sucesso!");
-        },
-        onError: (error) => {
-            setErrorAlertMessage(error?.message || "Não foi possível deletar o registro.");
-        }
     };
 
     return createPortal(
@@ -90,10 +81,7 @@ export default function PotholeDetailsModal(
                                 className="confirm-yes-btn"
                                 disabled={isDeleting} 
                                 onClick={() => {
-                                    deletePothole(
-                                        selectedPothole.id,
-                                        messages
-                                    );
+                                    deletePothole(selectedPothole.id);
                                     setSelectedPothole(null);   
                                 }}>
                                     {isDeleting ? "Deletando..." : "Sim, Deletar"}
