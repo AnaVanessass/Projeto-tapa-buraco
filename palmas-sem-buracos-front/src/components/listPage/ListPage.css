@@ -1,3 +1,7 @@
+:root {
+  --img-height: 350px;
+}
+
 .pothole-list-container {
   padding: 16px;
 }
@@ -91,40 +95,117 @@
   object-fit: contain; /* Recorta a imagem proporcionalmente sem distorcer */
   border-radius: 8px;
 }
-
 .pothole-modal-backdrop {
-  position: fixed; /* escape parent container */
-  inset: 0;        /* top:0 right:0 bottom:0 left:0 */
-
+  position: fixed;
+  inset: 0;
   background: rgba(0, 0, 0, 0.6);
-
   display: flex;
+  align-items: flex-end; /* Mobile default: Position modal at the bottom */
   justify-content: center;
-  align-items: center;
-
   z-index: 9999;
 }
 
+/* Mobile Layout: Bottom Sheet */
 .pothole-modal {
-  width: min(80vw, 800px);
-  max-height: 90vh;
-
+  width: 100%;
+  max-height: 85vh; /* Don't cover the entire mobile screen */
   background: white;
-  border-radius: 12px;
-  padding: 24px;
-
-  overflow-y: auto;
+  
+  /* Round only top corners on mobile */
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  overflow: hidden; 
+  
+  /* Slide up animation for mobile */
+  animation: slideUp 0.3s ease-out;
 }
 
-.pothole-modal img {
+/* Desktop Layout (Screens wider than 600px) */
+@media (min-width: 600px) {
+  .pothole-modal-backdrop {
+    align-items: center; /* Center horizontally and vertically on web */
+    padding: 2rem;
+  }
+
+  .pothole-modal {
+    width: min(90vw, 500px); /* Constrain width so it looks like a clean card */
+    max-height: 90vh;
+    border-radius: 12px; /* Round all corners on web */
+    animation: scaleIn 0.2s ease-out;
+  }
+}
+
+/* Content & Scroll behavior */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: solid 1px #0001;
+  padding: 1.25rem;
+}
+
+.modal-content {
+  padding: 1.25rem;
+  overflow-y: auto; /* Only the body content scrolls, keeping header fixed */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Typography & Visuals */
+.modal-info h2 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: #1a1a1a;
+}
+
+.modal-info p {
+  margin: 0.25rem 0;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.pothole-modal img, .img-placeholder {
   width: 100%;
-  max-height: 400px;
+  height: var(--img-height);
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
+}
+
+.img-placeholder {
+  background: cadetblue;
+}
+
+/* Button Layout styling */
+.modal-actions {
+  border-top: 1px solid #0001;
+  padding-top: 1rem;
+}
+
+.delete-btn {
+  width: 100%; /* Full width button is highly clickable on mobile devices */
+  padding: 0.75rem;
+  background-color: #dc3545;
+  color: white;
+  border-radius: 6px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Animations */
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 
 /* Transição suave ao aparecer */
@@ -170,4 +251,47 @@
       display: none;
     }
   }
+}
+
+.confirmation-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  text-align: center;
+  background: #fff5f5;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ffe3e3;
+}
+
+.confirmation-box p {
+  color: #c92a2a;
+  font-weight: 500;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.confirmation-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Botão de confirmação de exclusão */
+.confirm-yes-btn {
+  flex: 1;
+  padding: 0.75rem;
+  background-color: #dc3545;
+  color: white;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+/* Botão de desistência */
+.confirm-no-btn {
+  flex: 1;
+  padding: 0.75rem;
+  background-color: #e9ecef;
+  color: #495057;
+  border-radius: 6px;
+  font-weight: 600;
 }

@@ -1,20 +1,21 @@
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../security/AuthContext';
 import './Header.css';
-import { usePotholeMarkers } from '../../hooks/usePotholes';
+import { useTotalsHeader } from '../../hooks/usePotholes';
 import { useState } from 'react';
 
 function Header({ view, setView, listCount = 0 }) {
   const location = useLocation();
   const { user, logout } = useAuth();
-  const [searchParams, setSearchParams] = useSearchParams();
   const [showLogout, setShowLogout] = useState(false);
   
   const isMapPage = location.pathname === '/mapa';
-  const currentView = searchParams.get('view') || 'map';
+  const isListPage = location.pathname === '/listagem';
   const avatarLetter = user?.username ? String(user.username).charAt(0).toUpperCase() : 'A';
 
-  const { data: listing = [] } = usePotholeMarkers();
+  const { data: totals = [] } = useTotalsHeader();
+  const denunciasUsuario = totals.totalUsuario !== 0 ? totals.totalUsuario : 0;
+  const totalHeader = totals.total;
 
   return (
     <header className="app-navbar">
@@ -28,15 +29,32 @@ function Header({ view, setView, listCount = 0 }) {
         <div className="tab-switcher-container">
           <Link
             to="/mapa"
-            className={currentView === 'map' ? 'tab-button-active' : 'tab-button-inactive'}
+            className="tab-button-active"
           >
-            Análise em Mapa
+            Mapa ({totalHeader})
           </Link>
           <Link 
             to="/listagem"
-            className={currentView === 'list' ? 'tab-button-active' : 'tab-button-inactive'}
+            className="tab-button-inactive"
           >
-            Lista Urbana ({listing.length}) 
+            Minhas Denúncias ({denunciasUsuario}) 
+          </Link>
+        </div>
+      )}
+
+      {isListPage && (
+        <div className="tab-switcher-container">
+          <Link
+            to="/mapa"
+            className="tab-button-inactive"
+          >
+            Mapa ({totalHeader})
+          </Link>
+          <Link 
+            to="/listagem"
+            className="tab-button-active"
+          >
+            Minhas Denúncias ({denunciasUsuario}) 
           </Link>
         </div>
       )}

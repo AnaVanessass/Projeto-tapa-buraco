@@ -10,12 +10,12 @@ import PotholeDetailsModal from './components/PotholeDetailsModal/PotholeListMod
 
 function ListPage() {
   const { data: blocks = [], isPending: isBlocksPending } = useCityBlocks();
-  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const [showSuccessAlert, setShowSuccessAlert] = useState(null);
   const [errorAlertMessage, setErrorAlertMessage] = useState(null);
   const [selectedBlock, setSelectedBlock] = useState(null);
   const [activeStatuses, setActiveStatuses] = useState(['OPEN', 'PENDING', 'FIXED']);
   const [selectedPothole, setSelectedPothole] = useState(null);
-  const { mutate: deletePothole, isPending: isDeleting } = useDeletePothole(); 
+  const { mutate: deletePothole, isPending: isDeleting } = useDeletePothole();
 
   const {
     data,
@@ -52,7 +52,7 @@ function ListPage() {
 
   useEffect(() => {
     if (showSuccessAlert) {
-      const timer = setTimeout(() => setShowSuccessAlert(false), 4000);
+      const timer = setTimeout(() => setShowSuccessAlert(null), 4000);
       return () => clearTimeout(timer);
     }
   }, [showSuccessAlert])
@@ -103,7 +103,7 @@ function ListPage() {
         <div className="live-map-frame">
           {showSuccessAlert && (
             <div className="alert-success-toast">
-              ✅ Denúncia registrada com sucesso em Palmas!
+              {showSuccessAlert}
             </div>
           )}
           {errorAlertMessage && (
@@ -122,6 +122,9 @@ function ListPage() {
             selectedPothole={selectedPothole}
             setSelectedPothole={setSelectedPothole}
             deletePothole={deletePothole}
+            setShowSuccessAlert={setShowSuccessAlert}   
+            setErrorAlertMessage={setErrorAlertMessage}
+            isDeleting={isDeleting} 
             />
           )}
           <div ref={loadMoreRef} />

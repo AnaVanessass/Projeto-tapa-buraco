@@ -104,7 +104,7 @@ function MapPage() {
         <div className="live-map-frame">
           {showSuccessAlert && (
             <div className="alert-success-toast">
-              ✅ Denúncia registrada com sucesso em Palmas!
+              Denúncia registrada com sucesso em Palmas!
             </div>
           )}
           {errorAlertMessage && (
@@ -123,7 +123,7 @@ function MapPage() {
             </div>
           ) : (
             <div className="map-container">
-              <Map 
+              <Map
                 potholes={filteredPotholes || []}
                 setSelectedLocation={setSelectedLocation}
                 mapCenter={mapCenter}

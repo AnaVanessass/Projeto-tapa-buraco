@@ -47,3 +47,8 @@ export const searchComplaint = async (filters) => {
       });
   return data;
 }
+
+export const totalsHeader = async () => {
+  const {data} = await api.get("/complaints/total");
+  return data;
+}
