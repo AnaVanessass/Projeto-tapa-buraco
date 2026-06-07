@@ -1,7 +1,7 @@
 package estudante.ubiracy.palmassemburacos.exception;
 
-public class UserNotAvailableException extends RuntimeException {
-  public UserNotAvailableException(String message) {
-    super(message);
-  }
+public class UsernameNotAvailableException extends RuntimeException {
+    public UsernameNotAvailableException(String message) {
+        super(message);
+    }
 }

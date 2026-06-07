@@ -1,5 +1,6 @@
 package estudante.ubiracy.palmassemburacos.service;
 
+import estudante.ubiracy.palmassemburacos.exception.UsernameNotAvailableException;
 import estudante.ubiracy.palmassemburacos.model.dto.UserAuthDTO;
 import estudante.ubiracy.palmassemburacos.model.dto.UserResponseDTO;
 import estudante.ubiracy.palmassemburacos.model.dto.UserUpdateDTO;
@@ -12,6 +13,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.lang.module.ResolutionException;
 import java.util.Optional;
 
 @Service
@@ -24,14 +26,14 @@ public class UserService {
 
     public User createUser(String email, String username){
         User user = repository.findByEmail(email, User.class)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResolutionException("Usuário não encontrado"));
 
         if (user.getUsername() != null) {
-            throw new RuntimeException("Profile already completed");
+            throw new RuntimeException("Perfil já está completo");
         }
 
         if (repository.existsByUsername(username)) {
-            throw new RuntimeException("Usuário indisponível");
+            throw new UsernameNotAvailableException("Usuário indisponível");
         }
 
         user.setUsername(username);

@@ -1,6 +1,7 @@
 package estudante.ubiracy.palmassemburacos.config;
 
 import estudante.ubiracy.palmassemburacos.exception.ResourceNotFoundException;
+import estudante.ubiracy.palmassemburacos.exception.UsernameNotAvailableException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.*;
 import org.springframework.validation.FieldError;
@@ -21,6 +22,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ProblemDetail handleResourceNotFound(ResourceNotFoundException ex) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
         problemDetail.setTitle("Recurso não encontrado");
+        problemDetail.setProperty("timestamp", Instant.now());
+        return problemDetail;
+    }
+
+    @ExceptionHandler(UsernameNotAvailableException.class)
+    public ProblemDetail handleUsernameNotAvailable(UsernameNotAvailableException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, ex.getMessage());
+        problemDetail.setTitle("Usuário Indisponível");
         problemDetail.setProperty("timestamp", Instant.now());
         return problemDetail;
     }

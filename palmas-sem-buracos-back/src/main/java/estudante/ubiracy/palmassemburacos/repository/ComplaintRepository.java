@@ -30,7 +30,7 @@ public interface ComplaintRepository extends JpaRepository<Complaint, Long> {
     @EntityGraph(attributePaths = {"address", "address.cityBlock"})
     @Query("SELECT c FROM Complaint c WHERE " +
             "c.isDeleted = false " +
-            "AND (:isAdmin = 'ADMIN' OR c.user.Id = :currentUserId OR c.status != 'PENDING') " +
+            "AND (:isAdmin = 'ADMIN' OR c.user.Id = :currentUserId) " +
             "AND (:address IS NULL OR LOWER(c.address.name) LIKE LOWER(CONCAT('%', :address, '%'))) " +
             "AND (:status IS NULL OR c.status = :status) " +
             "AND (:blockName IS NULL OR LOWER(c.address.cityBlock.name) LIKE LOWER(CONCAT('%', :blockName, '%')))"+
