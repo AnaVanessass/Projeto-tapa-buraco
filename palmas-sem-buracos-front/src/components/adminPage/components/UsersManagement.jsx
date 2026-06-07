@@ -23,8 +23,9 @@ export function UsersManagement() {
   const totalPages = usersPage?.totalPages || 1;
   const totalElements = usersPage?.totalElements || 0;
 
-  const handleRoleChange = (id, role) => {
-    changeRole({ id, role });
+  const handleRoleChange = (data) => {
+    console.log(data);
+    changeRole(data);
   };
 
   const handleDeleteUser = (id, name) => {
@@ -103,7 +104,7 @@ export function UsersManagement() {
                     <td>
                       <select
                         value={usuario.role}
-                        onChange={(e) => updateRole({ id: usuario.id, role: e.target.value })}
+                        onChange={(e) => handleRoleChange({ id: usuario.id, role: e.target.value })}
                         className="admin-table-select"
                         disabled={isUpdatingRole}
                       >

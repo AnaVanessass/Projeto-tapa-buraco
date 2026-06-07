@@ -12,7 +12,9 @@ export const searchUsers = async (filters) => {
 };
 
 export const changeUserPermission = async ({ id, role }) => {
-    const {data} = await api.post(`/users/${id}/role`, { role });
+    const {data} = await api.patch(`/users/${id}/role`, role, {
+        headers: { 'Content-Type': 'application/json' }
+    });
     return data;
 };
 
