@@ -1,14 +1,17 @@
 package estudante.ubiracy.palmassemburacos.controller;
 
+import estudante.ubiracy.palmassemburacos.model.User;
 import estudante.ubiracy.palmassemburacos.model.dto.UserAuthDTO;
 import estudante.ubiracy.palmassemburacos.model.dto.UserResponseDTO;
 import estudante.ubiracy.palmassemburacos.model.dto.UserUpdateDTO;
-import estudante.ubiracy.palmassemburacos.model.User;
+import estudante.ubiracy.palmassemburacos.model.enums.UserRole;
 import estudante.ubiracy.palmassemburacos.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,6 +43,14 @@ public class UserController {
                                            @PathVariable Long id, UserUpdateDTO dto) {
         User user = userService.update(id, email, dto);
         return ResponseEntity.ok(user);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PatchMapping("/{id}/role")
+    public ResponseEntity<User> updateRole(@PathVariable Long id,
+                                           @RequestBody UserRole newRole) {
+        var user = userService.updateUserRole(id, newRole);
+        return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
     }
 
     @PostMapping("/complete-profile")

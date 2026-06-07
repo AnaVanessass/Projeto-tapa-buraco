@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @Service
 public class UserService {
-    private UserRepository repository;
+    private final UserRepository repository;
 
     public UserService(UserRepository repository) {
         this.repository = repository;
@@ -86,6 +86,13 @@ public class UserService {
         }
         if (updateDTO.newUsername() != null) {user.setUsername(updateDTO.newUsername());}
         if (updateDTO.role() != null ) {user.setRole(updateDTO.role());}
+        return repository.save(user);
+    }
+
+    public User updateUserRole(Long id, UserRole role) {
+        User user = this.findById(id);
+        if (role == null ) {throw new RuntimeException("Role not found");}
+        user.setRole(role);
         return repository.save(user);
     }
 
